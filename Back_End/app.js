@@ -14,6 +14,7 @@ const port = process.env.PORT || 5001;
 
 // upload, download file
 const { v4: uuidv4 } = require("uuid");
+const { nextTick } = require("process");
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "images");
@@ -55,6 +56,10 @@ app.use((req, res, next) => {
   next();
 });
 
+// app.use("/", (req, res, next) => {
+//   res.send("ababa");
+//   next();
+// });
 app.use("/admin", adminRoute);
 app.use("/auth", authRoute);
 

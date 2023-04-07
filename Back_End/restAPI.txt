@@ -1,0 +1,3 @@
+call API with URL : https://project-ec-tuankhanh.onrender.com
+
+EX : https://project-ec-tuankhanh.onrender.com/auth/login
