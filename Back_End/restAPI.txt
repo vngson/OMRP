@@ -1,3 +1,5 @@
 call API with URL : https://project-ec-tuankhanh.onrender.com
 
-EX : https://project-ec-tuankhanh.onrender.com/auth/login
+Endpoint đăng ký : PUT /auth/signup 
+
+Endpoint đăng nhập : POST /auth/login

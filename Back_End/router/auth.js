@@ -11,7 +11,7 @@ router.put(
   "/signup",
   [
     body("name").trim().not().isEmpty(),
-    body("password").trim().isLength({ min: 5 }),
+    body("password").trim().isLength({ min: 5, max: 20 }),
     body("birthday").isISO8601(),
     body("address").trim().isLength({ min: 10 }),
     body("phone")

@@ -2,6 +2,8 @@ const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 
 const User = require("../models/user");
+const Partner = require("../models/partner");
+const Employee = require("../models/employee");
 const jwt = require("jsonwebtoken");
 require("dotenv").config(); // đọc các biến môi trường từ file .env
 
@@ -57,37 +59,64 @@ exports.login = async (req, res, next) => {
   const password = req.body.password;
   try {
     const user = await User.findPhoneUser(phone);
-    console.log(user);
+    // console.log(user);
     if (!user) {
       const error = new Error("A user with this phone could not be found.");
       error.statusCode = 401;
       throw error;
     }
-    // Mã hóa mật khẩu lưu trong csdl và kiểm tra với password
-    const isEqual = await bcrypt.compare(password, user.Password);
-    // nếu sai password
-    if (!isEqual) {
-      // throw error
-      const error = new Error("Wrong password !");
-      error.statusCode = 401;
-      throw error;
+    if (user.Pass !== password) {
+      // Mã hóa mật khẩu lưu trong csdl và kiểm tra với password
+      const isEqual = await bcrypt.compare(password, user.Pass);
+      // nếu sai password
+      if (!isEqual) {
+        // throw error
+        const error = new Error("Wrong password !");
+        error.statusCode = 401;
+        throw error;
+      }
+    }
+
+    // Lấy thông tin người dùng theo role
+    let infoUser = {};
+    let infoUserArr;
+    switch (user.ROLE) {
+      case "1":
+        console.log("admin");
+        break;
+      case "2":
+        console.log("Partner");
+        infoUserArr = await Partner.getInfoPartner(user.Username);
+        infoUser = infoUserArr[0];
+        break;
+      case "3":
+        console.log("Customer");
+        infoUserArr = await User.getPhoneCustomer(user.Username);
+        infoUser = infoUserArr[0];
+        break;
+      case "4":
+        console.log("Employee");
+        infoUserArr = await Employee.getInfoEmployee(user.Username);
+        infoUser = infoUserArr[0];
+        break;
     }
     const secretKey = process.env.SECRET_KEY;
 
     const token = jwt.sign(
       {
-        userName: user.SDT,
+        userName: user.Username,
         user: {
-          userId: user.ID_User,
-          permission: user.Role,
+          userId: user.ID_Login,
+          permission: user.ROLE,
         },
+        userInfo: infoUser,
       },
       secretKey,
       {
         expiresIn: "1h",
       }
     );
-    res.status(200).json({ token: token, userId: user.ID_User }); // Bắn API lên bao gồm token và userId
+    res.status(200).json({ token: token, userId: user.ID_Login }); // Bắn API lên bao gồm token và userId
   } catch (error) {
     if (!error.statusCode) {
       error.statusCode = 500;
