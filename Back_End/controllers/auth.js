@@ -24,7 +24,7 @@ exports.signup = async (req, res, next) => {
     infoCustomer.id = idCustomer;
 
     // Lấy ra lastId của bảng User thêm 1. Tọa info của User
-    const idUser = await User.getLastIdCustomer();
+    const idUser = await User.getLastIdUser();
     const date = new Date().toISOString().slice(0, 10);
     // Mã hóa mật khẩu
     const hashedPw = await bcrypt.hash(req.body.password, 12);

@@ -60,8 +60,8 @@ app.use((req, res, next) => {
 //   res.send("ababa");
 //   next();
 // });
-app.use("/admin", adminRoute);
-app.use("/auth", authRoute);
+app.use("/v1/api/admin", adminRoute);
+app.use("/v1/api/auth", authRoute);
 
 // Xử lý lỗi
 app.use((error, req, res, next) => {

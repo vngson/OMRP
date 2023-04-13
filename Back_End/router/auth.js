@@ -18,8 +18,8 @@ router.put(
       .trim()
       .isLength({ min: 10, max: 10 })
       .custom(async (value, { req }) => {
-        const checkPhone = await User.getPhoneCustomer(value);
-        if (checkPhone.length !== 0) {
+        const checkPhoneCustomer = await User.getPhoneCustomer(value);
+        if (checkPhoneCustomer.length !== 0) {
           return Promise.reject("Phone already exists !");
         }
       }),
@@ -27,8 +27,8 @@ router.put(
       .isEmail()
       .withMessage("Please enter a valid email.")
       .custom(async (value, { req }) => {
-        const checkEmail = await User.getEmailCustomer(value);
-        if (checkEmail.length !== 0) {
+        const checkEmailCustomer = await User.getEmailCustomer(value);
+        if (checkEmailCustomer.length !== 0) {
           return Promise.reject("E-Mail address already exists !");
         }
       })
