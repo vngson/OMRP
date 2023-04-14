@@ -11,15 +11,15 @@ router.put(
   "/signup",
   [
     body("name").trim().not().isEmpty(),
-    body("password").trim().isLength({ min: 5 }),
+    body("password").trim().isLength({ min: 5, max: 20 }),
     body("birthday").isISO8601(),
     body("address").trim().isLength({ min: 10 }),
     body("phone")
       .trim()
       .isLength({ min: 10, max: 10 })
       .custom(async (value, { req }) => {
-        const checkPhone = await User.getPhoneCustomer(value);
-        if (checkPhone.length !== 0) {
+        const checkPhoneCustomer = await User.getPhoneCustomer(value);
+        if (checkPhoneCustomer.length !== 0) {
           return Promise.reject("Phone already exists !");
         }
       }),
@@ -27,8 +27,8 @@ router.put(
       .isEmail()
       .withMessage("Please enter a valid email.")
       .custom(async (value, { req }) => {
-        const checkEmail = await User.getEmailCustomer(value);
-        if (checkEmail.length !== 0) {
+        const checkEmailCustomer = await User.getEmailCustomer(value);
+        if (checkEmailCustomer.length !== 0) {
           return Promise.reject("E-Mail address already exists !");
         }
       })
