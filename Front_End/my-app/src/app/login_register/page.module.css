@@ -1,20 +1,23 @@
-.login-register-wrapper{
-    width: 100%;
-    height: 100%;
+.login-register{
     position: relative;
+    height: 100vh;
+    width: 100vw;
+}
+
+.login-register-wrapper{
+    position: absolute;
     display: flex;
-    background-color: var(--backgroung-color);
     align-items: center;
-    justify-content: center;
 }
 
 .login-register__background{
-    width: 95%;
-    height: 95%;
-    margin: 12px 4px;
+    width: 90vw;
+    height: 95vh;
 }
 
 .login-register__nav{
-}
-.login-register__form{
+    position: absolute;
+    display: flex;
+    margin-left: 800px;
+    flex-direction: column;
 }
