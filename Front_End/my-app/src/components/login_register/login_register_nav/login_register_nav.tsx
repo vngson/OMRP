@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import Image from 'next/image'
-import styles from "./page.module.css"
+import styles from "./login_register_nav.module.css"
 import logo from "@/assets/images/omrp_logo_transparent.png"
-import LoginForm from '@/app/login/page';
-import RegisterForm from '@/app/register/page';
-
+import LoginForm from '@/components/login/login';
+import RegisterForm from '@/components/register/register';
+import { useRouter } from 'next/navigation';
 
 const cx = classNames.bind(styles);
 
@@ -14,7 +14,7 @@ export default function Login_Register_Nav() {
     const handleLogin = () => {
         loginPage ? loginPage : setLoginPage(true);
     }
-
+    const router=useRouter();
     const handleRegister = () => {
         loginPage ? setLoginPage(false) : loginPage;
     }
@@ -23,12 +23,12 @@ export default function Login_Register_Nav() {
         <div className={cx('nav-wrapper')}>
             <Image src={logo}  alt='logo' className={cx('nav__logo')}/>
             <div className={cx('nav__labels')}> 
-                <div className={loginPage ? cx('nav__label-login') : cx('nav__label')} onClick={handleLogin}>
+                <button className={loginPage ? cx('nav__label-login') : cx('nav__label')} onClick={(e) =>router.push("/")}>
                     Đăng nhập
-                </div>
-                <div className={loginPage ? cx('nav__label') : cx('nav__label-register')} onClick={handleRegister}>
+                </button>
+                <button className={loginPage ? cx('nav__label') : cx('nav__label-register')} onClick={handleRegister}>
                     Đăng ký
-                </div>
+                </button>
             </div>
             <div className={cx('login-register__form')}>{ loginPage ? <LoginForm/> : <RegisterForm/>}</div> 
         </div>

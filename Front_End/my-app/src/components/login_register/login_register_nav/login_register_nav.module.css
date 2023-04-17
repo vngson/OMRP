@@ -54,5 +54,5 @@
     background: #73C2F1;
     border-radius: 25px;
     color: var(--white);
-    cursor: pointer;
+    /* cursor: pointer; */
 }

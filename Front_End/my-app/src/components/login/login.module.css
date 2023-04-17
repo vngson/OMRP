@@ -40,6 +40,6 @@
     color: var(--white);
 }
 
-.form__login-btn::content{
+/* .form__login-btn::content{
     font-size: 1.6rem;
-}
+} */

@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import classNames from 'classnames/bind';
-import styles from "./page.module.css"
+import styles from "./register.module.css"
 
 
 const cx = classNames.bind(styles);

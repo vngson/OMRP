@@ -2,9 +2,9 @@
 import { useState } from 'react';
 import classNames from 'classnames/bind';
 import Image from 'next/image'
-import styles from "./page.module.css"
+import styles from "./login_register.module.css"
 import background from "@/assets/images/background.jpg"
-import Login_Register_Nav from './login_register_nav/page';
+import Login_Register_Nav from './login_register_nav/login_register_nav'
 
 const cx = classNames.bind(styles);
 
