@@ -1,0 +1,58 @@
+.login-register-nav{
+    /* margin-top: 100px;
+    margin-left: 800px; */
+}
+
+.nav-wrapper{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+}
+
+.nav__logo{
+    width: 120px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    height: 75px;
+}
+
+.nav__labels{
+    flex: 1;
+    margin-top: 20px;
+    width: 280px;
+    min-height: 40px;
+    font-size: 1.6rem;
+    margin-left: 50%;
+    transform: translateX(-50%);
+
+    background: #F8EDDD;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.nav__label {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    min-height: 30px;
+    min-width: 120px;
+    color: var(--primary-color-1);
+    cursor: pointer;
+}
+
+.nav__label-login, .nav__label-register{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    min-height: 30px;
+    width: 120px;
+    background: #73C2F1;
+    border-radius: 25px;
+    color: var(--white);
+    /* cursor: pointer; */
+}
