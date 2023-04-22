@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google'
 import styles from './page.module.css'
 import LoginRegister from './login_register/page'
 import Header from './header/page'
+import Footer from './footer/page'
+
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -88,7 +90,7 @@ export default function Home() {
           </p>
         </a>
       </div> */}
-      <Header/>
+      <Footer/>
     </main>
   )
 }
