@@ -1,9 +1,5 @@
-import { useRef } from 'react';
 import classNames from 'classnames/bind';
-import Image from 'next/image'
 import styles from "./page.module.css"
-import background from "@/assets/images/background.jpg"
-import logo from "@/assets/images/omrp_logo_transparent.png"
 
 
 const cx = classNames.bind(styles);
@@ -41,7 +37,7 @@ export default function LoginForm() {
             >
                 Quên mật khẩu ?
             </label>
-            <button type="submit" className={cx('form__login-btn')}>Đăng nhập</button>
+            <button onClick={()=>{console.log('đăng nhập')}} className={cx('form__login-btn')}>Đăng nhập</button>
         </div>
     </div>) ;
 }

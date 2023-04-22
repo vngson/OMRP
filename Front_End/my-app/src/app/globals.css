@@ -114,6 +114,11 @@ a {
   --backgroung-color: #E9E9E9;
   --white:#FFF;
   --black: #000;
+  --gray: #808080;
+  --grid-size:1100px;
+  --font-size-icon-small:2.4rem;
+  --font-size-icon-big:3.2rem;
+
 }
 
 * {
@@ -130,6 +135,15 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+button,
+input,
+[tabindex] {
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
 input::placeholder {
   font-size: 1.6rem;
 }
+

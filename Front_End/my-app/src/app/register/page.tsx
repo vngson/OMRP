@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import classNames from 'classnames/bind';
 import styles from "./page.module.css"
 
@@ -82,7 +81,7 @@ export default function RegisterForm() {
                     </div>
                 </div>
             </div>
-            <button type="submit" className={cx('form__register-btn')}>Đăng ký</button>
+            <button onClick={()=>{console.log('đăng ký')}} className={cx('form__register-btn')}>Đăng ký</button>
         </div>
     </div>) ;
 }
