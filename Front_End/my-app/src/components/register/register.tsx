@@ -1,11 +1,13 @@
 import { useRef } from 'react';
 import classNames from 'classnames/bind';
 import styles from "./register.module.css"
-
+import {useRouter} from "next/navigation"
 
 const cx = classNames.bind(styles);
 
 export default function RegisterForm() {
+
+    const router=useRouter();
     return  (<div className={cx('register')}>
         <div className={cx('register-wrapper')}>
             <label 
@@ -82,7 +84,7 @@ export default function RegisterForm() {
                     </div>
                 </div>
             </div>
-            <button type="submit" className={cx('form__register-btn')}>Đăng ký</button>
+            <button onClick={(e)=> router.push("/login")} className={cx("form__register-btn" )}>Đăng ký</button>
         </div>
     </div>) ;
 }

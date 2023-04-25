@@ -1,11 +1,11 @@
 import axios from "axios";
-export const baseURL = "https://gokisoft.com/api/fake/1395";
-export const baseURL_user = "https://project-ec-tuankhanh.onrender.com/v1/api";
+export const baseURL = "https://project-ec-tuankhanh.onrender.com";
+export const baseURL_user = "https://project-ec-tuankhanh.onrender.com"||"http://localhost:4132" || ""; 
 // export const baseURL =
 //   process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
 
-export const apiV1 = `${baseURL}`;
-export const apiV1_user = `${baseURL_user}`;
+export const apiV1 = `${baseURL}/v1/api`;
+export const apiV1_user = `${baseURL_user}/v1/api`;
 
 export const config = function (token: string) {
   return {
