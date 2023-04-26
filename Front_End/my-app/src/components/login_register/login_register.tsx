@@ -1,5 +1,3 @@
-"use client";
-import { useState } from 'react';
 import classNames from 'classnames/bind';
 import Image from 'next/image'
 import styles from "./login_register.module.css"

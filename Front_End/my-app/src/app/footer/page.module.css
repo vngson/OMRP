@@ -1,0 +1,36 @@
+.footer{
+    display: flex;
+    width: 100vw;
+    height: 200px;
+    background-color: var(--black);
+    position: fixed;
+    justify-content: center;
+    bottom: 0;
+}
+    
+.footer-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: var(--grid-size);
+}
+
+.footer-logo{
+    width: 192px;
+    height: 120px;
+}
+
+.footer-text__wrapper{
+    flex: 1;
+}
+
+.footer-text{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.footer-label{
+    color: var(--primary-color-1);
+    font-weight: 500;
+}
