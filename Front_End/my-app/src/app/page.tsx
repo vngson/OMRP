@@ -1,16 +1,18 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
+import classNames from 'classnames/bind';
 import styles from './page.module.css'
 import LoginRegister from './login_register/page'
 import Header from './header/page'
 import Footer from './footer/page'
+import Sidebar from './sidebar/page'
 
-
+const cx = classNames.bind(styles);
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   return (
-    <main className={styles.main}>
+    <div className={cx('main')}>
       {/* <div className={styles.description}>
         <p>
           Get started by editing&nbsp;
@@ -89,8 +91,8 @@ export default function Home() {
             Instantly deploy your Next.js site to a shareable URL with Vercel.
           </p>
         </a>
-      </div> */}
-      <Footer/>
-    </main>
+      </div> */}     
+      <Sidebar/>
+    </div>
   )
 }
