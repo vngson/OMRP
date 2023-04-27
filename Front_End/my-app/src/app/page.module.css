@@ -269,3 +269,8 @@
     transform: rotate(0deg);
   }
 } */
+
+.main{
+  background-color: var(--background-color);
+}
+

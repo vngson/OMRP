@@ -1,9 +1,9 @@
 .footer{
-    display: flex;
+    position: relative;
     width: 100vw;
     height: 200px;
     background-color: var(--black);
-    position: fixed;
+    display: flex;
     justify-content: center;
     bottom: 0;
 }

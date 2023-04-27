@@ -1,4 +1,5 @@
 .header{
+    top:0;
     width: 100%;
     height: 100px;
     background-color: var(--primary-color-1);
@@ -40,7 +41,7 @@
 .header-search__input{
     flex:1;
     height: 40px;
-    background: var(--backgroung-color);
+    background: var(--background-color);
     border-radius: 25px;
     border: none;
     padding-left: 60px;
