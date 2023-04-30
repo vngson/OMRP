@@ -112,6 +112,8 @@ a {
   --primary-color-1: #73C2F1;
   --primary-color-2: #F8EDDD;
   --background-color: #E9E9E9;
+  --color-btn-1: #00DA8D;
+  --color-btn-2: #F70000;
   --white:#FFF;
   --black: #000;
   --gray: #808080;
@@ -129,10 +131,12 @@ a {
 
 html {
   font-size: 10px;
+  background-color: var(--background-color);
 }
 
 body {
   font-family: 'Roboto', sans-serif;
+  box-sizing: border-box;
 }
 
 button,
