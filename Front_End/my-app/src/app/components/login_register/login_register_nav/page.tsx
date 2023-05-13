@@ -3,8 +3,8 @@ import classNames from 'classnames/bind';
 import Image from 'next/image'
 import styles from "./page.module.css"
 import logo from "@/assets/images/omrp_logo_transparent.png"
-import LoginForm from '@/app/login/page';
-import RegisterForm from '@/app/register/page';
+import LoginForm from '@/app/pages/login/page';
+import RegisterForm from '@/app/pages/register/page';
 
 
 const cx = classNames.bind(styles);

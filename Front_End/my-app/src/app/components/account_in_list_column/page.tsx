@@ -47,13 +47,13 @@ function Account() {
                 </label>
             </div>
             <div className={cx("account__line-bottom")}></div>
-            {banned ? (<button className={cx("account-btn__banned")}>
-            <FontAwesomeIcon className={cx('banned__icon')} icon={faCircleXmark} />
-                Khóa tài khoản
-            </button>) :(
+            {banned ? (
             <button className={cx("account-btn__activated")}>
                 <FontAwesomeIcon className={cx('activated__icon')} icon={faCircleCheck} />
                 Mở khóa tài khoản
+            </button>) :(<button className={cx("account-btn__banned")}>
+            <FontAwesomeIcon className={cx('banned__icon')} icon={faCircleXmark} />
+                Khóa tài khoản
             </button>) }
         </div>
     </div>) ;

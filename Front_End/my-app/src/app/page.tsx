@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import classNames from 'classnames/bind';
 import styles from './page.module.css'
-import Product from './product_in_list_column/page';
+import RemoveProduct from './pages/remove_product_admin/page';
 
 const cx = classNames.bind(styles);
 const inter = Inter({ subsets: ['latin'] })
@@ -90,7 +90,7 @@ export default function Home() {
           </p>
         </a>
       </div> */}     
-      <Product admin={true} business={undefined} red_title='Xóa sản phẩm' green_title = ""/>
+      <RemoveProduct />
     </div>
   )
 }
