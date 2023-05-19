@@ -1,15 +1,65 @@
-const Product = require("../models/product");
+const Admin = require("../models/admin");
 
-exports.getProducts = async function (req, res, next) {
+exports.getAccounts = async (req, res, next) => {
+  const type = req.query.type;
+  let accountData;
   try {
-    const info = await Product.getInfoProduct();
+    switch (type) {
+      case "KH":
+        accountData = await Admin.getAccountConsumer();
+        break;
+      case "DT":
+        accountData = await Admin.getAccountPartner();
+        break;
+      case "NV":
+        accountData = await Admin.getAccountEmployee();
+        break;
+      default:
+        const error = new Error("Could not find accountData. ");
+        error.statusCode = 404;
+        throw error;
+    }
 
-    res.status(201).json({
-      message: "Fetched products successfully",
-      products: info,
+    if (!accountData) {
+      const error = new Error("Could not find accountData. ");
+      error.statusCode = 404;
+      throw error;
+    }
+    accountData.map((data) => {
+      if (data.Permission === "3") {
+        data.Permission = "Khách hàng";
+      }
+      if (data.Permission === "2") {
+        data.Permission = "Doanh Nghiệp";
+      }
+      if (data.Permission === "4") {
+        data.Permission = "Nhân Viên";
+      }
     });
-    // console.log(info);
+    res.status(200).json({
+      message: "Fetched accountData successfully ",
+      data: accountData,
+    });
   } catch (error) {
-    console.log(error);
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
+exports.updateStatus = async (req, res, next) => {
+  const idAccount = req.params.id;
+  const status = req.body.status;
+
+  try {
+    const updateStatus = await Admin.updateAccountStatus(idAccount, status);
+
+    res.status(200).json({ message: "Updated status successfully" });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
   }
 };

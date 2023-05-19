@@ -7,11 +7,10 @@ const adminController = require("../controllers/admin");
 const isAuth = require("../middleware/is-auth");
 const isPermission = require("../middleware/is-permission");
 
-router.get(
-  "/products",
-  isAuth,
-  isPermission.isAdmin,
-  adminController.getProducts
-);
+// GET;
+router.get("/account", adminController.getAccounts);
+
+// PUT;
+router.put("/account/:id", adminController.updateStatus);
 
 module.exports = router;
