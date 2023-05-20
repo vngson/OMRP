@@ -3,3 +3,9 @@ call API with URL : https://project-ec-tuankhanh.onrender.com
 Endpoint đăng ký : PUT /v1/api/auth/signup 
 
 Endpoint đăng nhập : POST /v1/api/auth/login ./ Permission 1: admin, 2: đối tác, 3: khách hàng, 4: nhân viên
+
+Endpoint category : GET /v1/api/consumer/category
+
+Endpoint Account : GET /v1/api/admin/account?type (type=DT,KH,NV)
+
+Endpoint Update locked/unlocked : PUT /v1/api/admin/account/idAccount

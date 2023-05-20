@@ -42,7 +42,7 @@ const fileFilter = (req, file, cb) => {
 app.use(bodyParser.json()); // application/json
 app.use(express.urlencoded({ extended: true }));
 app.use(
-  multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
+  multer({ storage: fileStorage, fileFilter: fileFilter }).array("images", 10)
 );
 app.use("/images", express.static(path.join(__dirname, "images"))); // Để lấy tớI mục images
 
@@ -57,10 +57,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use("/", (req, res, next) => {
-//   res.send("ababa");
-//   next();
-// });
 app.use("/v1/api/admin", adminRoute);
 app.use("/v1/api/auth", authRoute);
 app.use("/v1/api/consumer", consumerRoute);

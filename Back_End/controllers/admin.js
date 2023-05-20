@@ -63,3 +63,20 @@ exports.updateStatus = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.postProduct = async (req, res, next) => {
+  // kiểm tra file
+  if (!req.files || req.files.length === 0) {
+    const error = new Error("No files uploaded !");
+    error.statusCode = 422;
+    throw error;
+  }
+
+  const imageUrls = req.files.map(
+    (file) =>
+      `https://project-ec-tuankhanh.onrender.com/images/${file.filename}`
+  );
+  console.log(imageUrls);
+
+  console.log("du lieu ne", req.body);
+};
