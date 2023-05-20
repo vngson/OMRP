@@ -8,6 +8,7 @@ const multer = require("multer");
 // Router
 const adminRoute = require("./router/admin");
 const authRoute = require("./router/auth");
+const consumerRoute = require("./router/consumer");
 
 const app = express();
 const port = process.env.PORT || 5001;
@@ -41,7 +42,7 @@ const fileFilter = (req, file, cb) => {
 app.use(bodyParser.json()); // application/json
 app.use(express.urlencoded({ extended: true }));
 app.use(
-  multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
+  multer({ storage: fileStorage, fileFilter: fileFilter }).array("images", 10)
 );
 app.use("/images", express.static(path.join(__dirname, "images"))); // Để lấy tớI mục images
 
@@ -56,16 +57,12 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use("/", (req, res, next) => {
-//   res.send("ababa");
-//   next();
-// });
 app.use("/v1/api/admin", adminRoute);
 app.use("/v1/api/auth", authRoute);
+app.use("/v1/api/consumer", consumerRoute);
 
 // Xử lý lỗi
 app.use((error, req, res, next) => {
-  console.log(error);
   const status = error.statusCode || 500;
   const message = error.message;
   const data = error.data;

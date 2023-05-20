@@ -76,7 +76,12 @@ exports.login = async (req, res, next) => {
         throw error;
       }
     }
-
+    // Kiểm tra tài khoản có bị khóa hay không
+    if (user.Status === "locked") {
+      const error = new Error(" Account is locked !");
+      error.statusCode = 401;
+      throw error;
+    }
     // Lấy thông tin người dùng theo role
     let infoUser = {};
     let infoUserArr;
