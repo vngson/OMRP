@@ -9,3 +9,12 @@ Endpoint category : GET /v1/api/consumer/category
 Endpoint Account : GET /v1/api/admin/account?type (type=DT,KH,NV)
 
 Endpoint Update locked/unlocked : PUT /v1/api/admin/account/idAccount
+
+Endpoint Products : GET /v1/api/consumer/product?page=2&perPage=7 (Mặc định là page = 1, perPage = 4 nếu không có query)
+
+Endpoint Product : GET http://localhost:4132/v1/api/consumer/product/id (id product)
+
+                   PUT http://localhost:4132/v1/api/admin/postProduct/id (id product, khi update phải có form dữ liệu từ các dữ liệu trước);
+
+                   DELETE 
+

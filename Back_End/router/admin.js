@@ -15,5 +15,9 @@ router.post("/postProduct", adminController.postProduct);
 
 // PUT;
 router.put("/account/:id", adminController.updateStatus);
+router.put("/postProduct/:productId", adminController.updateProduct);
+
+// DELETE;
+router.delete("/product/:productId", adminController.deleteProduct);
 
 module.exports = router;

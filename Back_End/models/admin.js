@@ -34,12 +34,126 @@ exports.updateAccountStatus = async function (id, status) {
   return rs;
 };
 
-exports.insertNewProduct = async function (info) {
+exports.getAccount = async function (id) {
   const client = await getClient();
   const rs = await client.query(
-    'UPDATE public."Account" SET "Status" = $1 WHERE "ID_Login" = $2 ',
-    [,]
+    'SELECT public."Account"  WHERE "ID_Login" = $1 ',
+    [id]
   );
 
   return rs;
+};
+
+exports.getLastIDProduct = async function () {
+  const client = await getClient();
+  const rs = await client.query('select * from public."Products"');
+  return rs.rows.length + 1;
+};
+
+exports.getURLTypeProduct = async function (type) {
+  const client = await getClient();
+  const rs = await client.query(
+    'select "Img" from public."Type_Products" where "TYPE_PROD" = $1',
+    [type]
+  );
+  return rs.rows[0];
+};
+
+exports.insertNewProduct = async function (infoProduct) {
+  const client = await getClient();
+
+  const rs1 = await client.query(
+    `insert into public.\"Products\"(\"ID_PRODUCTS\",\"NAME\", \"INFOR_PRODUCTS\", \"ADD_DATE\", \"QUANTITY\", \"PRICE\")
+  VALUES ($1, $2, $3, $4,$5,$6) returning *`,
+    [
+      infoProduct.id,
+      infoProduct.nameProduct,
+      infoProduct.desc,
+      infoProduct.date,
+      infoProduct.quantity,
+      infoProduct.price,
+    ]
+  );
+
+  const rs2 = await client.query(
+    `insert into public.\"Type_Products\"(\"ID_PRODUCTS\",\"TYPE_PROD\", \"Img\")
+  VALUES ($1, $2, $3) returning *`,
+    [infoProduct.id, infoProduct.typeProduct, infoProduct.typeUrl]
+  );
+
+  infoProduct.imageUrls.map(async (data, index) => {
+    const rs3 = await client.query(
+      `insert into public.\"IMAGE_PRODUCT\"(\"ID_PRODUCTS\",\"STT\", \"URL\")
+    VALUES ($1, $2, $3) returning *`,
+      [infoProduct.id, index + 1, data]
+    );
+  });
+};
+
+exports.updateProductNoFile = async function (infoProduct) {
+  const client = await getClient();
+
+  const rs1 = await client.query(
+    'UPDATE public."Products" SET "NAME" = $1, "QUANTITY" = $2 , "PRICE" = $3 WHERE "ID_PRODUCTS" = $4',
+    [
+      infoProduct.nameProduct,
+      infoProduct.quantity,
+      infoProduct.price,
+      infoProduct.id,
+    ]
+  );
+
+  const rs2 = await client.query(
+    'UPDATE public."Type_Products" SET "TYPE_PROD" = $1, "Img" = $2 WHERE "ID_PRODUCTS" = $3',
+    [infoProduct.typeProduct, infoProduct.typeUrl, infoProduct.id]
+  );
+};
+
+exports.updateProduct = async function (infoProduct) {
+  const client = await getClient();
+
+  const rs1 = await client.query(
+    'UPDATE public."Products" SET "NAME" = $1, "QUANTITY" = $2 , "PRICE" = $3 WHERE "ID_PRODUCTS" = $4',
+    [
+      infoProduct.nameProduct,
+      infoProduct.quantity,
+      infoProduct.price,
+      infoProduct.id,
+    ]
+  );
+
+  const rs2 = await client.query(
+    'UPDATE public."Type_Products" SET "TYPE_PROD" = $1, "Img" = $2 WHERE "ID_PRODUCTS" = $3',
+    [infoProduct.typeProduct, infoProduct.typeUrl, infoProduct.id]
+  );
+
+  const rs3 = await client.query(
+    'DELETE FROM public."IMAGE_PRODUCT" WHERE "ID_PRODUCTS" = $1',
+    [infoProduct.id]
+  );
+
+  infoProduct.imageUrls.map(async (data, index) => {
+    const rs4 = await client.query(
+      `insert into public.\"IMAGE_PRODUCT\"(\"ID_PRODUCTS\",\"STT\", \"URL\")
+    VALUES ($1, $2, $3) returning *`,
+      [infoProduct.id, index + 1, data]
+    );
+  });
+};
+
+exports.deleteProduct = async function (id) {
+  const client = await getClient();
+
+  const rs2 = await client.query(
+    'DELETE FROM public."Type_Products" WHERE "ID_PRODUCTS" = $1',
+    [id]
+  );
+  const rs3 = await client.query(
+    'DELETE FROM public."IMAGE_PRODUCT" WHERE "ID_PRODUCTS" = $1',
+    [id]
+  );
+  const rs1 = await client.query(
+    'DELETE FROM public."Products" WHERE "ID_PRODUCTS" = $1',
+    [id]
+  );
 };

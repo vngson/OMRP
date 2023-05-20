@@ -9,5 +9,7 @@ const isAuth = require("../middleware/is-auth");
 
 // GET;
 router.get("/category", consumerController.getCategory);
+router.get("/product", consumerController.getProducts);
+router.get("/product/:productId", consumerController.getProduct);
 
 module.exports = router;
