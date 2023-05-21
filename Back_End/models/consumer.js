@@ -29,6 +29,24 @@ exports.countProduct = async function () {
   return rs.rows[0];
 };
 
+exports.getProductsType = async function (skip, limit, type) {
+  const client = await getClient();
+  const rs = await client.query(
+    'SELECT P."ID_PRODUCTS",P."NAME",P."INFOR_PRODUCTS",P."QUANTITY",P."PRICE",IP."URL",TP."TYPE_PROD" FROM public."Products" as P JOIN public."IMAGE_PRODUCT" as IP ON P."ID_PRODUCTS" = IP."ID_PRODUCTS" AND IP."STT" = $1 JOIN public."Type_Products" AS TP ON P."ID_PRODUCTS" = TP."ID_PRODUCTS" AND TP."TYPE_PROD"=$2  ORDER BY P."ID_PRODUCTS" ASC OFFSET $3 LIMIT $4 ',
+    [1, type, skip, limit]
+  );
+  return rs.rows;
+};
+
+exports.countProductType = async function (type) {
+  const client = await getClient();
+  const rs = await client.query(
+    'SELECT COUNT(*) FROM public."Type_Products" WHERE "TYPE_PROD" =$1',
+    [type]
+  );
+  return rs.rows[0];
+};
+
 exports.getProduct = async function (id) {
   const client = await getClient();
   const rs = await client.query(

@@ -4,12 +4,12 @@ exports.getCategory = async (req, res, next) => {
   try {
     const categoryData = await Consumer.getCategoryProduct();
     if (categoryData.length === 0) {
-      const error = new Error("Could not find category. ");
+      const error = new Error("Could not find category ! ");
       error.statusCode = 404;
       throw error;
     }
     res.status(200).json({
-      message: "Fetched category successfully ",
+      message: "Fetched category successfully ! ",
       data: categoryData,
     });
   } catch (error) {
@@ -24,21 +24,27 @@ exports.getProducts = async (req, res, next) => {
   // Phân trang product
   const currentPage = req.query.page || 1; // Lấy tham số query hoặc mặc định là 1
   const perPage = req.query.perPage || 4; // Lấy tham số query hoặc mặc định là 4
+  const type = req.query.type || null; // Lấy tham số query hoặc mặc định không có
 
   try {
-    const count = await Consumer.countProduct();
-    // console.log(count.count);
+    const count = await (type
+      ? Consumer.countProductType(type)
+      : Consumer.countProduct());
+
     const skip = (currentPage - 1) * perPage;
     const limit = Number(perPage);
-    const products = await Consumer.getProducts(skip, limit);
+    const products = await (type
+      ? Consumer.getProductsType(skip, limit, type)
+      : Consumer.getProducts(skip, limit));
 
     if (products.length === 0) {
       const error = new Error("Could not find products ! ");
       error.statusCode = 404;
       throw error;
     }
+
     res.status(200).json({
-      message: "Fetched products successfully ",
+      message: "Fetched products successfully ! ",
       products: products,
       totalItems: count.count,
       perPage: perPage,
