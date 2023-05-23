@@ -92,3 +92,115 @@ exports.getProduct = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.getProductsPoints = async (req, res, next) => {
+  const consumerId = req.params.consumerId;
+  const currentPage = req.query.page || 1; // Lấy tham số query hoặc mặc định là 1
+  const perPage = req.query.perPage || 10; // Lấy tham số query hoặc mặc định là 10
+
+  // Chuyển đổi sang kiểu số nguyên
+  const pageNumber = parseInt(currentPage);
+  const itemsPerPage = parseInt(perPage);
+
+  try {
+    const pointConsumer = await Consumer.getPoints(consumerId);
+    if (pointConsumer.length === 0) {
+      const error = new Error("Could not find consumerID ! ");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    const tampArr = [];
+    await Promise.all(
+      pointConsumer.map(async (data) => {
+        const tamp = await Consumer.getProductsPoint(data.ID_Partners);
+        tampArr.push(tamp);
+      })
+    );
+    const dataTamp = tampArr.reduce((acc, curr) => {
+      return acc.concat(curr);
+    }, []);
+
+    const data = dataTamp.filter(
+      (obj, index, self) =>
+        index === self.findIndex((o) => o.ID_PRODUCTS === obj.ID_PRODUCTS)
+    );
+
+    // Tính chỉ số bắt đầu và kết thúc của mảng dựa trên trang và số lượng mục trên mỗi trang
+    const startIndex = (pageNumber - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+
+    // Cắt mảng theo chỉ số bắt đầu và kết thúc
+    const slicedProducts = data.slice(startIndex, endIndex);
+
+    res.status(200).json({
+      message: "Product fetched !",
+      products: slicedProducts,
+      totalItems: data.length,
+      perPage: perPage,
+      currentPage: currentPage,
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
+exports.getProductsExchangePoint = async (req, res, next) => {
+  const consumerId = req.params.consumerId;
+  const currentPage = req.query.page || 1; // Lấy tham số query hoặc mặc định là 1
+  const perPage = req.query.perPage || 10; // Lấy tham số query hoặc mặc định là 10
+
+  // Chuyển đổi sang kiểu số nguyên
+  const pageNumber = parseInt(currentPage);
+  const itemsPerPage = parseInt(perPage);
+
+  try {
+    const pointConsumer = await Consumer.getPoints(consumerId);
+    if (pointConsumer.length === 0) {
+      const error = new Error("Could not find consumerID ! ");
+      error.statusCode = 404;
+      throw error;
+    }
+    const tampArr = [];
+    await Promise.all(
+      pointConsumer.map(async (data) => {
+        const tamp = await Consumer.getProductsExchangePoint(
+          data.ID_Partners,
+          data.POINTS
+        );
+        tampArr.push(tamp);
+      })
+    );
+    const dataTamp = tampArr.reduce((acc, curr) => {
+      return acc.concat(curr);
+    }, []);
+
+    const data = dataTamp.filter(
+      (obj, index, self) =>
+        index === self.findIndex((o) => o.ID_PRODUCTS === obj.ID_PRODUCTS)
+    );
+
+    // Tính chỉ số bắt đầu và kết thúc của mảng dựa trên trang và số lượng mục trên mỗi trang
+    const startIndex = (pageNumber - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+
+    // Cắt mảng theo chỉ số bắt đầu và kết thúc
+    const slicedProducts = data.slice(startIndex, endIndex);
+
+    res.status(200).json({
+      message: "Product fetched !",
+      products: slicedProducts,
+      totalItems: data.length,
+      perPage: perPage,
+      currentPage: currentPage,
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};

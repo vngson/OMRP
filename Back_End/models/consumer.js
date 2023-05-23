@@ -55,3 +55,39 @@ exports.getProduct = async function (id) {
   );
   return rs.rows;
 };
+
+exports.getPointsConsumer = async function (username) {
+  const client = await getClient();
+  const rs = await client.query(
+    'SELECT P."Name", P."url" AS "IMG", AP."POINTS" FROM public."ACCUMULATION_POINTS" AS AP, public."Account" AS A, public."Customers" AS C, public."Partners" AS P WHERE A."Username" = C."Phone" AND AP."ID_CUSTOMERS" = C."ID_Customers" AND AP."ID_TYPEP" = P."ID_Partners" AND A."Username" = $1',
+    [username]
+  );
+  return rs.rows;
+};
+
+exports.getPoints = async function (idConsumer) {
+  const client = await getClient();
+  const rs = await client.query(
+    'SELECT P."ID_Partners", AP."POINTS" FROM public."ACCUMULATION_POINTS" AS AP, public."Customers" AS C, public."Partners" AS P WHERE AP."ID_CUSTOMERS" = C."ID_Customers" AND AP."ID_TYPEP" = P."ID_Partners" AND C."ID_Customers" = $1',
+    [idConsumer]
+  );
+  return rs.rows;
+};
+
+exports.getProductsPoint = async function (idPartners) {
+  const client = await getClient();
+  const rs = await client.query(
+    'SELECT P.*,IP."URL" AS "IMG" FROM public."PARTNER_PRODUCT" AS PP, public."Products" AS P, public."IMAGE_PRODUCT" AS IP WHERE PP."ID_PARTNERS" = $1 AND PP."ID_PRODUCTS" = P."ID_PRODUCTS" AND PP."ID_PRODUCTS" = IP."ID_PRODUCTS" AND IP."STT" = $2',
+    [idPartners, 1]
+  );
+  return rs.rows;
+};
+
+exports.getProductsExchangePoint = async function (idPartners, point) {
+  const client = await getClient();
+  const rs = await client.query(
+    'SELECT P.*,IP."URL" AS "IMG" FROM public."PARTNER_PRODUCT" AS PP, public."Products" AS P, public."IMAGE_PRODUCT" AS IP, public."EXCHANGE_POINT" AS EP WHERE PP."ID_PARTNERS" = $1 AND PP."ID_PRODUCTS" = P."ID_PRODUCTS" AND PP."ID_PRODUCTS" = IP."ID_PRODUCTS" AND IP."STT" = $2 AND EP."ID_PRODUCTS" = PP."ID_PRODUCTS" AND EP."ID_PARTNERS" = $3 AND EP."PRICE" <= $4',
+    [idPartners, 1, idPartners, point]
+  );
+  return rs.rows;
+};

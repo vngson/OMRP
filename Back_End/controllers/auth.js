@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 const Partner = require("../models/partner");
 const Employee = require("../models/employee");
+const Consomer = require("../models/consumer");
 const jwt = require("jsonwebtoken");
 require("dotenv").config(); // đọc các biến môi trường từ file .env
 
@@ -98,6 +99,8 @@ exports.login = async (req, res, next) => {
         console.log("Customer");
         infoUserArr = await User.getPhoneCustomer(user.Username);
         infoUser = infoUserArr[0];
+        const pointsUser = await Consomer.getPointsConsumer(user.Username);
+        infoUser.Points = pointsUser;
         break;
       case "4":
         console.log("Employee");
