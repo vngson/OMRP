@@ -1,4 +1,4 @@
-call API with URL : https://project-ec-tuankhanh.onrender.com
+call API with URL : https://project-ec-tuankhanh.onrender.com OR localhost
 
 Endpoint đăng ký : PUT /v1/api/auth/signup 
 
@@ -19,12 +19,16 @@ Endpoint Product : GET /v1/api/consumer/product/id (id product)
                    DELETE /v1/api/admin/product/id (id product);
 
 
-Endpoint Contracts : GET/v1/api/employee/contract?page=2&perPage=5 (Mặc định là page = 1, perPage = 4, không có type nếu không có query)
+Endpoint Contracts : GET/v1/api/employee/contract?page=2&perPage=5 (Mặc định là page = 1, perPage = 4 nếu không có query)
 
 Endpoint Contract : GET /v1/api/employee/contract/idContract
 
-Endpoint Partners : GET /v1/api/employee/partner?page=1&perPage=5 (Mặc định là page = 1, perPage = 4, không có type nếu không có query)
+Endpoint Partners : GET /v1/api/employee/partner?page=1&perPage=5 (Mặc định là page = 1, perPage = 4 nếu không có query)
 
 Endpoint Partner : GET /v1/api/employee/partner/idPartner
 
 Endpoint ProductsPartner : GET /v1/api/employee/partnerProducts/idPartner 
+
+Endpoint Products Point Consumer có thể đổi : GET /v1/api/consumer/productPoint/idConsumer?page=2&perPage=4 (Mặc định là page = 1, perPage = 10);
+
+Endpoint Products Point Consumer đủ điểm  đổi : GET /v1/api/consumer/productExchangePoint/idConsumer?page=2&perPage=4 (Mặc định là page = 1, perPage = 10);

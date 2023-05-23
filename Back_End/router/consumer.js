@@ -13,4 +13,11 @@ router.get("/category", consumerController.getCategory);
 router.get("/product", consumerController.getProducts);
 router.get("/product/:productId", consumerController.getProduct);
 
+router.get("/productPoint/:consumerId", consumerController.getProductsPoints);
+
+router.get(
+  "/productExchangePoint/:consumerId",
+  consumerController.getProductsExchangePoint
+);
+
 module.exports = router;
