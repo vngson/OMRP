@@ -1,6 +1,6 @@
 call API with URL : https://project-ec-tuankhanh.onrender.com OR localhost
 
-Endpoint đăng ký : PUT /v1/api/auth/signup 
+Endpoint đăng ký : PUT /v1/api/auth/signup (Ngày sinh theo định dạng : yyyy-mm-dd)
 
 Endpoint đăng nhập : POST /v1/api/auth/login ./ Permission 1: admin, 2: đối tác, 3: khách hàng, 4: nhân viên
 
@@ -32,3 +32,7 @@ Endpoint ProductsPartner : GET /v1/api/employee/partnerProducts/idPartner
 Endpoint Products Point Consumer có thể đổi : GET /v1/api/consumer/productPoint/idConsumer?page=2&perPage=4 (Mặc định là page = 1, perPage = 10);
 
 Endpoint Products Point Consumer đủ điểm  đổi : GET /v1/api/consumer/productExchangePoint/idConsumer?page=2&perPage=4 (Mặc định là page = 1, perPage = 10);
+
+Endpoint update Profile Consumer : PUT /v1/api/consumer/updateInfo/idConsumer (form gửi lên theo định dạng signup ngày sinh : yyyy-mm-dd, vì phone theo username nên sẽ không thay đổi được, disable phone )
+
+Endpoint Partners Consumer : GET /v1/api/consumer/partnersConsumer/idConsumer?page=1&perPage=3 (Mặc định là page = 1, perPage = 8 nếu không có query)

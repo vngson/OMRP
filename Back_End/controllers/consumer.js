@@ -84,6 +84,7 @@ exports.getProduct = async (req, res, next) => {
 
     productObj.URL = Urls;
 
+    productObj.partners = await Consumer.getPartnersProduct(productId);
     res.status(200).json({ message: "Product fetched !", product: productObj });
   } catch (error) {
     if (!error.statusCode) {
@@ -194,6 +195,91 @@ exports.getProductsExchangePoint = async (req, res, next) => {
       message: "Product fetched !",
       products: slicedProducts,
       totalItems: data.length,
+      perPage: perPage,
+      currentPage: currentPage,
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
+exports.updateInfoConsumer = async (req, res, next) => {
+  const consumerId = req.params.consumerId;
+
+  const nameConsumer = req.body.name;
+  const birthday = req.body.birthday;
+  const address = req.body.address;
+  const email = req.body.email;
+
+  // Đổi link onRender ở đây
+  const imgUrl =
+    req.files.length === 0
+      ? null
+      : `http://localhost:4132/images/${req.files[0].filename}`;
+
+  const updateConsumer = {
+    id: consumerId,
+    nameConsumer: nameConsumer,
+    birthday: birthday,
+    address: address,
+    email: email,
+    img: imgUrl,
+  };
+
+  try {
+    const haveConsumer = await Consumer.haveConsumer(updateConsumer.id);
+    if (haveConsumer.length === 0) {
+      const error = new Error("Could not find Consumer !");
+      error.statusCode = 404;
+      throw error;
+    }
+    const haveEmail = await Consumer.haveEmail(updateConsumer.email);
+    if (haveEmail.length === 0) {
+      const error = new Error("Email has already !");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    const updateProfile = await Consumer.updateProfile(updateConsumer);
+    res.status(200).json({
+      message: "Update profile consumer successfully !",
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
+exports.getPartnersConsumer = async (req, res, next) => {
+  const consumerId = req.params.consumerId;
+
+  // Phân trang product
+  const currentPage = req.query.page || 1; // Lấy tham số query hoặc mặc định là 1
+  const perPage = req.query.perPage || 8; // Lấy tham số query hoặc mặc định là 4
+
+  try {
+    const count = await Consumer.getPartnerConsumer(consumerId, null, null);
+
+    const skip = (currentPage - 1) * perPage;
+    const limit = Number(perPage);
+
+    const partners = await Consumer.getPartnerConsumer(consumerId, skip, limit);
+
+    if (partners.length === 0) {
+      const error = new Error("Could not find partners ! ");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    res.status(200).json({
+      message: "Fetched partners successfully ! ",
+      partners: partners,
+      totalItems: count.length,
       perPage: perPage,
       currentPage: currentPage,
     });

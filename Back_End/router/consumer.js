@@ -20,4 +20,12 @@ router.get(
   consumerController.getProductsExchangePoint
 );
 
+router.get(
+  "/partnersConsumer/:consumerId",
+  consumerController.getPartnersConsumer
+);
+
+// PUT;
+router.put("/updateInfo/:consumerId", consumerController.updateInfoConsumer);
+
 module.exports = router;
