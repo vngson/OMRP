@@ -17,7 +17,7 @@ exports.getCountContract = async function () {
 exports.getListContract = async function (skip, limit) {
   const client = await getClient();
   const rs = await client.query(
-    'SELECT CT."ID_CONTRACT",P."Name" AS"Tên Doanh Nghiệp" FROM public."Contract" as CT , public."Partners" as P WHERE CT."CONTRACT_PARTNER" = P."ID_Partners" AND CT."STATUS" = $3  ORDER BY CT."ID_CONTRACT" ASC OFFSET $1 LIMIT $2 ',
+    'SELECT CT."ID_CONTRACT",P."Name" AS"Tên Doanh Nghiệp" FROM public."Contract" as CT , public."Partners" as P WHERE CT."CONTRACT_PARTNER" = P."ID_Partners" AND CT."STATUS" = $3   OFFSET $1 LIMIT $2 ',
     [skip, limit, "Đã duyệt"]
   );
   return rs.rows;
@@ -35,7 +35,7 @@ exports.getContract = async function (id) {
 exports.getListPartner = async function (skip, limit) {
   const client = await getClient();
   const rs = await client.query(
-    'SELECT * FROM public."Partners" ORDER BY "ID_Partners" ASC OFFSET $1 LIMIT $2 ',
+    'SELECT * FROM public."Partners"  OFFSET $1 LIMIT $2 ',
     [skip, limit]
   );
   return rs.rows;
@@ -59,7 +59,7 @@ exports.getPartner = async function (id) {
 exports.getListPartnerProduct = async function (id) {
   const client = await getClient();
   const rs = await client.query(
-    'SELECT P.*,TP."TYPE_PROD",IP."URL" AS "IMG" FROM public."PARTNER_PRODUCT" AS PP, public."Products" AS P, public."Type_Products" AS TP, public."IMAGE_PRODUCT" AS IP WHERE PP."ID_PRODUCTS" = P."ID_PRODUCTS" AND PP."ID_PARTNERS" = $1 AND TP."ID_PRODUCTS" = P."ID_PRODUCTS" AND IP."ID_PRODUCTS" = P."ID_PRODUCTS" AND IP."STT" = $2 ',
+    'SELECT P.*,TP."TYPE_PROD",IP."URL" AS "IMG" FROM public."EXCHANGE_POINT" AS EP, public."Products" AS P, public."Type_Products" AS TP, public."IMAGE_PRODUCT" AS IP WHERE EP."ID_PRODUCTS" = P."ID_PRODUCTS" AND EP."ID_PARTNERS" = $1 AND TP."ID_PRODUCTS" = P."ID_PRODUCTS" AND IP."ID_PRODUCTS" = P."ID_PRODUCTS" AND IP."STT" = $2 ',
     [id, 1]
   );
   return rs.rows;
