@@ -25,7 +25,10 @@ router.get(
   consumerController.getPartnersConsumer
 );
 
+router.get("/getCart/:consumerId", consumerController.getCart);
+
 // PUT;
 router.put("/updateInfo/:consumerId", consumerController.updateInfoConsumer);
+router.put("/addToCart/:consumerId", consumerController.postCart);
 
 module.exports = router;

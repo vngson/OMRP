@@ -290,3 +290,91 @@ exports.getPartnersConsumer = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.postCart = async (req, res, next) => {
+  const consumerId = req.params.consumerId;
+
+  const productId = req.body.idProduct;
+  const productName = req.body.nameProduct;
+  const pointType = req.body.pType;
+  const price = req.body.price;
+  const quantityInput = req.body.quantity;
+
+  const cart = {
+    consumerId: consumerId,
+    productId: productId,
+    productName: productName,
+    pointType: pointType,
+    price: price,
+  };
+
+  try {
+    const haveProduct = await Consumer.haveCart(cart);
+
+    const quantity =
+      haveProduct.length === 0
+        ? quantityInput
+        : Number(haveProduct[0].QUANTITY) + Number(quantityInput);
+    const totalPrice = Number(price) * Number(quantity);
+
+    cart.totalPrice = totalPrice;
+    cart.quantity = quantity;
+
+    const addToCart =
+      haveProduct.length === 0
+        ? await Consumer.addToCart(cart)
+        : await Consumer.updateToCart(cart);
+
+    res.status(200).json({
+      message: "Add To Cart Successfully !",
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
+exports.getCart = async (req, res, next) => {
+  const consumerId = req.params.consumerId;
+
+  try {
+    const partnersArr = await Consumer.getPartnersCart(consumerId);
+    if (partnersArr.length === 0) {
+      const error = new Error("Could not find partners consumer in cart ! ");
+      error.statusCode = 404;
+      throw error;
+    }
+    const productCart = await Consumer.getProductsCart(consumerId);
+    if (productCart.length === 0) {
+      const error = new Error("Could not find products consumer in cart ! ");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    partnersArr.forEach((partner) => {
+      partner.products = productCart.filter((product) => {
+        return partner.ID_DoanhNghiep === product.POINT_TYPE;
+      });
+    });
+
+    const totalCart = productCart.reduce((result, obj) => {
+      return result + obj.TOTAL_PRICE;
+    }, 0);
+
+    const totalItems = productCart.length;
+
+    res.status(200).json({
+      message: "Get To Cart Successfully !",
+      data: partnersArr,
+      totalPriceCart: totalCart,
+      totalItems: totalItems,
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
