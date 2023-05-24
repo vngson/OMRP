@@ -18,10 +18,6 @@ const LIST_ACTION = [
         title: 'Xóa sản phẩm',
         to: '/remove_product',
     },
-    {
-        title: 'Quản lý đơn hàng',
-        to: '/manage_order',
-    },
 ]
 
 const cx = classNames.bind(styles);

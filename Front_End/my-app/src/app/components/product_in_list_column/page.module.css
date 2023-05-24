@@ -1,5 +1,5 @@
 .product{
-    width: 600px;
+    width: 700px;
     display: flex;
     height: 270px;
     background-color: var(--white);
@@ -43,7 +43,8 @@
 }
 
 .product-info__label{
-    max-width: 150px;
+    max-width: 250px;
+    height: 30px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
