@@ -202,3 +202,114 @@ exports.getProductsCart = async function (idConsumer) {
   );
   return rs.rows;
 };
+
+exports.deleteAllCart = async function (idConsumer) {
+  const client = await getClient();
+
+  const rs = await client.query(
+    'DELETE FROM public."Cart" WHERE "ID_CUSTOMERS" = $1 ',
+    [idConsumer]
+  );
+};
+
+exports.deletePartnerProductsCart = async function (idConsumer, idPartner) {
+  const client = await getClient();
+
+  const rs = await client.query(
+    'DELETE FROM public."Cart" WHERE "ID_CUSTOMERS" = $1 AND "POINT_TYPE" = $2 ',
+    [idConsumer, idPartner]
+  );
+};
+
+exports.deletePartnerProductCart = async function (
+  idConsumer,
+  idPartner,
+  idProduct
+) {
+  const client = await getClient();
+
+  const rs = await client.query(
+    'DELETE FROM public."Cart" WHERE "ID_CUSTOMERS" = $1 AND "POINT_TYPE" = $2 AND "ID_PRODUCTS" = $3',
+    [idConsumer, idPartner, idProduct]
+  );
+};
+
+exports.getLastIdHistory = async function () {
+  const client = await getClient();
+  const rs = await client.query('select * from public."HISTORY"');
+  return rs.rows.length + 1;
+};
+
+exports.order = async function (obj, product) {
+  const client = await getClient();
+  const rs = await client.query(
+    `insert into public.\"HISTORY\"(\"ID_TRADE\",\"ID_CUSTOMERS\", \"ID_PRODUCTS\", \"NAME\", \"DATE_TRADE\", \"TOTAL_POINTS\",\"QUANTITY\",\"POINT_TYPE\",\"DIACHINHANHANG\",\"PHONE_NHANHANG\",\"TOTAL_POINTS_TRADE\")
+    VALUES ($1, $2, $3, $4,$5,$6,$7,$8,$9,$10,$11) returning *`,
+    [
+      obj.Id_Trade,
+      obj.Id_KhachHang,
+      product.Id_Product,
+      product.Name_Product,
+      obj.C_Date,
+      product.Total_Point,
+      product.Quantity,
+      obj.Id_DoiTac,
+      obj.Address,
+      obj.Phone,
+      obj.Total_Point_Trade,
+    ]
+  );
+};
+
+exports.orderByCart = async function (obj, product) {
+  const client = await getClient();
+  const rs = await client.query(
+    `insert into public.\"HISTORY\"(\"ID_TRADE\",\"ID_CUSTOMERS\", \"ID_PRODUCTS\", \"NAME\", \"DATE_TRADE\", \"TOTAL_POINTS\",\"QUANTITY\",\"POINT_TYPE\",\"DIACHINHANHANG\",\"PHONE_NHANHANG\",\"TOTAL_POINTS_TRADE\")
+    VALUES ($1, $2, $3, $4,$5,$6,$7,$8,$9,$10,$11) returning *`,
+    [
+      obj.Id_Trade,
+      obj.Id_KhachHang,
+      product.Id_Product,
+      product.Name_Product,
+      obj.C_Date,
+      product.Total_Point,
+      product.Quantity,
+      obj.Id_DoiTac,
+      obj.Address,
+      obj.Phone,
+      obj.Total_Point_Trade,
+    ]
+  );
+
+  const rs1 = await client.query(
+    'DELETE FROM public."Cart" WHERE "ID_CUSTOMERS" = $1 AND "POINT_TYPE" = $2 AND "ID_PRODUCTS" = $3',
+    [obj.Id_KhachHang, obj.Id_DoiTac, product.Id_Product]
+  );
+};
+
+exports.getPointConsumer = async function (idConsumer, idPartner) {
+  const client = await getClient();
+  const rs = await client.query(
+    'SELECT "POINTS" FROM public."ACCUMULATION_POINTS" WHERE "ID_CUSTOMERS" = $1 AND "ID_TYPEP" = $2',
+    [idConsumer, idPartner]
+  );
+  return rs.rows[0];
+};
+
+exports.updatePoint = async function (idConsumer, idPartner, point) {
+  const client = await getClient();
+
+  const rs = await client.query(
+    'UPDATE public."ACCUMULATION_POINTS" SET "POINTS" = $1 WHERE "ID_CUSTOMERS" = $2 AND "ID_TYPEP" = $3 ',
+    [point, idConsumer, idPartner]
+  );
+};
+
+exports.getHistoryConsumer = async function (idConsumer) {
+  const client = await getClient();
+  const rs = await client.query(
+    'SELECT H."ID_TRADE", H."ID_PRODUCTS", H."NAME",  IP."URL" as "ImgSanPham" ,EP."PRICE" ,H."QUANTITY",H."TOTAL_POINTS", P."Name" as "TenDoiTac" ,P."url" as "ImgDoiTac",H."DATE_TRADE",H."TOTAL_POINTS_TRADE", H."DIACHINHANHANG" FROM public."HISTORY" AS H, public."IMAGE_PRODUCT" AS IP, public."EXCHANGE_POINT" AS EP, public."Partners" AS P WHERE H."ID_CUSTOMERS" = $1 AND H."ID_PRODUCTS" = IP."ID_PRODUCTS" AND IP."STT" = $2 AND H."ID_PRODUCTS" = EP."ID_PRODUCTS" AND H."POINT_TYPE" = EP."ID_PARTNERS" AND H."POINT_TYPE" = P."ID_Partners"',
+    [idConsumer, 1]
+  );
+  return rs.rows;
+};

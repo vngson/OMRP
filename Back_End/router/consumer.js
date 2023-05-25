@@ -27,8 +27,16 @@ router.get(
 
 router.get("/getCart/:consumerId", consumerController.getCart);
 
+router.get("/getHistory/:consumerId", consumerController.getHistoryConsumer);
+
+//POST;
+router.post("/order/:consumerId", consumerController.orderProducts);
+
 // PUT;
 router.put("/updateInfo/:consumerId", consumerController.updateInfoConsumer);
 router.put("/addToCart/:consumerId", consumerController.postCart);
+
+// DELETE
+router.delete("/deleteCart/:consumerId", consumerController.deleteCart);
 
 module.exports = router;
