@@ -1,5 +1,5 @@
 'use client';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -11,22 +11,30 @@ import image_product from "@/assets/images/ly_giu_nhiet.png"
 import { useState } from 'react';
 import React from "react";
 
+
+type Info = {
+    src: StaticImageData;
+    name: string;
+    category: string;
+    description: string;
+    price: number;
+    quantity: number; 
+}
+
 type MyComponentProps = {
-    admin: React.ReactNode;
-    business: React.ReactNode; 
-    red_title: string,
-    green_title: string,
+    view: string;
+    info: Info[]
   };
 const cx = classNames.bind(styles);
 
-function Product({admin = false, business = false, red_title, green_title}: MyComponentProps) {
+function Product({view, info}: MyComponentProps) {
     const [banned, setBanned] = useState(false)
     const [custommer, setCustommer] = useState(false)
     return  (<div className={cx('product')}>
         <div className={cx('product-wrapper')}>
             <div className={cx("product-info")}>
                 <Image
-                    src= {image_product}
+                    src= {info[0].src}
                     alt='Hình ảnh sản phẩm'
                     className={cx('product-info__image')}                 
                 />
@@ -54,7 +62,8 @@ function Product({admin = false, business = false, red_title, green_title}: MyCo
                             htmlFor="info-title__price" 
                             className={cx("product-info__label")}
                         >
-                            Giá : 
+                            {view.includes('admin')&& 'Số lượng :'}
+                            {view.includes('business')&& 'Giá :'} 
                         </label>
                     </div>
                     <div className={cx('product-info__content')}>
@@ -62,50 +71,65 @@ function Product({admin = false, business = false, red_title, green_title}: MyCo
                             htmlFor="info-content__username" 
                             className={cx("product-info__label")}
                         >
-                            Bình giữ nhiệt
+                            {info[0].name}
                         </label>
                         <label 
                             htmlFor="info-content__producttype" 
                             className={cx("product-info__label")}
                         >
-                            Cốc, ly, bình 
+                            {info[0].category} 
                         </label>
                         <label 
                             htmlFor="info-content__username" 
                             className={cx("product-info__label")}
                         >
-                            Ly giữ nhiệt 600ml chính hãng tặng kèm ống hút inox 304 cao cấp thiết kế nhám mờ hạn chế trầy xước cách nhiệt chân không
+                            {info[0].description}
                         </label>
                         <label 
                             htmlFor="info-content__username" 
                             className={cx("product-info__label")}
                         >
-                            30 điểm 
+                            {view.includes('admin')&& `${info[0].quantity}`}
+                            {view.includes('business')&& `${info[0].price} điểm`}
+                            
                         </label>
                     </div>
                 </div>
             </div>
             <div className={cx("product-line")}></div>
-            {admin && (
+            {(view === 'list_product_admin') && (
             <div className={cx('product-btn')}>
-                <button className={cx("product-btn__delete")}>
-                    <FontAwesomeIcon className={cx('delete__icon')} icon={faCircleXmark} />
+                <button className={cx("product-btn__update")}>
+                    <FontAwesomeIcon className={cx('update__icon')} icon={faCircleCheck} />
+                    Cập nhật sản phẩm
+                </button>
+                <button className={cx("product-btn__remove")}>
+                    <FontAwesomeIcon className={cx('remove__icon')} icon={faCircleXmark} />
                     Xóa sản phẩm
                 </button>
             </div>
             ) }
-            {business && (
+            {(view === 'remove_product_admin') && (
             <div className={cx('product-btn')}>
-                {green_title&&(
-                <button className={cx("product-btn__update")}>
-                    <FontAwesomeIcon className={cx('update__icon')} icon={faCircleCheck} />
-                    {green_title}
-                </button>)}
-                {red_title&&(
                 <button className={cx("product-btn__remove")}>
                     <FontAwesomeIcon className={cx('remove__icon')} icon={faCircleXmark} />
-                    {red_title}
-                </button>)}
+                    Xác nhận xóa
+                </button>
+            </div>
+            )}
+            {(view === 'list_product_business') && (
+            <div className={cx('product-btn')}>
+                <button className={cx("product-btn__remove")}>
+                    <FontAwesomeIcon className={cx('remove__icon')} icon={faCircleXmark} />
+                    Gỡ sản phẩm
+                </button>
+            </div>)}
+            {(view === 'remove_product_business') && (
+            <div className={cx('product-btn')}>
+                <button className={cx("product-btn__remove")}>
+                    <FontAwesomeIcon className={cx('remove__icon')} icon={faCircleXmark} />
+                    Xác nhận gỡ
+                </button>
             </div>
             )}
         </div>

@@ -5,28 +5,36 @@ import avt from "@/assets/images/omrp_logo_white.png"
 import React from "react";
 import { stringify } from 'querystring';
 
-const LIST_ACTION = [
-    {
-        title: 'Danh sách tài khoản',
-        to: '/list_account',
-    },
-    {
-        title: 'Thêm sản phẩm',
-        to: '/add_product',
-    },
-    {
-        title: 'Xóa sản phẩm',
-        to: '/remove_product',
-    },
-]
+// const LIST_ACTION = [
+//     {
+//         title: 'Danh sách tài khoản',
+//         to: '/list_account',
+//     },
+//     {
+//         title: 'Thêm sản phẩm',
+//         to: '/add_product',
+//     },
+//     {
+//         title: 'Xóa sản phẩm',
+//         to: '/remove_product',
+//     },
+// ]
 
 const cx = classNames.bind(styles);
 
+type Action = {
+    title: string;
+    to: string;
+  };
+  
 type MyComponentProps = {
     page_path: string,
+    LIST_ACTION: Action[],
   };
 
-export default function Sidebar({page_path}: MyComponentProps) {
+
+
+export default function Sidebar({page_path, LIST_ACTION}: MyComponentProps) {
     const handleClassname = (path:string) => {
         if(page_path===path)
             return 'sidebar-acction__btn-active'

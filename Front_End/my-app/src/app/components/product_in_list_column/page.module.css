@@ -1,7 +1,7 @@
 .product{
     width: 700px;
     display: flex;
-    height: 270px;
+    /* height: 270px; */
     background-color: var(--white);
     border: 1px solid var(--primary-color-1);
     border-radius: 30px;
@@ -65,10 +65,11 @@
     padding-right: 20px;
 }
 
-.product-btn__delete, .product-btn__remove{
+.product-btn__remove{
     min-width: 180px;
     min-height: 40px;
     margin-top: 20px;
+    margin-bottom: 20px;
     background-color: var(--color-btn-2);
     border-radius: 25px;
     border: none;
@@ -78,7 +79,7 @@
     color: var(--white);
 }
 
-.delete__icon, .remove__icon{
+.remove__icon{
     padding-right: 10px;
     color: var(--white);
     background-color: transparent;
@@ -89,6 +90,7 @@
     min-width: 200px;
     min-height: 40px;
     margin-top: 20px;
+    margin-bottom: 20px;
     background-color: var(--color-btn-1);
     border-radius: 25px;
     border: none;

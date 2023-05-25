@@ -1,7 +1,6 @@
 .account{
     width: 820px;
     display: flex;
-    height: 220px;
     background-color: var(--white);
     border: 1px solid var(--primary-color-1);
     border-radius: 30px;
@@ -79,6 +78,7 @@
     width: 200px;
     height: 40px;
     margin-top: 20px;
+    margin-bottom: 20px;
     margin-left: 100%;
     transform: translateX(calc(-100% - 20px ));
     background-color: var(--color-btn-2);
@@ -101,6 +101,7 @@
     width: 200px;
     height: 40px;
     margin-top: 20px;
+    margin-bottom: 20px;
     margin-left: 100%;
     transform: translateX(calc(-100% - 20px ));
     background-color: var(--color-btn-1);
