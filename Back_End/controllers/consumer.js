@@ -455,6 +455,52 @@ exports.orderProducts = async (req, res, next) => {
       pointConsumerBack
     );
 
+    // Lấy ra ngày tháng năm hiện tại
+    const currentDate = new Date();
+
+    const day = currentDate.getDate(); // Lấy ngày hiện tại
+    const month = currentDate.getMonth() + 1; // Lấy tháng hiện tại (giá trị từ 0 đến 11, nên cộng thêm 1)
+    const year = currentDate.getFullYear(); // Lấy năm hiện tại
+
+    // Lấy ra ID_REVENUE và điểm hiện có trong Pay
+    const dataDetailPay = await Consumer.getIdRevenue(
+      obj.Id_DoiTac,
+      month,
+      year
+    );
+
+    // Kiểm tra xem ngày hôm nay, với id IdRevenue đã có trong csdl chưa, nếu chưa thì insert nếu rồi thì update điểm vào
+    const haveIdRevenue = await Consumer.haveIdRevenueInDetailPay(
+      dataDetailPay.ID_REVENUE,
+      day
+    );
+
+    const newTotal =
+      haveIdRevenue.length === 0
+        ? Number(obj.Total_Point_Trade)
+        : Number(obj.Total_Point_Trade) + Number(haveIdRevenue[0].TOTAL);
+    const postDetailPay =
+      haveIdRevenue.length === 0
+        ? await Consumer.insertDetailPay(
+            dataDetailPay.ID_REVENUE,
+            day,
+            newTotal
+          )
+        : await Consumer.updateDetailPay(
+            dataDetailPay.ID_REVENUE,
+            day,
+            newTotal
+          );
+
+    // update điểm trong Pay
+    const newTotalPoint =
+      Number(dataDetailPay.TOTAL_POINTS) + Number(obj.Total_Point_Trade);
+
+    const updatePay = await Consumer.updatePay(
+      dataDetailPay.ID_REVENUE,
+      newTotalPoint
+    );
+
     res.status(200).json({
       message: "Order Successfully !",
       pointBack: pointConsumerBack,
@@ -527,7 +573,6 @@ exports.getHistoryConsumer = async (req, res, next) => {
     }, []);
 
     const totalItems = mergedHistory.length;
-
     // Tính chỉ số bắt đầu và kết thúc của mảng dựa trên trang và số lượng mục trên mỗi trang
     const startIndex = (pageNumber - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;

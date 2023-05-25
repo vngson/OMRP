@@ -313,3 +313,46 @@ exports.getHistoryConsumer = async function (idConsumer) {
   );
   return rs.rows;
 };
+
+exports.getIdRevenue = async function (idPartner, month, year) {
+  const client = await getClient();
+  const rs = await client.query(
+    'SELECT "ID_REVENUE","TOTAL_POINTS" FROM public."Pay" WHERE "ID_PARTNER" = $1 AND "MONTH_REV" = $2 AND "YEAR_REV" = $3',
+    [idPartner, month, year]
+  );
+  return rs.rows[0];
+};
+
+exports.haveIdRevenueInDetailPay = async function (idRevenue, day) {
+  const client = await getClient();
+  const rs = await client.query(
+    'SELECT * FROM public."Detail_Pay" WHERE "ID_REVENUE" = $1 AND "DAY_REV" = $2',
+    [idRevenue, day]
+  );
+  return rs.rows;
+};
+
+exports.insertDetailPay = async function (idRevenue, day, total) {
+  const client = await getClient();
+  const rs = await client.query(
+    `insert into public.\"Detail_Pay\"(\"ID_REVENUE\",\"DAY_REV\", \"TOTAL\")
+    VALUES ($1, $2, $3) returning *`,
+    [idRevenue, day, total]
+  );
+};
+
+exports.updateDetailPay = async function (idRevenue, day, total) {
+  const client = await getClient();
+  const rs = await client.query(
+    'UPDATE public."Detail_Pay" SET "TOTAL" = $1 WHERE "ID_REVENUE" = $2 AND "DAY_REV" = $3 ',
+    [total, idRevenue, day]
+  );
+};
+
+exports.updatePay = async function (idRevenue, total) {
+  const client = await getClient();
+  const rs = await client.query(
+    'UPDATE public."Pay" SET "TOTAL_POINTS" = $1 WHERE "ID_REVENUE" = $2 ',
+    [total, idRevenue]
+  );
+};
