@@ -7,14 +7,14 @@ const partnerController = require("../controllers/partner");
 const isAuth = require("../middleware/is-auth");
 const isPermission = require("../middleware/is-permission");
 
-// GET;
-router.get("/:partnerId/product", partnerController.getProducts);
-router.get("/:partnerId/product/:productId", partnerController.getProduct);
+//GET
+router.get("/:partnerId/contract", partnerController.getContracts);
 
-//PUT
-router.put("/:partnerId/updateProduct/:productId", partnerController.updateProduct);
+// POST
+router.post("/:partnerId/registerContract", partnerController.registerContract);
+router.post("/:partnerId/postProduct/:productId", partnerController.postProduct)
 
 // DELETE;
-router.delete("/:partnerId/product/:productId", adminController.deleteProduct);
+router.delete("/:partnerId/deleteProduct/:productId", partnerController.deleteProduct);
 
 module.exports = router;

@@ -59,7 +59,7 @@ exports.getPartner = async function (id) {
 exports.getListPartnerProduct = async function (id) {
   const client = await getClient();
   const rs = await client.query(
-    'SELECT P.*,TP."TYPE_PROD",IP."URL" AS "IMG" FROM public."EXCHANGE_POINT" AS EP, public."Products" AS P, public."Type_Products" AS TP, public."IMAGE_PRODUCT" AS IP WHERE EP."ID_PRODUCTS" = P."ID_PRODUCTS" AND EP."ID_PARTNERS" = $1 AND TP."ID_PRODUCTS" = P."ID_PRODUCTS" AND IP."ID_PRODUCTS" = P."ID_PRODUCTS" AND IP."STT" = $2 ',
+    'select p.*,tp."type_prod",ip."url" as "img" from public."exchange_point" as ep, public."products" as p, public."type_products" as tp, public."image_product" as ip where ep."id_products" = p."id_products" and ep."id_partners" = $1 and tp."id_products" = p."id_products" and ip."id_products" = p."id_products" and ip."stt" = $2',
     [id, 1]
   );
   return rs.rows;

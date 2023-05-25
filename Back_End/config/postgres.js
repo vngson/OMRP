@@ -7,7 +7,7 @@ module.exports.getClient = async () => {
     user: "ecdatabase_user",
     password: "fsOX7ePNj8KzTanQLYBRGGkxCs4z6MDA",
     database: "ql_ec_project",
-    ssl: true
+    ssl: true,
   });
   await client.connect();
   return client;

@@ -42,10 +42,10 @@ Endpoint Add to cart : PUT /v1/api/consumer/addToCart/idConsumer
 
 Endpoint Get Cart : GET /v1/api/consumer/getCart/idConsumer
 
-Endpoint Products of Partners: GET /v1/api/partner/partnerId/product
+Endpoint Products of Partners: GET /v1/api/partner/partnerId/contract
 
-                               GET /v1/api/partner/partnerId/product/productId
+                               POST /v1/api/partner/partnerId/registerContract
 
-                               PUT /v1/api/partner/partnerId/postProduct/productId
+                               POST /v1/api/partner/partnerId/postProduct/productId
 
-                               DELETE /v1/api/partner/partnerId/product/productId
+                               DELETE /v1/api/partner/partnerId/deleteProduct/productId

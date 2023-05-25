@@ -18,47 +18,81 @@ exports.getEmailPartner = async function (email) {
   return rs.rows;
 };
 
-exports.countProduct = async function (idPartner) {
+exports.getLastIDContract = async function () {
   const client = await getClient();
-  const rs = await client.query(
-    'SELECT COUNT(*) FROM public."products" as P JOIN public."partner_product" as PP on P."ID_PRODUCTS" = PP."ID_PRODUCTS" JOIN public."partners" as PN on PP."id_partners" = PN."id_partners" WHERE PN."id_partners" = $1',
-    [idPartner]
-  );
-  return rs.rows[0];
+  const rs = await client.query('select * from public."contract"');
+  return rs.rows.length + 1;
 };
 
-exports.countProductType = async function (idPartner, type) {
+exports.insertNewContract = async function (infoContract) {
   const client = await getClient();
-  const rs = await client.query(
-    'SELECT COUNT(*) FROM public."products" as P JOIN public."partner_product" as PP on P."ID_PRODUCTS" = PP."ID_PRODUCTS" JOIN public."partners" as PN on PP."id_partners" = PN."id_partners" WHERE PN."id_partners" = $1 AND P."TYPE_PROC" = $2',
-    [idPartner, type]
-  );
-  return rs.rows[0];
+
+  const rs1 = await client.query(
+    `insert into public."contract" (\"id_contract\", \"tax\", \"deputy\", \"date_contract\", \"effective_time\", \"amounttopoints\", \"commission\", \"contract_partner\", \"status\") 
+    values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *`,
+    [
+      infoContract.id,
+      infoContract.tax,
+      infoContract.deputy,
+      infoContract.date,
+      infoContract.effctivetime,
+      infoContract.amountToPoints,
+      infoContract.commission,
+      infoContract.contractPartner,
+      "Chưa duyệt"
+    ]
+  )
 };
 
-exports.getProducts = async function (skip, limit, idPartner) {
+exports.getContracts = async function (partnerId) {
   const client = await getClient();
   const rs = await client.query(
-    'SELECT P."ID_PRODUCTS",P."NAME",P."INFOR_PRODUCTS",P."QUANTITY",P."PRICE",IP."URL",TP."TYPE_PROD" FROM public."Products" as P JOIN public."IMAGE_PRODUCT" as IP ON P."ID_PRODUCTS" = IP."ID_PRODUCTS" AND IP."STT" = $1 JOIN public."Type_Products" AS TP ON P."ID_PRODUCTS" = TP."ID_PRODUCTS" JOIN public."partner_product" as PP ON PP."ID_PRODUCTS" = P."ID_PRODUCTS" join public."partners" PN on PP."id_partners" = PN."id_partners" AND PN."id_partners" = $2 ORDER BY P."ID_PRODUCTS" ASC OFFSET $3 LIMIT $4',
-    [1, idPartner, skip, limit]
+    'SELECT C."id_contract", C."tax", C."deputy", C."date_contract", C."effective_time", C."amounttopoints", C."commission", C."status" FROM public."contract" as C JOIN public."partners" as P ON C."contract_partner" = P."id_partners" AND P."id_partners" = $1',
+    [partnerId]
   );
   return rs.rows;
 };
 
-exports.getProductsType = async function (skip, limit, idPartner, type) {
+exports.getPartnerProduct = async function (id_products, id_partners) {
   const client = await getClient();
-  const rs = await client.query(
-    'SELECT P."ID_PRODUCTS",P."NAME",P."INFOR_PRODUCTS",P."QUANTITY",P."PRICE",IP."URL",TP."TYPE_PROD" FROM public."Products" as P JOIN public."IMAGE_PRODUCT" as IP ON P."ID_PRODUCTS" = IP."ID_PRODUCTS" AND IP."STT" = $1 JOIN public."Type_Products" AS TP ON P."ID_PRODUCTS" = TP."ID_PRODUCTS" AND P."TYPE_PROC" = $2 JOIN public."partner_product" as PP ON PP."ID_PRODUCTS" = P."ID_PRODUCTS" join public."partners" PN on PP."id_partners" = PN."id_partners" AND PN."id_partners" = $3 ORDER BY P."ID_PRODUCTS" ASC OFFSET $4 LIMIT $5',
-    [1, type, idPartner, skip, limit]
-  );
-  return rs.rows;
+
+  const rs1 = await client.query(
+    `select * from public."partner_product" where id_products = $1 and id_partners = $2`,
+    [id_products, id_partners]
+  )
+  return rs1.rows;
 };
 
-exports.getProduct = async function (idPartner, idProduct) {
+exports.getPartnerProductCanExchange = async function (id_products, id_partners) {
   const client = await getClient();
-  const rs = await client.query(
-    'SELECT P."ID_PRODUCTS",P."NAME",P."INFOR_PRODUCTS",P."QUANTITY",P."PRICE",IP."URL",TP."TYPE_PROD" FROM public."Products" as P JOIN public."IMAGE_PRODUCT" as IP ON P."ID_PRODUCTS" = IP."ID_PRODUCTS" AND P."ID_PRODUCTS" = $1 JOIN public."Type_Products" AS TP ON P."ID_PRODUCTS" = TP."ID_PRODUCTS" JOIN public."partner_product" as PP ON PP."ID_PRODUCTS" = P."ID_PRODUCTS" join public."partners" PN on PP."id_partners" = PN."id_partners" AND PN."id_partners" = $2',
-    [idProduct, idPartner]
+
+  const rs1 = await client.query(
+    `select * from public."exchange_point" where id_products = $1 and id_partners = $2`,
+    [id_products, id_partners]
+  )
+  return rs1.rows;
+};
+
+exports.insertNewProductCanExchange = async function (infoProduct) {
+  const client = await getClient();
+
+  const rs1 = await client.query(
+    `insert into public."exchange_point" (\"id_products\", \"price\", \"id_partners\") 
+    values ($1, $2, $3) returning *`,
+    [
+      infoProduct.id_products,
+      infoProduct.price,
+      infoProduct.id_partners
+    ]
+  )
+};
+
+exports.deleteProduct = async function (id_products, id_partners) {
+  const client = await getClient();
+
+  const rs1 = await client.query(
+    'DELETE FROM public."exchange_point" where id_products = $1 and id_partners = $2',
+    [id_products, id_partners]
   );
-  return rs.rows;
+  return rs1.rows;
 };

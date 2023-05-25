@@ -63,6 +63,7 @@ app.use("/v1/api/admin", adminRoute);
 app.use("/v1/api/auth", authRoute);
 app.use("/v1/api/consumer", consumerRoute);
 app.use("/v1/api/employee", employeeRoute);
+app.use("/v1/api/partner", partnerRoute)
 // Xử lý lỗi
 app.use((error, req, res, next) => {
   const status = error.statusCode || 500;
