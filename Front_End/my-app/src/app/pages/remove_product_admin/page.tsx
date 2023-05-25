@@ -40,7 +40,7 @@ function RemoveProduct() {
             <div className={cx('remove_product-middle__wrapper')}>
                 <Sidebar page_path='/remove_product' LIST_ACTION={actions}/>
                 <div className={cx('remove_product-content')}>
-                    <Product info={INFO} view='list_product_business'/>
+                    <Product info={INFO} view='choose_product_business'/>
                 </div>
             </div>
         </div>

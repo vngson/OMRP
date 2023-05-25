@@ -100,7 +100,21 @@
     color: var(--white);
 }
 
-.update__icon{
+.product-btn__choose{
+    min-width: 200px;
+    min-height: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: var(--primary-color-1);
+    border-radius: 25px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+}
+
+.choose__icon,.update__icon{
     padding-right: 10px;
     color: var(--white);
     background-color: transparent;

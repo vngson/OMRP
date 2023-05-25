@@ -62,8 +62,8 @@ function Product({view, info}: MyComponentProps) {
                             htmlFor="info-title__price" 
                             className={cx("product-info__label")}
                         >
-                            {view.includes('admin')&& 'Số lượng :'}
-                            {view.includes('business')&& 'Giá :'} 
+                            {view === 'list_product_admin'||view === 'remove_product_admin'||view === 'choose_product_business'&&'Số lượng :'}
+                            {view === 'list_product_business'|| view === 'remove_product_business' && 'Giá :'} 
                         </label>
                     </div>
                     <div className={cx('product-info__content')}>
@@ -89,8 +89,8 @@ function Product({view, info}: MyComponentProps) {
                             htmlFor="info-content__username" 
                             className={cx("product-info__label")}
                         >
-                            {view.includes('admin')&& `${info[0].quantity}`}
-                            {view.includes('business')&& `${info[0].price} điểm`}
+                            {view === 'list_product_admin'||view === 'remove_product_admin'||view === 'choose_product_business'&& `${info[0].quantity}`}
+                            {view === 'list_product_business'|| view === 'remove_product_business' && `${info[0].price} điểm`}
                             
                         </label>
                     </div>
@@ -117,6 +117,13 @@ function Product({view, info}: MyComponentProps) {
                 </button>
             </div>
             )}
+            {(view === 'choose_product_business') && (
+            <div className={cx('product-btn')}>
+                <button className={cx("product-btn__choose")}>
+                    <FontAwesomeIcon className={cx('choose__icon')} icon={faCircleCheck} />
+                    Chọn sản phẩm
+                </button>
+            </div>)}
             {(view === 'list_product_business') && (
             <div className={cx('product-btn')}>
                 <button className={cx("product-btn__remove")}>
