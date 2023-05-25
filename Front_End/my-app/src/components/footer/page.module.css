@@ -1,11 +1,11 @@
 .footer{
-    display: flex;
+    /* display: flex; */
     width: 100vw;
     height: 200px;
     background-color: var(--black);
-    position: fixed;
+    position: absolute;
     justify-content: center;
-    bottom: 0;
+    bottom: 0%;
 }
     
 .footer-wrapper{

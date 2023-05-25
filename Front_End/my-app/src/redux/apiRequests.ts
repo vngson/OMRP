@@ -1,9 +1,8 @@
 import axios, { AxiosInstance } from "axios";
 import UserAPI from "@/app/api/userAPI";
+
 import {useRouter} from "next/router"
-export const baseURL_user = "https://5dlr4.wiremockapi.cloud";
 import navigate from "next/navigation"
-export const apiV1_user = `${baseURL_user}`;
 import {
   loginFailed,
   loginStart,
@@ -26,17 +25,21 @@ import {
 import { Dispatch, AnyAction } from "redux";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 import { NavigateFunction } from "react-router";
+import jwt_decode from "jwt-decode";
 //npm install axios
 
 export const loginUser = async (user: any, dispatch: (arg0: { payload: any; type: "auth/loginStart" | "auth/loginSuccess" | "auth/loginFailed"; }) => void,router: string[] | AppRouterInstance) => {
+
   dispatch(loginStart());
   try {
     //const res = await axios.post("https://project-ec-tuankhanh.onrender.com/auth/login", user);
-    
 
     const res=await UserAPI.login(user);
-    dispatch(loginSuccess(res.data));
-    console.log(res.data);
+    console.log("token: ", res.data)
+    dispatch(loginSuccess(jwt_decode(res.data.token)));
+
+    // console.log("res.data", res.data);
+
     router.push("/")
     return 1
   } catch (err) {
@@ -50,7 +53,7 @@ export const registerUser = async (user: any, dispatch: (arg0: { payload: undefi
     await UserAPI.register(user)
     //await axios.post("/v1/auth/register", user);
     dispatch(registerSuccess());
-    router.push("/login")
+    router.push("/")
   } catch (err) {
     dispatch(registerFailed());
   }

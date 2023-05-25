@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import classNames from 'classnames/bind';
 import Image from 'next/image';
-import styles from "./page.module.css"
+import styles from "./header_cus.module.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faCartShopping,
@@ -9,10 +9,13 @@ import {
     faMagnifyingGlass,
 } from '@fortawesome/free-solid-svg-icons';
 import logo from "@/assets/images/omrp_logo_transparent.png"
+import { useSelector } from 'react-redux';
 
 const cx = classNames.bind(styles);
 
 export default function Header() {
+
+    const user = useSelector((state: any)=> state.auth.login.currentUser)
     return <div className={cx('header')}>
         <div className={cx('header-wrapper')}>
             <Image src={logo}  alt='logo' className={cx('header-logo')}/>
@@ -29,7 +32,7 @@ export default function Header() {
                 htmlFor="header__name-view" 
                 className={cx("header-label")}
             >
-                Chào, Khách hàng
+                Chào, {user.userInfo.NAME}
             </label>
             <div className={cx('header-icon__wrapper')}><FontAwesomeIcon className={cx('header-cart')} icon={faCartShopping} /></div>
             <div className={cx('header-icon__wrapper')}><FontAwesomeIcon className={cx('header-profile')} icon={faUser} /></div>
