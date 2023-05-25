@@ -25,7 +25,7 @@ exports.getProducts = async function (skip, limit) {
 
 exports.countProduct = async function () {
   const client = await getClient();
-  const rs = await client.query(' SELECT COUNT(*)  FROM public."Products"');
+  const rs = await client.query(' SELECT COUNT(*) FROM public."Products"');
   return rs.rows[0];
 };
 

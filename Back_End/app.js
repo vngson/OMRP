@@ -9,6 +9,7 @@ const multer = require("multer");
 const adminRoute = require("./router/admin");
 const authRoute = require("./router/auth");
 const consumerRoute = require("./router/consumer");
+const partnerRoute = require("./router/partner");
 const employeeRoute = require("./router/employee");
 
 const app = express();
@@ -62,7 +63,6 @@ app.use("/v1/api/admin", adminRoute);
 app.use("/v1/api/auth", authRoute);
 app.use("/v1/api/consumer", consumerRoute);
 app.use("/v1/api/employee", employeeRoute);
-
 // Xử lý lỗi
 app.use((error, req, res, next) => {
   const status = error.statusCode || 500;
