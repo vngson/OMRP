@@ -1,0 +1,13 @@
+{
+  "id": "8    ",
+  "name": "60S",
+  "email": "ManhHunggsy76@gmail.com",
+  "address": "796 Nguyễn Sơn, xã Trung An, huyện Củ Chi, thành phố Hồ Chí Minh",
+  "phone": "0651611580",
+  "customer": [
+    {
+      "username": "0975087855",
+      "point": 13680
+    }
+  ]
+}

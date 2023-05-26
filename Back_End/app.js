@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 const cron = require("node-cron");
+const moment = require("moment-timezone");
 const axios = require("axios");
 require("dotenv").config();
 // upload,download file
@@ -65,7 +66,10 @@ app.use("/v1/api/auth", authRoute);
 app.use("/v1/api/consumer", consumerRoute);
 app.use("/v1/api/employee", employeeRoute);
 
-// Lên lịch xuất file điểm từ csdl hệ thống gửi cho đối tác vào 23:55 mỗi ngày
+// Cấu hình múi giờ Việt Nam
+moment.tz.setDefault("Asia/Ho_Chi_Minh");
+
+// Lên lịch xuất file điểm từ csdl hệ thống gửi cho đối tác vào 23:55 mỗi ngày theo giờ Việt Nam
 cron.schedule("55 23 * * *", async () => {
   try {
     const response = await axios.get(
@@ -78,7 +82,7 @@ cron.schedule("55 23 * * *", async () => {
   }
 });
 
-// Lên lịch đồng bộ điểm từ file json đối tác gửi tới vào 00:00 mỗi ngày
+// Lên lịch đồng bộ điểm từ file json đối tác gửi tới vào 00:00 mỗi ngày theo giờ Việt Nam
 cron.schedule("0 0 * * *", async () => {
   try {
     const response = await axios.get(
