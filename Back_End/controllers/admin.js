@@ -1,6 +1,10 @@
 const Admin = require("../models/admin");
 const Consumer = require("../models/consumer");
 
+const fs = require("fs");
+const path = require("path");
+const { dirname } = require("path");
+
 exports.getAccounts = async (req, res, next) => {
   const type = req.query.type;
   let accountData;
@@ -194,6 +198,56 @@ exports.deleteProduct = async (req, res, next) => {
     const deleteProduct = await Admin.deleteProduct(productId);
     res.status(200).json({
       message: "Delete product successfully",
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
+// Xử lý đồng bộ điểm
+
+exports.synchronizingPoints = async (req, res, next) => {
+  try {
+    // Xử lý đọc tất cả file trong data
+    const dataDir = path.join(__dirname, "..", "data");
+    const files = fs.readdirSync(dataDir); // Read the list of files synchronously
+
+    let mergedData = []; // Array to store the merged data
+
+    files.map((file) => {
+      const filePath = path.join(dataDir, file);
+      if (path.extname(file) === ".json") {
+        // Read the contents of each JSON file
+        const jsonData = fs.readFileSync(filePath, "utf-8");
+        const parsedData = JSON.parse(jsonData);
+        mergedData = mergedData.concat(parsedData); // Merge the data into the mergedData array
+      }
+    });
+
+    await Promise.all(
+      mergedData.map(async (partner) => {
+        await Promise.all(
+          partner.customer.map(async (data) => {
+            const idConsumer = await Admin.getIdConsumer(data.username);
+            if (!idConsumer) {
+              const error = new Error("Could not find id Consumer");
+              error.statusCode = 404;
+              throw error;
+            }
+            const updatePoint = await Admin.updatePoints(
+              partner.id,
+              idConsumer.id,
+              data.point
+            );
+          })
+        );
+      })
+    );
+    res.status(200).json({
+      message: "Update points consumer successfully",
     });
   } catch (error) {
     if (!error.statusCode) {

@@ -1,6 +1,8 @@
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
+const cron = require("node-cron");
+const axios = require("axios");
 require("dotenv").config();
 // upload,download file
 const multer = require("multer");
@@ -62,6 +64,20 @@ app.use("/v1/api/admin", adminRoute);
 app.use("/v1/api/auth", authRoute);
 app.use("/v1/api/consumer", consumerRoute);
 app.use("/v1/api/employee", employeeRoute);
+
+// Lên lịch đồng bộ điểm từ file json khách hàng gửi tới vào 00:00 mỗi ngày
+cron.schedule("15 22 * * *", async () => {
+  try {
+    const response = await axios.get(
+      "https://project-ec-tuankhanh.onrender.com/v1/api/admin/synchronizingPoints"
+    );
+
+    console.log("API Responese: ", response.data);
+    console.log("API called at 00:00");
+  } catch (error) {
+    console.error("Error calling API:", error.message);
+  }
+});
 
 // Xử lý lỗi
 app.use((error, req, res, next) => {
