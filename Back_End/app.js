@@ -65,17 +65,29 @@ app.use("/v1/api/auth", authRoute);
 app.use("/v1/api/consumer", consumerRoute);
 app.use("/v1/api/employee", employeeRoute);
 
-// Lên lịch đồng bộ điểm từ file json khách hàng gửi tới vào 00:00 mỗi ngày
-cron.schedule("15 22 * * *", async () => {
+// Lên lịch xuất file điểm từ csdl hệ thống gửi cho đối tác vào 23:55 mỗi ngày
+cron.schedule("55 23 * * *", async () => {
+  try {
+    const response = await axios.get(
+      "https://project-ec-tuankhanh.onrender.com/v1/api/admin/exportFile"
+    );
+    // Xử lý kết quả từ server
+    console.log(response.data);
+  } catch (error) {
+    console.error("Error calling API to exportFile :", error.message);
+  }
+});
+
+// Lên lịch đồng bộ điểm từ file json đối tác gửi tới vào 00:00 mỗi ngày
+cron.schedule("0 0 * * *", async () => {
   try {
     const response = await axios.get(
       "https://project-ec-tuankhanh.onrender.com/v1/api/admin/synchronizingPoints"
     );
-
-    console.log("API Responese: ", response.data);
-    console.log("API called at 00:00");
+    // Xử lý kết quả từ server
+    console.log(response.data);
   } catch (error) {
-    console.error("Error calling API:", error.message);
+    console.error("Error calling API to synchronizingPoints : ", error.message);
   }
 });
 

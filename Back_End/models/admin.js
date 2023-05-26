@@ -175,3 +175,11 @@ exports.getIdConsumer = async function (username) {
   );
   return rs.rows[0];
 };
+
+exports.getPoints = async function () {
+  const client = await getClient();
+  const rs = await client.query(
+    'SELECT P."ID_Partners" AS "id",P."Name" as "name", P."Email" as "email", P."Address" as "address",P."Phone" as "phone",C."Phone" as "username", AP."POINTS" as "point" FROM public."ACCUMULATION_POINTS" AS AP, public."Partners" AS P, public."Customers" AS C WHERE AP."ID_CUSTOMERS" = C."ID_Customers" AND AP."ID_TYPEP" = P."ID_Partners" '
+  );
+  return rs.rows;
+};
