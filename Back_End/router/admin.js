@@ -12,6 +12,8 @@ router.get("/account", adminController.getAccounts);
 
 router.get("/synchronizingPoints", adminController.synchronizingPoints);
 
+router.get("/exportFile", adminController.exportFileSystem);
+
 // POST;
 router.post("/postProduct", adminController.postProduct);
 

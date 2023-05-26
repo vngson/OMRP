@@ -206,13 +206,73 @@ exports.deleteProduct = async (req, res, next) => {
     next(error);
   }
 };
+// Xử lý đồng bộ điểm, Xuất file từ điểm hệ thống
+exports.exportFileSystem = async (req, res, next) => {
+  try {
+    const pointsArr = await Admin.getPoints();
 
-// Xử lý đồng bộ điểm
+    // Gôm các đối tượng có cùng ID, thêm mới thuộc tính customer
+    const mergedPoints = pointsArr.reduce((newPoints, obj) => {
+      const existingObj = newPoints.find((data) => data.id === obj.id);
 
+      if (existingObj) {
+        // Đối tượng đã tồn tại, thêm đối tượng con vào thuộc tính PRODUCTS
+        existingObj.customer.push({
+          username: obj.username,
+          point: obj.point,
+        });
+      } else {
+        // Đối tượng chưa tồn tại, tạo mới và thêm vào mảng
+        newPoints.push({
+          id: obj.id,
+          name: obj.name,
+          email: obj.email,
+          address: obj.address,
+          phone: obj.phone,
+          customer: [
+            {
+              username: obj.username,
+              point: obj.point,
+            },
+          ],
+        });
+      }
+
+      return newPoints;
+    }, []);
+
+    const outputDir = path.join(__dirname, "..", "data", "point_system");
+
+    mergedPoints.forEach((obj) => {
+      const fileName = `${obj.name.replace(/\s/g, "")}_${obj.id.trim()}.json`;
+      const filePath = path.join(outputDir, fileName);
+      const jsonContent = JSON.stringify(obj, null, 2);
+
+      fs.writeFile(filePath, jsonContent, "utf8", (err) => {
+        if (err) {
+          const error = new Error("Error writing JSON file");
+          error.statusCode = 404;
+          throw error;
+        }
+      });
+    });
+
+    res.status(200).json({
+      message: "Export file points system successfully !",
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
+// Xử lý đồng bộ điểm, nhập điểm từ file đối tác gửi
 exports.synchronizingPoints = async (req, res, next) => {
   try {
     // Xử lý đọc tất cả file trong data
-    const dataDir = path.join(__dirname, "..", "data");
+    const dataDir = path.join(__dirname, "..", "data", "point_partner");
     const files = fs.readdirSync(dataDir); // Read the list of files synchronously
 
     let mergedData = []; // Array to store the merged data
