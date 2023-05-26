@@ -9,7 +9,10 @@ import product_img_3 from "./product_img_3.png"
 import arrow_left_product from "./arrow_product_left.svg"
 import arrow_right_product from "./arrow_product_right.svg"
 import partner_img_1 from "./partner_img_1.png"
-
+import delete_icon from "./delete_icon.svg"
+import checkout_icon from "./checkout_icon.svg"
+import partner_img_1_square from "./partner_img_1_square.png"
+import user_avt_1 from "./user-avatar.jpg"
 export {
     banner_home_customer,
     product_img_1,
@@ -22,4 +25,8 @@ export {
     arrow_left_product,
     arrow_right_product,
     partner_img_1,
+    delete_icon,
+    checkout_icon,
+    partner_img_1_square,
+    user_avt_1
 }

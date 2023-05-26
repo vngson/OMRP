@@ -118,7 +118,7 @@ a {
   --grid-size:1100px;
   --font-size-icon-small:2.4rem;
   --font-size-icon-big:3.2rem;
-
+  --max-width: 1100px;
 }
 
 * {

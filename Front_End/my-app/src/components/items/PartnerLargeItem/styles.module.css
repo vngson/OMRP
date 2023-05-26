@@ -1,0 +1,30 @@
+.product_list_product{
+    width: fit-content;
+    height: fit-content;
+    background-color: white;
+    border-radius: 10px;
+    color: gray;
+    padding: 10px 10px 40px 10px;
+    border: solid 2px var(--primary-color-1);
+    box-shadow: 1px 1px 1px 1px var(--background-color);
+
+}
+.product_list_product_img{
+    border: solid 1px 10px var(--primary-color-1);
+    /* padding: 0px 5px; */
+    padding: 0px;
+    margin-top: 16px; 
+    
+}   
+
+.product_list_product_title{
+   
+    margin-top: 10px;
+    font-size: 15px;
+    /* paddin-bottom: 20px; */
+    
+}
+.price{
+    margin-top: 20px;
+    font-size: 14px;
+}

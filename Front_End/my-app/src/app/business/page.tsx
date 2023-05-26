@@ -3,29 +3,36 @@ import { Inter } from 'next/font/google'
 import styles from './page.module.css'
 // import LoginRegister from '@/components/login_register/login_register'
 
-import { arrow_img, banner_home_customer, partner_img_1, product_img_1, product_img_2 } from '@/assets/images'
-import PartnerSmallItem from '@/components/items/PartnerSmallItem/com'
+import { arrow_img, banner_home_customer, partner_img_1_square, product_img_1, product_img_2 } from '@/assets/images'
 import ProductItem from '@/components/items/ProductItem/ProductItem'
-import PartnerSmallItem_1 from '@/components/items/PartnerSmallItem_1/com'
+import PartnerLargeItem from '@/components/items/PartnerLargeItem/PartnerLargeItem'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function BuninessPage() {
+export default function BusinessListPage() {
   const a= [1,2,3,4,5,6,]
   const b= [1,2,3,4,5,6,1,2,3,4,5,6,]
   return (
-   <div className={styles.container}> 
-   <PartnerSmallItem_1 logo={partner_img_1} name="Phuc Long"/>
-   <div className={styles.title}>Danh sách các sản phẩm của doanh nghiệp</div>
-   <div className={styles.product_list__grid}>
+    <main  className={styles.main} >
+      <div className={styles.banner}><Image src={banner_home_customer} className={styles.banner_img} alt=""/></div>
+      
+      <div className={styles.partner_list}>
+        <div className={styles.partner_list__navbar}>
+          <div className={styles.partner_list__navbar_title}>Danh sách các doanh nghiệp có thể đổi quà</div>
+          <div className={styles.partner_list__navbar_title}>Tất cả doanh nghiệp</div>
+
+        </div>
+        <div className={styles.partner_list__grid}>
         {b.map((b)=>(
            
-            <ProductItem img={product_img_2} name="Bình giữ nhiệt" price={100}/>
+            <PartnerLargeItem img={partner_img_1_square} name="Phuc Long" point={1000}/>
           ))}
         </div>
         <div className={styles.pagination}>
           1 2 3
         </div>
-   </div>
+      </div>
+
+    </main>
   )
 }
