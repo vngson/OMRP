@@ -157,3 +157,21 @@ exports.deleteProduct = async function (id) {
     [id]
   );
 };
+
+exports.updatePoints = async function (idPartner, idConsumer, point) {
+  const client = await getClient();
+
+  const rs2 = await client.query(
+    'UPDATE public."ACCUMULATION_POINTS" SET "POINTS" = $1 WHERE "ID_CUSTOMERS" = $2 AND "ID_TYPEP" = $3',
+    [point, idConsumer, idPartner]
+  );
+};
+
+exports.getIdConsumer = async function (username) {
+  const client = await getClient();
+  const rs = await client.query(
+    'select "ID_Customers" as "id" from public."Customers" where "Phone" = $1',
+    [username]
+  );
+  return rs.rows[0];
+};

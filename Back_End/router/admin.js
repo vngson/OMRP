@@ -10,6 +10,8 @@ const isPermission = require("../middleware/is-permission");
 // GET;
 router.get("/account", adminController.getAccounts);
 
+router.get("/synchronizingPoints", adminController.synchronizingPoints);
+
 // POST;
 router.post("/postProduct", adminController.postProduct);
 
