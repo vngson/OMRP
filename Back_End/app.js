@@ -70,11 +70,15 @@ app.use("/v1/api/employee", employeeRoute);
 moment.tz.setDefault("Asia/Ho_Chi_Minh");
 
 // Lên lịch xuất file điểm từ csdl hệ thống gửi cho đối tác vào 23:55 mỗi ngày theo giờ Việt Nam
-cron.schedule("55 23 * * *", async () => {
+cron.schedule("50 23 * * *", async () => {
   try {
     const response = await axios.get(
       "https://project-ec-tuankhanh.onrender.com/v1/api/admin/exportFile"
     );
+
+    // const response = await axios.get(
+    //   "http://localhost:4132/v1/api/admin/exportFile"
+    // );
     // Xử lý kết quả từ server
     console.log(response.data);
   } catch (error) {
@@ -88,6 +92,10 @@ cron.schedule("0 0 * * *", async () => {
     const response = await axios.get(
       "https://project-ec-tuankhanh.onrender.com/v1/api/admin/synchronizingPoints"
     );
+
+    // const response = await axios.get(
+    //   "http://localhost:4132/v1/api/admin/synchronizingPoints"
+    // );
     // Xử lý kết quả từ server
     console.log(response.data);
   } catch (error) {
