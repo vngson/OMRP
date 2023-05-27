@@ -22,7 +22,11 @@ Endpoint Product : GET /v1/api/consumer/product/id (id product)
 
 Endpoint Contracts : GET/v1/api/employee/contract?page=2&perPage=5 (Mặc định là page = 1, perPage = 4 nếu không có query)
 
+                     GET/v1/api/employee/contractPendingApproval?page=2&perPage=5 (Mặc định là page = 1, perPage = 4 nếu không có query)
+
 Endpoint Contract : GET /v1/api/employee/contract/idContract
+
+                    PUT /v1/api/employee/updateContract/idContract (duyệt hợp đồng)
 
 Endpoint Partners : GET /v1/api/employee/partner?page=1&perPage=5 (Mặc định là page = 1, perPage = 4 nếu không có query)
 

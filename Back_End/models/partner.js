@@ -53,17 +53,16 @@ exports.getContracts = async function (partnerId) {
   return rs.rows;
 };
 
-exports.getPartnerProduct = async function (id_products, id_partners) {
+exports.getContractsIsValid = async function (partnerId) {
   const client = await getClient();
-
-  const rs1 = await client.query(
-    `select * from public."partner_product" where id_products = $1 and id_partners = $2`,
-    [id_products, id_partners]
-  )
-  return rs1.rows;
+  const rs = await client.query(
+    'SELECT * FROM public."contract" as C JOIN public."partners" as P ON C."contract_partner" = P."id_partners" WHERE P."id_partners" = $1 and C."status" = $2',
+    [partnerId, 'Đã duyệt']
+  );
+  return rs.rows;
 };
 
-exports.getPartnerProductCanExchange = async function (id_products, id_partners) {
+exports.getPartnerProduct = async function (id_products, id_partners) {
   const client = await getClient();
 
   const rs1 = await client.query(

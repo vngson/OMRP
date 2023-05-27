@@ -14,11 +14,28 @@ exports.getCountContract = async function () {
   return rs.rows[0];
 };
 
+exports.getCountContractPendingApproval = async function () {
+  const client = await getClient();
+  const rs = await client.query(
+    'SELECT COUNT(*)  FROM public."Contract" WHERE "STATUS" = $1', ["Chưa duyệt"]
+  );
+  return rs.rows[0];
+};
+
 exports.getListContract = async function (skip, limit) {
   const client = await getClient();
   const rs = await client.query(
     'SELECT CT."ID_CONTRACT",P."Name" AS"Tên Doanh Nghiệp" FROM public."Contract" as CT , public."Partners" as P WHERE CT."CONTRACT_PARTNER" = P."ID_Partners" AND CT."STATUS" = $3   OFFSET $1 LIMIT $2 ',
     [skip, limit, "Đã duyệt"]
+  );
+  return rs.rows;
+};
+
+exports.getListContractPendingApproval = async function (skip, limit) {
+  const client = await getClient();
+  const rs = await client.query(
+    'SELECT CT."ID_CONTRACT",P."Name" AS"Tên Doanh Nghiệp" FROM public."Contract" as CT , public."Partners" as P WHERE CT."CONTRACT_PARTNER" = P."ID_Partners" AND CT."STATUS" = $3   OFFSET $1 LIMIT $2 ',
+    [skip, limit, "Chưa duyệt"]
   );
   return rs.rows;
 };
@@ -63,4 +80,10 @@ exports.getListPartnerProduct = async function (id) {
     [id, 1]
   );
   return rs.rows;
+};
+
+exports.updateContract = async function (id) {
+  const client = await getClient();
+
+  const rs1 = await client.query('UPDATE public."contract" SET "status" = $1 WHERE "id_contract" = $2', ["Đã duyệt", id]);
 };

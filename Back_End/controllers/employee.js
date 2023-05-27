@@ -29,6 +29,35 @@ exports.getListContract = async (req, res, next) => {
   }
 };
 
+exports.getListContractPendingApproval = async (req, res, next) => {
+  // Phân trang contract
+  const currentPage = req.query.page || 1; // Lấy tham số query hoặc mặc định là 1
+  const perPage = req.query.perPage || 4; // Lấy tham số query hoặc mặc định là 4
+  try {
+    const count = await Employee.getCountContractPendingApproval();
+    const skip = (currentPage - 1) * perPage;
+    const limit = Number(perPage);
+    const contracts = await Employee.getListContractPendingApproval(skip, limit);
+    if (contracts.length === 0) {
+      const error = new Error("Could not find contracts ! ");
+      error.statusCode = 404;
+      throw error;
+    }
+    res.status(200).json({
+      message: "Fetched contracts successfully ",
+      contracts: contracts,
+      totalItems: count.count,
+      perPage: perPage,
+      currentPage: currentPage,
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
 exports.getContract = async (req, res, next) => {
   const idContract = req.params.idContract;
 
@@ -109,12 +138,32 @@ exports.getPartnerProduct = async (req, res, next) => {
       error.statusCode = 404;
       throw error;
     }
-    res
-      .status(200)
-      .json({
-        message: "Product of partner fetched !",
-        producs: partnerProduct,
-      });
+    res.status(200).json({
+      message: "Product of partner fetched !",
+      producs: partnerProduct,
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
+exports.updateContract = async (req, res, next) => {
+  const contractId = req.params.contractId;
+
+  try {
+    const haveContract = await Employee.getCountContractPendingApproval();
+    if (haveContract.length === 0) {
+      const error = new Error("Could not find contract");
+      error.statusCode = 404;
+      throw error;
+    }
+    const putContract = await Employee.updateContract(contractId);
+    res.status(200).json({
+      message: "Update product successfully",
+    });
   } catch (error) {
     if (!error.statusCode) {
       error.statusCode = 500;
