@@ -12,12 +12,11 @@ import logo from "@/assets/images/omrp_logo_transparent.png"
 import React from "react";
 
 type MyComponentProps = {
-    name_view: string,
-    className: React.ReactNode
+    name_view: string
   };
 const cx = classNames.bind(styles);
 
-export default function Header({name_view,className}: MyComponentProps) {
+export default function Header({name_view}: MyComponentProps) {
     return <div className={cx('header')}>
         <div className={cx('header-wrapper')}>
             <Image src={logo}  alt='logo' className={cx('header-logo')}/>

@@ -1,3 +1,4 @@
+'use client';
 import classNames from 'classnames/bind';
 import styles from "./page.module.css"
 import Header from '@/app/components/header/page';
@@ -35,10 +36,10 @@ const cx = classNames.bind(styles);
 function ListAccount() {
     return ( <div className={cx('list_account')}>
         <div className={cx('list_account-wrapper')}>
-        <Header name_view='Admin' className={cx('header')}/>
+        <Header name_view='Admin'/>
         <div className={cx('list_account-middle')}>
             <div className={cx('list_account-middle__wrapper')}>
-                <Sidebar page_path='/list_account' LIST_ACTION={actions}/>
+                <Sidebar author='Admin' page_path='/list_account' LIST_ACTION={actions}/>
                 <div className={cx('list_account-content')}>
                     <Account info={INFO}/>
                 </div>

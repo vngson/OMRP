@@ -28,13 +28,14 @@ type Action = {
   };
   
 type MyComponentProps = {
+    author: string
     page_path: string,
     LIST_ACTION: Action[],
   };
 
 
 
-export default function Sidebar({page_path, LIST_ACTION}: MyComponentProps) {
+export default function Sidebar({author, page_path, LIST_ACTION}: MyComponentProps) {
     const handleClassname = (path:string) => {
         if(page_path===path)
             return 'sidebar-acction__btn-active'
@@ -49,7 +50,7 @@ export default function Sidebar({page_path, LIST_ACTION}: MyComponentProps) {
                     htmlFor="sidebar-account__name" 
                     className={cx("sidebar-label")}
                 >
-                    Admin
+                    {author}
                 </label>
                 <div className={cx("sidebar-account__line")}></div>
             </div> 

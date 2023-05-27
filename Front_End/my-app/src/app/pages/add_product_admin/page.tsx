@@ -1,3 +1,4 @@
+'use client';
 import classNames from 'classnames/bind';
 import styles from "./page.module.css"
 import Header from '@/app/components/header/page';
@@ -24,10 +25,10 @@ const cx = classNames.bind(styles);
 function AddProduct() {
     return ( <div className={cx('add_product')}>
         <div className={cx('add_product-wrapper')}>
-        <Header name_view='Admin' className={cx('header')}/>
+        <Header name_view='Admin'/>
         <div className={cx('add_product-middle')}>
             <div className={cx('add_product-middle__wrapper')}>
-                <Sidebar page_path='/add_product' LIST_ACTION={actions}/>
+                <Sidebar author='Admin' page_path='/add_product' LIST_ACTION={actions}/>
                 <div className={cx('add_product-content')}>
                     <ProductForm />
                 </div>

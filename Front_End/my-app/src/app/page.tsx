@@ -1,16 +1,20 @@
 'use client';
-import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import classNames from 'classnames/bind';
 import styles from './page.module.css'
-import RemoveProduct from './pages/remove_product_admin/page';
+import UpdateProduct from './pages/update_product_admin/page';
 
 const cx = classNames.bind(styles);
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   return (
-    <div className={cx('main')}>
+    <div className={cx('main')}>     
+      <UpdateProduct />
+    </div>
+  )
+}
+
       {/* <div className={styles.description}>
         <p>
           Get started by editing&nbsp;
@@ -89,8 +93,4 @@ export default function Home() {
             Instantly deploy your Next.js site to a shareable URL with Vercel.
           </p>
         </a>
-      </div> */}     
-      <RemoveProduct />
-    </div>
-  )
-}
+      </div> */}

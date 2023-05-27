@@ -1,5 +1,4 @@
 'use client';
-import Image, { StaticImageData } from 'next/image';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -7,18 +6,17 @@ import {
     faCircleCheck,
 } from'@fortawesome/free-regular-svg-icons';
 import styles from "./page.module.css"
-import image_product from "@/assets/images/ly_giu_nhiet.png"
-import { useState } from 'react';
 import React from "react";
 
 
 type Info = {
-    src: StaticImageData;
-    name: string;
-    category: string;
-    description: string;
-    price: number;
-    quantity: number; 
+    ID_PRODUCTS: number;
+    NAME: string;
+    INFOR_PRODUCTS: string | null;
+    QUANTITY: number,
+    PRICE: number,
+    URL: string,
+    TYPE_PROD: string
 }
 
 type MyComponentProps = {
@@ -28,15 +26,15 @@ type MyComponentProps = {
 const cx = classNames.bind(styles);
 
 function Product({view, info}: MyComponentProps) {
-    const [banned, setBanned] = useState(false)
-    const [custommer, setCustommer] = useState(false)
     return  (<div className={cx('product')}>
         <div className={cx('product-wrapper')}>
             <div className={cx("product-info")}>
-                <Image
-                    src= {info[0].src}
+                <img
+                    src= {info[0].URL}
                     alt='Hình ảnh sản phẩm'
-                    className={cx('product-info__image')}                 
+                    className={cx('product-info__image')}
+                    width={150}
+                    height={150}                 
                 />
                 <div className={cx('product-info__intro')}>
                     <div className={cx('product-info__title')}>
@@ -62,8 +60,8 @@ function Product({view, info}: MyComponentProps) {
                             htmlFor="info-title__price" 
                             className={cx("product-info__label")}
                         >
-                            {view === 'list_product_admin'||view === 'remove_product_admin'||view === 'choose_product_business'&&'Số lượng :'}
-                            {view === 'list_product_business'|| view === 'remove_product_business' && 'Giá :'} 
+                            {(view === 'list_product_admin'||view === 'remove_product_admin'||view === 'choose_product_business') && 'Số lượng :'}
+                            {(view === 'list_product_business'|| view === 'remove_product_business') && 'Giá :'} 
                         </label>
                     </div>
                     <div className={cx('product-info__content')}>
@@ -71,26 +69,26 @@ function Product({view, info}: MyComponentProps) {
                             htmlFor="info-content__username" 
                             className={cx("product-info__label")}
                         >
-                            {info[0].name}
+                            {info[0].NAME}
                         </label>
                         <label 
                             htmlFor="info-content__producttype" 
                             className={cx("product-info__label")}
                         >
-                            {info[0].category} 
+                            {info[0].TYPE_PROD} 
                         </label>
                         <label 
                             htmlFor="info-content__username" 
                             className={cx("product-info__label")}
                         >
-                            {info[0].description}
+                            {info[0].INFOR_PRODUCTS}
                         </label>
                         <label 
                             htmlFor="info-content__username" 
                             className={cx("product-info__label")}
                         >
-                            {view === 'list_product_admin'||view === 'remove_product_admin'||view === 'choose_product_business'&& `${info[0].quantity}`}
-                            {view === 'list_product_business'|| view === 'remove_product_business' && `${info[0].price} điểm`}
+                            {(view === 'list_product_admin'||view === 'remove_product_admin'||view === 'choose_product_business') && `${info[0].QUANTITY} `}
+                            {(view === 'list_product_business'|| view === 'remove_product_business') && `${info[0].PRICE} điểm`}
                             
                         </label>
                     </div>

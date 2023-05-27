@@ -1,10 +1,12 @@
+'use client';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import classNames from 'classnames/bind';
 import styles from "./page.module.css"
 import Header from '@/app/components/header/page';
 import Footer from '@/app/components/footer/page';
 import Sidebar from '@/app/components/sidebar/page';
 import Product from '@/app/components/product_in_list_column/page';
-import image_product from "@/assets/images/ly_giu_nhiet.png"
 
 const actions = [
     {
@@ -21,26 +23,51 @@ const actions = [
     },
 ]
 
-const Information = {
-    src: image_product,
-    name: 'Bình giữ nhiệt',
-    category: "Cốc, ly, bình",
-    description: "Ly giữ nhiệt 600ml chính hãng tặng kèm ống hút inox 304 cao cấp thiết kế nhám mờ hạn chế trầy xước cách nhiệt chân không",
-    price: 30,
-    quantity: 1,
-}
+type Product = {
+    ID_PRODUCTS: number;
+    NAME: string;
+    INFOR_PRODUCTS: string | null;
+    QUANTITY: number;
+    PRICE: number;
+    URL: string;
+    TYPE_PROD: string;
+};
 
-const INFO = [Information]
+type ApiResponse = {
+    message: string;
+    products: Product[];
+    totalItems: string;
+    perPage: number;
+    currentPage: number;
+};
+
+
 const cx = classNames.bind(styles);
 function RemoveProduct() {
+    const [products, setProducts] = useState<Product[]>([]);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        axios
+        .get<ApiResponse>('https://project-ec-tuankhanh.onrender.com/v1/api/consumer/product')
+        .then((response) => setProducts(response.data.products))
+        .catch((error) => setError(error.message));
+    }, []);
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
     return ( <div className={cx('remove_product')}>
         <div className={cx('remove_product-wrapper')}>
-        <Header name_view='Admin' className={cx('header')}/>
+        <Header name_view='Admin'/>
         <div className={cx('remove_product-middle')}>
             <div className={cx('remove_product-middle__wrapper')}>
-                <Sidebar page_path='/remove_product' LIST_ACTION={actions}/>
+                <Sidebar author='Admin' page_path='/remove_product' LIST_ACTION={actions}/>
                 <div className={cx('remove_product-content')}>
-                    <Product info={INFO} view='choose_product_business'/>
+                {products.map((product) => {
+                    return <Product key={product.ID_PRODUCTS} info={[product]} view='remove_product_admin' />
+                })}
                 </div>
             </div>
         </div>
