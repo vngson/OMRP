@@ -7,7 +7,7 @@ export default function ProductItem({img, name, price}:any) {
         <div className={styles.product_list_product}>
               <Image src={img} width={180} height={180} className= {styles.product_list_product_img} alt=""></Image>
               <p className={styles.product_list_product_title}>{name}</p>
-              <p className={styles.price}>{price} điểm</p>
+              <div className={styles.price}><p className={styles.point}>{price}</p> <p >điểm</p></div>
             </div>
     )
 }

@@ -3,8 +3,10 @@
     height: fit-content;
     background-color: white;
     border-radius: 10px;
-
+    width: 200px;
+    height: 350px;
     padding: 10px 10px 40px 10px;
+    text-align: center;
 
 }
 .product_list_product_img{
@@ -19,10 +21,24 @@
     color: gray;
     margin-top: 10px;
     font-size: 15px;
+    min-height: 80px;
+    
+    
     /* paddin-bottom: 20px; */
     
 }
 .price{
-    margin-top: 50px;
+  
     font-size: 14px;
+
+    white-space: nowrap;
+    text-align: center;
+
+}
+.price p{
+    display: inline-block;
+    color: var(--background-color);
+}
+.point{
+    color: black !important;
 }

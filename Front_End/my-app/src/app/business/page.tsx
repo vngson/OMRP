@@ -15,17 +15,17 @@ export default function BusinessListPage() {
   const b= [1,2,3,4,5,6,1,2,3,4,5,6,]
   const [productlist, setProductlist]=useState([])
 
-  useEffect(()=> {
-    // get product list
-    const fetchProductList = async () => {
-      const res = await productAPI.getAllProducts();
-      setProductlist(res.data)
-      console.log(res.data)
-    }
+  // useEffect(()=> {
+  //   // get product list
+  //   const fetchProductList = async () => {
+  //     const res = await productAPI.getAllProducts();
+  //     setProductlist(res.data)
+  //     console.log(res.data)
+  //   }
 
-    fetchProductList();
+  //   fetchProductList();
 
-  },[])
+  // },[])
   return (
     <main  className={styles.main} >
       <div className={styles.banner}><Image src={banner_home_customer} className={styles.banner_img} alt=""/></div>
