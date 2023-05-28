@@ -218,7 +218,7 @@ exports.updateInfoConsumer = async (req, res, next) => {
   const imgUrl =
     req.files.length === 0
       ? null
-      : `http://localhost:4132/images/${req.files[0].filename}`;
+      : `https://project-ec-tuankhanh.onrender.com/images/${req.files[0].filename}`;
 
   const updateConsumer = {
     id: consumerId,
