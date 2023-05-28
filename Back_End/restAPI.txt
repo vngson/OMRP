@@ -15,10 +15,12 @@ Endpoint Products : GET /v1/api/consumer/product?page=2&perPage=7&type=Văn phò
 Endpoint Product : GET /v1/api/consumer/product/id (id product)
 
                    PUT /v1/api/admin/postProduct/id (id product, khi update phải có form dữ liệu từ các dữ liệu trước);
+
                    PUT http://localhost:4132/v1/api/admin/updateProduct/id (id product, khi update phải có form dữ liệu từ các dữ liệu trước);
 
                    DELETE /v1/api/admin/product/id (id product);
 
+Endpoint Search Product: GET /v1/api/consumer/searchProducts/keyword (keyword là từ khóa tìm kiếm theo tên)
 
 Endpoint Contracts : GET/v1/api/employee/contract?page=2&perPage=5 (Mặc định là page = 1, perPage = 4 nếu không có query)
 

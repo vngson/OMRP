@@ -94,6 +94,39 @@ exports.getProduct = async (req, res, next) => {
   }
 };
 
+exports.searchProducts = async (req, res, next) => {
+  // Phân trang product
+  const currentPage = req.query.page || 1; // Lấy tham số query hoặc mặc định là 1
+  const perPage = req.query.perPage || 4; // Lấy tham số query hoặc mặc định là 4
+  const keyword = req.params.keyword; 
+
+  try {
+    const count = await Consumer.countProductSearched(keyword);
+    const skip = (currentPage - 1) * perPage;
+    const limit = Number(perPage);
+    const products = await Consumer.searchProducts(skip, limit, keyword);
+
+    if (products.length === 0) {
+      const error = new Error("Could not find products ! ");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    res.status(200).json({
+      message: "Fetched products successfully ! ",
+      products: products,
+      totalItems: count.count,
+      perPage: perPage,
+      currentPage: currentPage,
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
 exports.getProductsPoints = async (req, res, next) => {
   const consumerId = req.params.consumerId;
   const currentPage = req.query.page || 1; // Lấy tham số query hoặc mặc định là 1

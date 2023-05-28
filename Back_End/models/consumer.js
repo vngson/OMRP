@@ -23,6 +23,21 @@ exports.getProducts = async function (skip, limit) {
   return rs.rows;
 };
 
+exports.searchProducts = async function (skip, limit, keyword) {
+  const client = await getClient();
+  const rs = await client.query(
+    'SELECT P."ID_PRODUCTS",P."NAME",P."INFOR_PRODUCTS",P."QUANTITY",P."PRICE",IP."URL",TP."TYPE_PROD" FROM public."Products" as P JOIN public."IMAGE_PRODUCT" as IP ON P."ID_PRODUCTS" = IP."ID_PRODUCTS" AND IP."STT" = $1 JOIN public."Type_Products" AS TP ON P."ID_PRODUCTS" = TP."ID_PRODUCTS" WHERE P."NAME" ILIKE $2 OFFSET $3 LIMIT $4 ',
+    [1, `%${keyword}%`, skip, limit]
+  );
+  return rs.rows;
+};
+
+exports.countProductSearched = async function (keyword) {
+  const client = await getClient();
+  const rs = await client.query(' SELECT COUNT(*) FROM public."Products" WHERE P."NAME" ILIKE $1', [`%${keyword}%`]);
+  return rs.rows[0];
+};
+
 exports.countProduct = async function () {
   const client = await getClient();
   const rs = await client.query(' SELECT COUNT(*) FROM public."Products"');
