@@ -1,3 +1,4 @@
+"use client"
 import { useRef } from 'react';
 import classNames from 'classnames/bind';
 import Image from 'next/image';
@@ -10,6 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import logo from "@/assets/images/omrp_logo_transparent.png"
 import { useSelector } from 'react-redux';
+import Link from 'next/link';
 
 const cx = classNames.bind(styles);
 
@@ -28,12 +30,17 @@ export default function Header() {
                 placeholder="Tìm kiếm"  
                 />
             </div>
-            <label
+            {user!==null? ( <label
                 htmlFor="header__name-view" 
                 className={cx("header-label")}
             >
                 Chào, {user.userInfo.NAME}
-            </label>
+            </label>):( <Link href={"/login"}
+                className={cx("header-label")}
+            >
+                Đăng nhập
+            </Link>)}
+           
             <div className={cx('header-icon__wrapper')}><FontAwesomeIcon className={cx('header-cart')} icon={faCartShopping} /></div>
             <div className={cx('header-icon__wrapper')}><FontAwesomeIcon className={cx('header-profile')} icon={faUser} /></div>
         </div>

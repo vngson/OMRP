@@ -5,7 +5,7 @@ export default function PartnerSmallItem_1({logo, name}:any) {
 
     return(
         <div className={styles.partner}>
-        <Image src={logo} className={styles.partner_img} alt=""/>
+        <Image src={logo} width={40} height={40} className={styles.partner_img} alt=""/>
         {name}
         </div>
     )

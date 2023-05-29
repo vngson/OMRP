@@ -1,5 +1,8 @@
 .container{
     margin: 30px;
+    width: var(--max-width);
+    margin: 0 auto;
+
 }
 .product_list__grid{
     display: flex;
@@ -21,4 +24,15 @@
     font-size: 20px;
     margin: 0 auto;
     margin-top: 50px;
+}
+
+.pagination{
+    margin-top: 20px;
+    font-weight: 800;
+}
+.pagination_num{
+    display: inline-block;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 18px;
 }
