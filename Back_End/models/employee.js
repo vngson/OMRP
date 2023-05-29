@@ -25,7 +25,7 @@ exports.getCountContractPendingApproval = async function () {
 exports.getListContract = async function (skip, limit) {
   const client = await getClient();
   const rs = await client.query(
-    'SELECT CT."ID_CONTRACT",P."Name" AS"Tên Doanh Nghiệp" FROM public."Contract" as CT , public."Partners" as P WHERE CT."CONTRACT_PARTNER" = P."ID_Partners" AND CT."STATUS" = $3   OFFSET $1 LIMIT $2 ',
+    'SELECT CT."ID_CONTRACT",P."Name" AS "Tên Doanh Nghiệp" FROM public."Contract" as CT , public."Partners" as P WHERE CT."CONTRACT_PARTNER" = P."ID_Partners" AND CT."STATUS" = $3   OFFSET $1 LIMIT $2 ',
     [skip, limit, "Đã duyệt"]
   );
   return rs.rows;
@@ -85,5 +85,5 @@ exports.getListPartnerProduct = async function (id) {
 exports.updateContract = async function (id) {
   const client = await getClient();
 
-  const rs1 = await client.query('UPDATE public."contract" SET "status" = $1 WHERE "id_contract" = $2', ["Đã duyệt", id]);
+  const rs1 = await client.query('UPDATE public."Contract" SET "STATUS" = $1 WHERE "ID_CONTRACT" = $2', ["Đã duyệt", id]);
 };

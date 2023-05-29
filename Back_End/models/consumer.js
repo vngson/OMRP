@@ -43,14 +43,14 @@ exports.getProductTypeSearched = async function (skip, limit, type, keyword) {
 
 exports.countProductSearched = async function (keyword) {
   const client = await getClient();
-  const rs = await client.query(' SELECT COUNT(*) FROM public."Products" WHERE P."NAME" ILIKE $1', [`%${keyword}%`]);
+  const rs = await client.query(' SELECT COUNT(*) FROM public."Products" WHERE "NAME" ILIKE $1', [`%${keyword}%`]);
   return rs.rows[0];
 };
 
 exports.countProductTypeSearched = async function (type, keyword) {
   const client = await getClient();
   const rs = await client.query(
-    'SELECT COUNT(*) FROM public."Type_Products" WHERE "TYPE_PROD" = $1 AND P."NAME" ILIKE $2',
+    'SELECT COUNT(*) FROM public."Type_Products" as TP JOIN public."Products" as P ON P."ID_PRODUCTS" = TP."ID_PRODUCTS" WHERE "TYPE_PROD" = $1 AND P."NAME" ILIKE $2',
     [type, `%${keyword}%`]
   );
   return rs.rows[0];
@@ -238,6 +238,6 @@ exports.getProductsCart = async function (idConsumer) {
 
 exports.getExchangePointByProductId = async function (idProduct) {
   const client = await getClient();
-  const rs = await client.query('SELECT "id_products", "price" FROM public."exchange_point" WHERE "id_products" = $1', [idProduct])
+  const rs = await client.query('SELECT "ID_PRODUCTS", "PRICE" FROM public."EXCHANGE_POINT" WHERE "ID_PRODUCTS" = $1', [idProduct])
   return rs.rows;
 }
