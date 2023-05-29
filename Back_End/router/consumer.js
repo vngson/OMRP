@@ -20,7 +20,7 @@ router.get(
   consumerController.getProductsExchangePoint
 );
 
-router.get("/searchProducts/:keyword", consumerController.searchProducts);
+router.get("/exchangePoint/:productId", consumerController.getExchangePointByProductId);
 
 router.get(
   "/partnersConsumer/:consumerId",

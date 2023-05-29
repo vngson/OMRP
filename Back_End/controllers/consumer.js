@@ -25,18 +25,32 @@ exports.getProducts = async (req, res, next) => {
   const currentPage = req.query.page || 1; // Lấy tham số query hoặc mặc định là 1
   const perPage = req.query.perPage || 4; // Lấy tham số query hoặc mặc định là 4
   const type = req.query.type || null; // Lấy tham số query hoặc mặc định không có
-
+  const keyword = req.query.keyword || null; 
   try {
-    const count = await (type
-      ? Consumer.countProductType(type)
-      : Consumer.countProduct());
-
     const skip = (currentPage - 1) * perPage;
     const limit = Number(perPage);
-    const products = await (type
-      ? Consumer.getProductsType(skip, limit, type)
-      : Consumer.getProducts(skip, limit));
-
+    let count, products;
+    if (type) {
+      if(keyword) {
+        count = await Consumer.countProductTypeSearched(type, keyword);
+        products = await Consumer.getProductTypeSearched(skip, limit, type, keyword)
+      }
+      else {
+        count = await Consumer.countProductType(type);
+        products = await Consumer.getProductsType(skip, limit, type);
+      }
+    }
+    else {
+      if(keyword) {
+        count = await Consumer.countProductSearched(keyword);
+        products = await Consumer.getProductsSearched(skip, limit, keyword);
+      }
+      else {
+        count = await Consumer.countProduct();
+        products = await Consumer.getProducts(skip, limit);
+      }
+    }
+       
     if (products.length === 0) {
       const error = new Error("Could not find products ! ");
       error.statusCode = 404;
@@ -94,31 +108,23 @@ exports.getProduct = async (req, res, next) => {
   }
 };
 
-exports.searchProducts = async (req, res, next) => {
-  // Phân trang product
-  const currentPage = req.query.page || 1; // Lấy tham số query hoặc mặc định là 1
-  const perPage = req.query.perPage || 4; // Lấy tham số query hoặc mặc định là 4
-  const keyword = req.params.keyword; 
+exports.getExchangePointByProductId = async (req, res, next) => {
+  const productId = req.params.productId;
 
   try {
-    const count = await Consumer.countProductSearched(keyword);
-    const skip = (currentPage - 1) * perPage;
-    const limit = Number(perPage);
-    const products = await Consumer.searchProducts(skip, limit, keyword);
+    const product = await Consumer.getExchangePointByProductId(productId);
 
-    if (products.length === 0) {
-      const error = new Error("Could not find products ! ");
+    if (product.length === 0) {
+      const error = new Error("Could not find product ! ");
       error.statusCode = 404;
       throw error;
     }
 
-    res.status(200).json({
-      message: "Fetched products successfully ! ",
-      products: products,
-      totalItems: count.count,
-      perPage: perPage,
-      currentPage: currentPage,
+    res.status(200).json({ 
+      message: "Product fetched !",
+      product: product 
     });
+
   } catch (error) {
     if (!error.statusCode) {
       error.statusCode = 500;
