@@ -28,6 +28,8 @@ Endpoint Contract : GET /v1/api/employee/contract/idContract
 
                     PUT /v1/api/employee/updateContract/idContract (duyệt hợp đồng)
 
+                    PUT /v1/api/employee/deleteContract/idContract (từ chối hợp đồng)
+
 Endpoint Partners : GET /v1/api/employee/partner?page=1&perPage=5 (Mặc định là page = 1, perPage = 4 nếu không có query)
 
 Endpoint Partner : GET /v1/api/employee/partner/idPartner

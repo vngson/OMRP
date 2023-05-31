@@ -171,3 +171,25 @@ exports.updateContract = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.deleteContract = async (req, res, next) => {
+  const contractId = req.params.contractId;
+
+  try {
+    const haveContract = await Employee.getCountContractPendingApproval();
+    if (haveContract.length === 0) {
+      const error = new Error("Could not find contract");
+      error.statusCode = 404;
+      throw error;
+    }
+    const deleteContract = await Employee.deleteContract(contractId);
+    res.status(200).json({
+      message: "Delete product successfully",
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
