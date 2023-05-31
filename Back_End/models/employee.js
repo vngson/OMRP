@@ -43,8 +43,8 @@ exports.getListContractPendingApproval = async function (skip, limit) {
 exports.getContract = async function (id) {
   const client = await getClient();
   const rs = await client.query(
-    'SELECT CT."ID_CONTRACT",CT."DATE_CONTRACT" AS "Ngày lập HĐ" ,CT."EFFECTIVE_TIME" AS "Ngày hết HĐ",CT."AMOUNTTOPOINTS" AS "Đơn vị đổi",CT."COMMISSION" AS "% giao dịch",CT."CONTRACT_MANAGER" AS "Nhân viên quản lý hợp đồng",P."Name" AS "Tên doanh nghiệp",P."url" AS "Image"  FROM public."Contract" as CT , public."Partners" as P WHERE CT."CONTRACT_PARTNER" = P."ID_Partners" AND CT."STATUS" = $1 AND CT."ID_CONTRACT" = $2 ',
-    ["Đã duyệt", id]
+    'SELECT CT."ID_CONTRACT",CT."DATE_CONTRACT" AS "Ngày lập HĐ" ,CT."EFFECTIVE_TIME" AS "Ngày hết HĐ",CT."AMOUNTTOPOINTS" AS "Đơn vị đổi",CT."COMMISSION" AS "% giao dịch",CT."CONTRACT_MANAGER" AS "Nhân viên quản lý hợp đồng",P."Name" AS "Tên doanh nghiệp",P."url" AS "Image"  FROM public."Contract" as CT , public."Partners" as P WHERE CT."CONTRACT_PARTNER" = P."ID_Partners" AND CT."ID_CONTRACT" = $1 ',
+    [id]
   );
   return rs.rows[0];
 };
