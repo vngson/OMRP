@@ -3,7 +3,7 @@ const { getClient } = require("../config/postgres");
 exports.getAccountConsumer = async function () {
   const client = await getClient();
   const rs = await client.query(
-    'SELECT AC."ID_Login",AC."Username",AC."ROLE" AS "Permission",AC."Status",CUS."NAME",CUS."Birthday",CUS."Address",CUS."Email",CUS."Phone",CUS."IMG" FROM public."Account" AS AC, public."Customers" AS CUS WHERE AC."Username" = CUS."Phone"'
+    'SELECT AC."ID_Login",AC."Username",AC."ROLE" AS "Permission",AC."Status",CUS."NAME" AS "Name",CUS."Address",CUS."Email",CUS."Phone",CUS."IMG" AS "Img" FROM public."Account" AS AC, public."Customers" AS CUS WHERE AC."Username" = CUS."Phone"'
   );
   return rs.rows;
 };
@@ -11,7 +11,7 @@ exports.getAccountConsumer = async function () {
 exports.getAccountPartner = async function () {
   const client = await getClient();
   const rs = await client.query(
-    'SELECT AC."ID_Login",AC."Username",AC."ROLE" AS "Permission",AC."Status",PA."Name",PA."Email",PA."Address",PA."Phone",PA."url" FROM public."Account" AS AC, public."Partners" AS PA WHERE AC."Username" = PA."Phone"'
+    'SELECT AC."ID_Login",AC."Username",AC."ROLE" AS "Permission",AC."Status",PA."Name",PA."Email",PA."Address",PA."Phone",PA."url" as "Img" FROM public."Account" AS AC, public."Partners" AS PA WHERE AC."Username" = PA."Phone"'
   );
   return rs.rows;
 };

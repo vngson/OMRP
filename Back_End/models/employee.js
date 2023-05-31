@@ -17,7 +17,7 @@ exports.getCountContract = async function () {
 exports.getListContract = async function (skip, limit) {
   const client = await getClient();
   const rs = await client.query(
-    'SELECT CT."ID_CONTRACT",P."Name" AS"Tên Doanh Nghiệp" FROM public."Contract" as CT , public."Partners" as P WHERE CT."CONTRACT_PARTNER" = P."ID_Partners" AND CT."STATUS" = $3   OFFSET $1 LIMIT $2 ',
+    'SELECT CT."ID_CONTRACT",P."ID_Partners",P."Name" AS"Tên Doanh Nghiệp" FROM public."Contract" as CT , public."Partners" as P WHERE CT."CONTRACT_PARTNER" = P."ID_Partners" AND CT."STATUS" = $3   OFFSET $1 LIMIT $2 ',
     [skip, limit, "Đã duyệt"]
   );
   return rs.rows;
