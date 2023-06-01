@@ -6,6 +6,7 @@ import styles from "./page.module.css"
 import Header from '@/app/components/header/page';
 import Footer from '@/app/components/footer/page';
 import Sidebar from '@/app/components/sidebar/page';
+import avatar from "@/assets/images/omrp_logo_white.png"
 
 const actions = [
     {
@@ -61,7 +62,7 @@ function ManagePartner() {
         <Header name_view='Nhân viên' />
         <div className={cx('manage_partner-middle')}>
             <div className={cx('manage_partner-middle__wrapper')}>
-                <Sidebar author='Nhân viên' page_path='/manage_partner' LIST_ACTION={actions}/>
+                <Sidebar author='Nhân viên' page_path='/manage_partner' LIST_ACTION={actions} avt={avatar}/>
                 <div className={cx('manage_partner-content')}>
                     <div className={cx('manage_partner-title')}>
                         <label 

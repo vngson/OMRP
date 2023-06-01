@@ -66,11 +66,11 @@ function Account({account}: MyComponentProps) {
             <div className={cx("account__line-bottom")}></div>
             {status === 'locked' && (
             <button className={cx("account-btn__activated")} onClick={handleStatus}>
-                <FontAwesomeIcon className={cx('activated__icon')} icon={faCircleCheck}/>
+                <FontAwesomeIcon className={cx('activated__icon')} icon={faCircleCheck} size="2x"/>
                 Mở khóa tài khoản
             </button>)}
             {status === 'unlocked' && (<button className={cx("account-btn__banned")}>
-            <FontAwesomeIcon className={cx('banned__icon')} icon={faCircleXmark} onClick={handleStatus} />
+            <FontAwesomeIcon className={cx('banned__icon')} icon={faCircleXmark} onClick={handleStatus} size="2x"/>
                 Khóa tài khoản
             </button>) }
         </div>

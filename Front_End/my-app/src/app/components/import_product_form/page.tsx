@@ -180,7 +180,7 @@ function ProductForm() {
             Tên sản phẩm:
             <input
               type="text"
-              name="name"
+              name="NAME"
               value={product.NAME}
               onChange={handleInputChange}
               className={cx('product_inport_form-name__input')}
@@ -190,7 +190,7 @@ function ProductForm() {
             Loại sản phẩm:
             <input
               type="text"
-              name="type"
+              name="TYPE_PROD"
               value={product.TYPE_PROD}
               onChange={handleInputChange}
               className={cx('product_inport_form-type__input')}
@@ -199,7 +199,7 @@ function ProductForm() {
           <label className={cx('product_inport_form-description')}>
             Giới thiệu sản phẩm:
             <textarea
-              name="description"
+              name="INFOR_PRODUCTS"
               value={product.INFOR_PRODUCTS||""}
               onChange={handleInputChange}
               className={cx('product_inport_form-description__input')}
@@ -209,7 +209,7 @@ function ProductForm() {
             Giá:
             <input
               type="number"
-              name="quantity"
+              name="PRICE"
               value={product.PRICE}
               onChange={handleInputChange}
               className={cx('product_inport_form-price__input')}
@@ -220,7 +220,7 @@ function ProductForm() {
             Số lượng:
             <input
               type="number"
-              name="quantity"
+              name="QUANTITY"
               value={product.QUANTITY}
               onChange={handleInputChange}
               className={cx('product_inport_form-quantity__input')}
@@ -228,7 +228,7 @@ function ProductForm() {
             />
           </label>
           <button className={cx("product_inport_form-btn")} onClick={handleSubmit}>
-          <FontAwesomeIcon className={cx('btn__icon')} icon={faCircleCheck} />
+          <FontAwesomeIcon className={cx('btn__icon')} icon={faCircleCheck} size="2x"/>
             Thêm sản phẩm
           </button> 
         </div>     

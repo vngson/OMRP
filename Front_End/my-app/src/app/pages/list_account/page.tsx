@@ -6,7 +6,7 @@ import Header from '@/app/components/header/page';
 import Footer from '@/app/components/footer/page';
 import Sidebar from '@/app/components/sidebar/page';
 import Account from '@/app/components/account_in_list_column/page';
-import avt from "@/assets/images/omrp_logo_white.png"
+import avatar from "@/assets/images/omrp_logo_white.png"
 import { useEffect, useState } from 'react';
 
 type _Account = {
@@ -68,7 +68,7 @@ function ListAccount() {
         <Header name_view='Admin'/>
         <div className={cx('list_account-middle')}>
             <div className={cx('list_account-middle__wrapper')}>
-                <Sidebar author='Admin' page_path='/list_account' LIST_ACTION={actions}/>
+                <Sidebar author='Admin' page_path='/list_account' LIST_ACTION={actions} avt={avatar}/>
                 <div className={cx('list_account-content')}>
                 {accounts.map((_account) => {
                         return (

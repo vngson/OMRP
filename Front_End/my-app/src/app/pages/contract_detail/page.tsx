@@ -6,6 +6,7 @@ import styles from "./page.module.css"
 import Header from '@/app/components/header/page';
 import Footer from '@/app/components/footer/page';
 import Sidebar from '@/app/components/sidebar/page';
+import avatar from "@/assets/images/omrp_logo_white.png"
 
 const actions = [
     {
@@ -56,7 +57,7 @@ function ContractDetail({id}: {id: number}) {
         <Header name_view='Nhân viên'/>
         <div className={cx('contract-middle')}>
             <div className={cx('contract-middle__wrapper')}>
-                <Sidebar author='Nhân viên' page_path='/manage_contract' LIST_ACTION={actions}/>
+                <Sidebar author='Nhân viên' page_path='/manage_contract' LIST_ACTION={actions} avt={avatar}/>
                 <div className={cx('contract-container')}>
                     <div className={cx('contract-title')}>
                         <label 

@@ -7,22 +7,30 @@ import Header from '@/app/components/header/page';
 import Footer from '@/app/components/footer/page';
 import Sidebar from '@/app/components/sidebar/page';
 import Product from '@/app/components/product_in_list_column/page';
+import RemoveProduct from '../delete_product/page';
+import UpdateProduct from '../update_product/page';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faCircleXmark } from '@fortawesome/free-regular-svg-icons';
+import { Link } from 'react-router-dom';
+import avatar from "@/assets/images/omrp_logo_white.png"
 
 
 const actions = [
     {
-        title: 'Danh sách tài khoản',
-        to: '/list_account',
+        title: 'Hồ sơ doanh nghiệp',
+        to: '/partner_profile',
     },
     {
-        title: 'Thêm sản phẩm',
-        to: '/add_product',
+        title: 'Chọn sản phẩm',
+        to: '/choose_product',
     },
     {
         title: 'Danh sách sản phẩm',
-        to: '/list_product',
+        to: '/product_array',
+    },
+    {
+        title: 'Hợp đồng',
+        to: '/make_contract',
     },
 ]
 
@@ -50,7 +58,7 @@ type ApiResponse = {
 };
 
 const cx = classNames.bind(styles);
-function ListProduct() {
+function ChooseProduct() {
     const [products, setProducts] = useState<PRODUCT[]>([]);
     const [error, setError] = useState<string | null>(null);
 
@@ -65,27 +73,24 @@ function ListProduct() {
         return <div>Error: {error}</div>;
     }
 
-    const handleRemove = () => {}
-    const handleUpdate = () => {}
-
+    const handleRemove = () => {
+    }
+    const handleUpdate = () => {
+    }
     return ( <div className={cx('list_product')}>
         <div className={cx('list_product-wrapper')}>
         <Header name_view='Admin'/>
         <div className={cx('list_product-middle')}>
             <div className={cx('list_product-middle__wrapper')}>
-                <Sidebar author='Admin' page_path='/list_product' LIST_ACTION={actions}/>
+                <Sidebar author='Doanh nghiệp' page_path='/choose_product' LIST_ACTION={actions} avt={avatar}/>
                 <div className={cx('list_product-content')}>
                     {products.map((product) => {
                         return (
                         <div key={product.ID_PRODUCTS} >
-                            <Product  info={[product]} view='list_product_admin' />
-                            <button className={cx("product-btn__update")} onClick={handleUpdate}>
-                                <FontAwesomeIcon className={cx('update__icon')} icon={faCircleCheck} />
-                                Cập nhật sản phẩm
-                            </button>
-                            <button className={cx("product-btn__remove")} onClick={handleRemove}>
-                            <FontAwesomeIcon className={cx('remove__icon')} icon={faCircleXmark} />
-                                Xóa sản phẩm
+                            <Product  info={[product]} view='choose_product_business' />
+                            <button className={cx("product-btn__choose")}>
+                                <FontAwesomeIcon className={cx('choose__icon')} icon={faCircleCheck} size="2x"/>
+                                Chọn sản phẩm
                             </button>
                         </div>
                         )
@@ -98,4 +103,4 @@ function ListProduct() {
     </div> );
 }
 
-export default ListProduct;
+export default ChooseProduct;

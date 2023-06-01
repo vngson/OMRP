@@ -8,6 +8,7 @@ import Footer from '@/app/components/footer/page';
 import Sidebar from '@/app/components/sidebar/page';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faCircleXmark } from '@fortawesome/free-regular-svg-icons';
+import avatar from "@/assets/images/omrp_logo_white.png"
 
 const actions = [
     {
@@ -70,7 +71,7 @@ function ManageContract() {
         <Header name_view='Nhân viên' />
         <div className={cx('manage_contract-middle')}>
             <div className={cx('manage_contract-middle__wrapper')}>
-                <Sidebar author='Nhân viên' page_path='/manage_contract' LIST_ACTION={actions}/>
+                <Sidebar author='Nhân viên' page_path='/manage_contract' LIST_ACTION={actions} avt={avatar}/>
                 <div className={cx('manage_contract-content')}>
                     <div className={cx('manage_contract-title')}>
                         <label 
@@ -112,11 +113,11 @@ function ManageContract() {
                         </label>
                         <div className={cx("contract-btn")}>
                             <button className={cx("contract-btn__confirm")} onClick={handleAccept}>
-                                <FontAwesomeIcon className={cx('confirm__icon')} icon={faCircleCheck} />
+                                <FontAwesomeIcon className={cx('confirm__icon')} icon={faCircleCheck} size="2x"/>
                                 Duyệt
                             </button>
                             <button className={cx("contract-btn__refuse")} onClick={handleRefuse}>
-                                <FontAwesomeIcon className={cx('refuse__icon')} icon={faCircleXmark} />
+                                <FontAwesomeIcon className={cx('refuse__icon')} icon={faCircleXmark} size="2x"/>
                                 Từ chối
                             </button>  
                         </div>

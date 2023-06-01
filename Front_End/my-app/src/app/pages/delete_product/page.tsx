@@ -9,6 +9,7 @@ import Sidebar from '@/app/components/sidebar/page';
 import Product from '@/app/components/product_in_list_column/page';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faCircleXmark } from '@fortawesome/free-regular-svg-icons';
+import avatar from "@/assets/images/omrp_logo_white.png"
 
 const actions = [
     {
@@ -42,7 +43,7 @@ type PRODUCT = {
 
 
 const cx = classNames.bind(styles);
-function RemoveProduct({ product }: { product: PRODUCT }) {
+function DeleteProduct({ product }: { product: PRODUCT }) {
 
     const handleRemove = async () => {
         try {
@@ -58,13 +59,13 @@ function RemoveProduct({ product }: { product: PRODUCT }) {
         <Header name_view='Admin'/>
         <div className={cx('remove_product-middle')}>
             <div className={cx('remove_product-middle__wrapper')}>
-                <Sidebar author='Admin' page_path='/remove_product' LIST_ACTION={actions}/>
+                <Sidebar author='Admin' page_path='/list_product' LIST_ACTION={actions} avt={avatar}/>
                 <div className={cx('remove_product-content')}>
                     <div className={cx('remove_product-product')}>
-                        <Product  info={[product]} view='remove_product_admin' />
+                        <Product  info={[product]} view='delete_product_admin' />
                         <div className={cx('remove_product-btn')}>
                             <button className={cx("product-btn__remove")} onClick={handleRemove}>
-                            <FontAwesomeIcon className={cx('remove__icon')} icon={faCircleXmark} />
+                            <FontAwesomeIcon className={cx('remove__icon')} icon={faCircleXmark} size="2x"/>
                                 Xác nhận xóa
                             </button>
                         </div>
@@ -77,4 +78,4 @@ function RemoveProduct({ product }: { product: PRODUCT }) {
     </div> );
 }
 
-export default RemoveProduct;
+export default DeleteProduct;

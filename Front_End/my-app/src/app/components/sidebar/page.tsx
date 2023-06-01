@@ -1,9 +1,7 @@
 import classNames from 'classnames/bind';
 import Image from 'next/image';
 import styles from "./page.module.css"
-import avt from "@/assets/images/omrp_logo_white.png"
 import React from "react";
-import { stringify } from 'querystring';
 import Link from 'next/link';
 
 const cx = classNames.bind(styles);
@@ -11,17 +9,20 @@ const cx = classNames.bind(styles);
 type Action = {
     title: string;
     to: string;
-  };
-  
+};
+ 
+type StaticImageData = /*unresolved*/ any  
+
 type MyComponentProps = {
     author: string
     page_path: string,
     LIST_ACTION: Action[],
+    avt: StaticImageData,
   };
 
 
 
-export default function Sidebar({author, page_path, LIST_ACTION}: MyComponentProps) {
+export default function Sidebar({author, page_path, LIST_ACTION, avt}: MyComponentProps) {
     const handleClassname = (path:string) => {
         if(page_path===path)
             return 'sidebar-acction__btn-active'

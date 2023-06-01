@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import classNames from 'classnames/bind';
 import Image from 'next/image';
 import styles from "./page.module.css"
@@ -21,7 +20,7 @@ export default function Header({name_view}: MyComponentProps) {
         <div className={cx('header-wrapper')}>
             <Image src={logo}  alt='logo' className={cx('header-logo')}/>
             <div className={cx('header-search')}>
-                <FontAwesomeIcon className={cx('header-search__icon')} icon={faMagnifyingGlass} />
+                <FontAwesomeIcon className={cx('header-search__icon')} icon={faMagnifyingGlass} size="2x"/>
                 <input 
                 type="text" 
                 className={cx("header-search__input" )}
@@ -35,8 +34,12 @@ export default function Header({name_view}: MyComponentProps) {
             >
                 Chào, {name_view}
             </label>
-            <div className={cx('header-icon__wrapper')}><FontAwesomeIcon className={cx('header-cart')} icon={faCartShopping} /></div>
-            <div className={cx('header-icon__wrapper')}><FontAwesomeIcon className={cx('header-profile')} icon={faUser} /></div>
+            <div className={cx('header-icon__wrapper')}>
+                <FontAwesomeIcon className={cx('header-cart')} icon={faCartShopping} size="2x"/>
+            </div>
+            <div className={cx('header-icon__wrapper')}>
+                <FontAwesomeIcon className={cx('header-profile')} icon={faUser} size="2x"/>
+            </div>
         </div>
     </div>
 };

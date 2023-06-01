@@ -199,7 +199,7 @@ function UpdateProductForm({ initialProduct }: { initialProduct: PRODUCT }) {
             />
           </label>
           <button className={cx("product_update_form-btn")} onClick={handleSubmit}>
-          <FontAwesomeIcon className={cx('btn__icon')} icon={faCircleCheck} />
+          <FontAwesomeIcon className={cx('btn__icon')} icon={faCircleCheck} size="2x"/>
             Cập nhật sản phẩm
           </button> 
         </div>     
