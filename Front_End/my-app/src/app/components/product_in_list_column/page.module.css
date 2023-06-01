@@ -2,9 +2,6 @@
     width: 700px;
     display: flex;
     /* height: 270px; */
-    background-color: var(--white);
-    border: 1px solid var(--primary-color-1);
-    border-radius: 30px;
     margin-bottom: 20px;
 }
 
@@ -59,7 +56,7 @@
     background:var(--primary-color-1)
 }
 
-.product-btn{
+/* .product-btn{
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -125,4 +122,4 @@
 
 .product-btn__update + .product-btn__remove {
     margin-left: 20px;
-}
+} */

@@ -4,21 +4,7 @@ import styles from "./page.module.css"
 import avt from "@/assets/images/omrp_logo_white.png"
 import React from "react";
 import { stringify } from 'querystring';
-
-// const LIST_ACTION = [
-//     {
-//         title: 'Danh sách tài khoản',
-//         to: '/list_account',
-//     },
-//     {
-//         title: 'Thêm sản phẩm',
-//         to: '/add_product',
-//     },
-//     {
-//         title: 'Xóa sản phẩm',
-//         to: '/remove_product',
-//     },
-// ]
+import Link from 'next/link';
 
 const cx = classNames.bind(styles);
 
@@ -56,7 +42,13 @@ export default function Sidebar({author, page_path, LIST_ACTION}: MyComponentPro
             </div> 
             <div className={cx('sidebar-acction')}>
             {LIST_ACTION.map((action, index) =>{
-                return <button className={cx(handleClassname(action.to.toString()))} key={index}>{action.title}</button>
+                return (
+                    <Link href={action.to} key={index}>
+                        <button className={cx(handleClassname(action.to.toString()))}>
+                          {action.title}
+                        </button>
+                    </Link>
+                  );
             })}
             </div>
             <button className={cx('sidebar__logout-btn')}>Đăng xuất</button>          

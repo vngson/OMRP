@@ -22,8 +22,40 @@ const actions = [
     },
 ]
 
+type CONTRACT = {
+    ID_CONTRACT: string,
+    ID_Partners: string,
+    'Tên Doanh Nghiệp': string;
+}
+
+type ApiResponse = {
+    message: string;
+    contracts: CONTRACT[];
+    totalItems: string;
+    perPage: number;
+    currentPage: number;
+};
+
 const cx = classNames.bind(styles);
 function ManagePartner() {
+    const [contracts, setContracts] = useState<CONTRACT[]>([]);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        axios
+        .get<ApiResponse>('https://project-ec-tuankhanh.onrender.com/v1/api/employee/contract?page=2&perPage=5')
+        .then((response) => setContracts(response.data.contracts))
+        .catch((error) => setError(error.message));
+    }, []);
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
+    const handleDisplayContract = () => {
+
+    }
+
     return ( <div className={cx('manage_partner')}>
         <div className={cx('manage_partner-wrapper')}>
         <Header name_view='Nhân viên' />
@@ -59,26 +91,30 @@ function ManagePartner() {
                             Mã hợp đồng 
                         </label>  
                     </div>
-                    <div className={cx('manage_partner-info')}>
-                        <label 
-                            htmlFor="info-title__partnername" 
-                            className={cx("manage_partner-info__label1")}
-                        >
-                            Ngô Gia 
-                        </label>
-                        <label 
-                            htmlFor="info-title__ID_partner" 
-                            className={cx("manage_partner-info__label3")}
-                        >
-                            5977602081 
-                        </label>
-                        <label 
-                            htmlFor="info-title__ID_contract" 
-                            className={cx("manage_partner-info__label3")}
-                        >
-                            5977602081 
-                        </label>  
-                    </div>
+                    {contracts.map((contract)=>{
+                        return (
+                                <div key={contract.ID_CONTRACT} className={cx('manage_partner-info')}>
+                                    <label 
+                                        htmlFor="info-title__partnername" 
+                                        className={cx("manage_partner-info__label1")}
+                                    >
+                                        {contract['Tên Doanh Nghiệp']} 
+                                    </label>
+                                    <label 
+                                        htmlFor="info-title__ID_partner" 
+                                        className={cx("manage_partner-info__label3")}
+                                    >
+                                        {contract.ID_Partners} 
+                                    </label>
+                                    <label 
+                                        htmlFor="info-title__ID_contract" 
+                                        className={cx("manage_partner-info__label3")}
+                                        onClick={handleDisplayContract}
+                                    >
+                                        {contract.ID_CONTRACT} 
+                                    </label>  
+                                </div>)
+                    })} 
                 </div>
             </div>
         </div>

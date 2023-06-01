@@ -1,28 +1,27 @@
 'use client';
 import classNames from 'classnames/bind';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faCircleXmark,
-    faCircleCheck,
-} from'@fortawesome/free-regular-svg-icons';
 import styles from "./page.module.css"
 import React from "react";
 
+type url = {
+    id: number,
+    img: string,
+}
 
-type Info = {
+type PRODUCT = {
     ID_PRODUCTS: number;
     NAME: string;
     INFOR_PRODUCTS: string | null;
     QUANTITY: number,
     PRICE: number,
-    URL: string,
+    URL: url[],
     TYPE_PROD: string
 }
 
 type MyComponentProps = {
     view: string;
-    info: Info[]
-  };
+    info: PRODUCT[]
+};
 const cx = classNames.bind(styles);
 
 function Product({view, info}: MyComponentProps) {
@@ -30,7 +29,7 @@ function Product({view, info}: MyComponentProps) {
         <div className={cx('product-wrapper')}>
             <div className={cx("product-info")}>
                 <img
-                    src= {info[0].URL}
+                    src= {info[0].URL[0].img}
                     alt='Hình ảnh sản phẩm'
                     className={cx('product-info__image')}
                     width={150}
@@ -95,7 +94,7 @@ function Product({view, info}: MyComponentProps) {
                 </div>
             </div>
             <div className={cx("product-line")}></div>
-            {(view === 'list_product_admin') && (
+            {/* {(view === 'list_product_admin') && (
             <div className={cx('product-btn')}>
                 <button className={cx("product-btn__update")}>
                     <FontAwesomeIcon className={cx('update__icon')} icon={faCircleCheck} />
@@ -136,7 +135,7 @@ function Product({view, info}: MyComponentProps) {
                     Xác nhận gỡ
                 </button>
             </div>
-            )}
+            )} */}
         </div>
     </div>) ;
 }

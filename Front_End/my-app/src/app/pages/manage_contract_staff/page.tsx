@@ -24,8 +24,47 @@ const actions = [
     },
 ]
 
+type CONTRACT = {
+    ID_CONTRACT: string,
+    'Tên Doanh Nghiệp': string;
+}
+
+type ApiResponse = {
+    message: string;
+    contracts: CONTRACT[];
+    totalItems: string;
+    perPage: number;
+    currentPage: number;
+};
+
 const cx = classNames.bind(styles);
 function ManageContract() {
+    const [contracts, setContracts] = useState<CONTRACT[]>([]);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        axios
+        .get<ApiResponse>('https://project-ec-tuankhanh.onrender.com/v1/api/employee/contract?page=2&perPage=5')
+        .then((response) => setContracts(response.data.contracts))
+        .catch((error) => setError(error.message));
+    }, []);
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
+    const handleDisplayContract = () => {
+
+    }
+
+    const handleAccept = () => {
+
+    }
+
+    const handleRefuse = () => {
+
+    }
+
     return ( <div className={cx('manage_contract')}>
         <div className={cx('manage_contract-wrapper')}>
         <Header name_view='Nhân viên' />
@@ -55,30 +94,34 @@ function ManageContract() {
                             Mã hợp đồng 
                         </label>  
                     </div>
-                    <div className={cx('manage_contract-info')}>
+                    {contracts.map((contract)=>{
+                        return (
+                        <div className={cx('manage_contract-info')}>
                         <label 
                             htmlFor="info-title__contractname" 
                             className={cx("manage_contract-info__label1")}
                         >
-                            Ngô Gia 
+                            {contract['Tên Doanh Nghiệp']} 
                         </label>
                         <label 
                             htmlFor="info-title__ID_contract" 
                             className={cx("manage_contract-info__label3")}
+                            onClick={handleDisplayContract}
                         >
-                            5977602081 
+                            {contract.ID_CONTRACT} 
                         </label>
                         <div className={cx("contract-btn")}>
-                            <button className={cx("contract-btn__confirm")}>
+                            <button className={cx("contract-btn__confirm")} onClick={handleAccept}>
                                 <FontAwesomeIcon className={cx('confirm__icon')} icon={faCircleCheck} />
                                 Duyệt
                             </button>
-                            <button className={cx("contract-btn__refuse")}>
+                            <button className={cx("contract-btn__refuse")} onClick={handleRefuse}>
                                 <FontAwesomeIcon className={cx('refuse__icon')} icon={faCircleXmark} />
                                 Từ chối
                             </button>  
                         </div>
-                    </div>
+                        </div>
+                    )})} 
                 </div>
             </div>
         </div>

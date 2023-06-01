@@ -7,6 +7,8 @@ import Header from '@/app/components/header/page';
 import Footer from '@/app/components/footer/page';
 import Sidebar from '@/app/components/sidebar/page';
 import Product from '@/app/components/product_in_list_column/page';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck, faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 
 
 const actions = [
@@ -24,19 +26,24 @@ const actions = [
     },
 ]
 
-type Product = {
-    ID_PRODUCTS: number;
-    NAME: string;
-    INFOR_PRODUCTS: string | null;
-    QUANTITY: number;
-    PRICE: number;
-    URL: string;
-    TYPE_PROD: string;
-};
+type url = {
+    id: number,
+    img: string,
+}
+  
+type PRODUCT = {
+    ID_PRODUCTS: number,
+    NAME: string,
+    INFOR_PRODUCTS: string | null,
+    QUANTITY: number,
+    PRICE: number,
+    URL: url[],
+    TYPE_PROD: string
+}
 
 type ApiResponse = {
     message: string;
-    products: Product[];
+    products: PRODUCT[];
     totalItems: string;
     perPage: number;
     currentPage: number;
@@ -44,7 +51,7 @@ type ApiResponse = {
 
 const cx = classNames.bind(styles);
 function ListProduct() {
-    const [products, setProducts] = useState<Product[]>([]);
+    const [products, setProducts] = useState<PRODUCT[]>([]);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -58,8 +65,9 @@ function ListProduct() {
         return <div>Error: {error}</div>;
     }
 
+    const handleRemove = () => {}
+    const handleUpdate = () => {}
 
-    console.log(products);
     return ( <div className={cx('list_product')}>
         <div className={cx('list_product-wrapper')}>
         <Header name_view='Admin'/>
@@ -68,7 +76,19 @@ function ListProduct() {
                 <Sidebar author='Admin' page_path='/list_product' LIST_ACTION={actions}/>
                 <div className={cx('list_product-content')}>
                     {products.map((product) => {
-                        return <Product key={product.ID_PRODUCTS} info={[product]} view='list_product_admin' />
+                        return (
+                        <div key={product.ID_PRODUCTS} >
+                            <Product  info={[product]} view='list_product_admin' />
+                            <button className={cx("product-btn__update")} onClick={handleUpdate}>
+                                <FontAwesomeIcon className={cx('update__icon')} icon={faCircleCheck} />
+                                Cập nhật sản phẩm
+                            </button>
+                            <button className={cx("product-btn__remove")} onClick={handleRemove}>
+                            <FontAwesomeIcon className={cx('remove__icon')} icon={faCircleXmark} />
+                                Xóa sản phẩm
+                            </button>
+                        </div>
+                        )
                     })}
                 </div>
             </div>

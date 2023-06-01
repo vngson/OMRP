@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import Image from 'next/image'
 import styles from "./page.module.css"
 import background from "@/assets/images/background.jpg"
-import Login_Register_Nav from './login_register_nav/page';
+import Login_Register_Nav from '@/app/pages/login_register_nav/page';
 
 const cx = classNames.bind(styles);
 
