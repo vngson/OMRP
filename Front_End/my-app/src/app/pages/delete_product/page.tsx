@@ -47,7 +47,7 @@ function DeleteProduct({ product }: { product: PRODUCT }) {
 
     const handleRemove = async () => {
         try {
-            const response = await axios.delete(`/api/products/${product.ID_PRODUCTS}`);
+            const response = await axios.delete(`http://localhost:4132/v1/api/admin/product/${product.ID_PRODUCTS}`);
             console.log(response.data);
         } catch (error) {
             console.error(error);

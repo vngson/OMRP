@@ -12,9 +12,13 @@ import DefaultImage from  "@/assets/images/image_default.jpg"
 
 const cx = classNames.bind(styles);
 
+type ImageFile = {
+  file: File
+  imageUrl: string
+}
+
 type url = {
-  id: number,
-  img: string,
+  img: File[],
 }
 
 type Product = {
@@ -38,6 +42,8 @@ function ProductForm() {
     TYPE_PROD: ""
   });
   const [newImages, setNewImages] = useState<File[]>([]);
+  const [images, setImages] = useState<ImageFile[]>([])
+  
 
   useEffect(() => {
     if (newImages.length > 0) {
@@ -51,12 +57,16 @@ function ProductForm() {
 
   const handleImportImage = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      const imageURL = URL.createObjectURL(file);
-
+      const files = Array.from(event.target.files);
+      const newImages = files.map((file) => ({
+        file,
+        imageUrl: URL.createObjectURL(file),
+      }));
+      setImages((prevImages) => [...prevImages, ...newImages]);
+  
       setProduct(prevProduct => ({
         ...prevProduct,
-        URL: [...prevProduct.URL, { id: prevProduct.URL.length + 1, img: imageURL }]
+        URL: [...prevProduct.URL, { img: files }],
       }));
     }
   }
@@ -74,7 +84,7 @@ function ProductForm() {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post('https://project-ec-tuankhanh.onrender.com//v1/api/admin/postProduct/', product);
+      const response = await axios.post('http://localhost:4132/v1/api/admin/postProduct/', product);
       console.log(response.data);
     } catch (error) {
       console.error((error as Error).message);
@@ -104,10 +114,10 @@ function ProductForm() {
           {product.URL.length > 0 && (
               <>
                 <div className={cx('product_inport_form-larger_image')}>
-                  {product.URL.slice(0, 1).map((_url, index) => (
+                  {images.slice(0, 1).map((_url, index) => (
                     <img
                       key={index}
-                      src={_url.img}
+                      src={_url.imageUrl}
                       alt=""
                       className={cx('product_inport_form-larger_image-img')}
                       width={300}
@@ -116,11 +126,11 @@ function ProductForm() {
                   ))}
                 </div>
                 <div className={cx('product_inport_form-small_image')}>
-                  {product.URL.slice(1, 4).map((_url) => (
+                  {images.slice(1, 4).map((_url,index) => (
                     <>
                       <img
-                        key={_url.id}
-                        src={_url.img}
+                        key={index}
+                        src={_url.imageUrl}
                         alt=""
                         className={cx('product_inport_form-small_image-child')}
                         width={90}

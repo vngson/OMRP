@@ -56,8 +56,8 @@ function ListAccount() {
 
     useEffect(() => {
         async function fetchData() {
-        const consumerResponse = await axios.get('https://project-ec-tuankhanh.onrender.com/v1/api/admin/account?type=KH');
-        const partnerResponse = await axios.get('https://project-ec-tuankhanh.onrender.com/v1/api/admin/account?type=DT');
+        const consumerResponse = await axios.get('http://localhost:4132/v1/api/admin/account?type=KH');
+        const partnerResponse = await axios.get('http://localhost:4132/v1/api/admin/account?type=DT');
         setAccounts([...consumerResponse.data, ...partnerResponse.data]);
         }
     fetchData();

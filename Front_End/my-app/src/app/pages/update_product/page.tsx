@@ -22,23 +22,23 @@ const actions = [
     },
 ]
 
-type url = {
-    id: number,
-    img: string,
-}
+// type url = {
+//     id: number,
+//     img: string,
+// }
   
-type PRODUCT = {
-    ID_PRODUCTS: number;
-    NAME: string;
-    INFOR_PRODUCTS: string | null;
-    QUANTITY: number,
-    PRICE: number,
-    URL: url[],
-    TYPE_PROD: string
-}
+// type PRODUCT = {
+//     ID_PRODUCTS: number;
+//     NAME: string;
+//     INFOR_PRODUCTS: string | null;
+//     QUANTITY: number,
+//     PRICE: number,
+//     URL: url[],
+//     TYPE_PROD: string
+// }
 
 const cx = classNames.bind(styles);
-function UpdateProduct({ product }: { product: PRODUCT }) {
+function UpdateProduct({ id }: { id: number }) {
     return ( <div className={cx('add_product')}>
         <div className={cx('add_product-wrapper')}>
         <Header name_view='Admin'/>
@@ -46,7 +46,7 @@ function UpdateProduct({ product }: { product: PRODUCT }) {
             <div className={cx('add_product-middle__wrapper')}>
                 <Sidebar author='Admin' page_path='/list_product' LIST_ACTION={actions} avt={avatar}/>
                 <div className={cx('add_product-content')}>
-                    <UpdateProductForm initialProduct={product} />
+                    <UpdateProductForm idProduct={id} />
                 </div>
             </div>
         </div>

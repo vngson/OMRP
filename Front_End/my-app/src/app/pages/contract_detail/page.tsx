@@ -47,7 +47,7 @@ function ContractDetail({id}: {id: number}) {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get<ApiResponse>(`https://project-ec-tuankhanh.onrender.com//v1/api/employee/contract/${id}`);
+      const response = await axios.get<ApiResponse>(`http://localhost:4132//v1/api/employee/contract/${id}`);
       setContract(response.data.contract);
     }
     fetchData();

@@ -64,7 +64,7 @@ function ChooseProduct() {
 
     useEffect(() => {
         axios
-        .get<ApiResponse>('https://project-ec-tuankhanh.onrender.com/v1/api/consumer/product')
+        .get<ApiResponse>('http://localhost:4132/v1/api/consumer/product')
         .then((response) => setProducts(response.data.products))
         .catch((error) => setError(error.message));
     }, []);

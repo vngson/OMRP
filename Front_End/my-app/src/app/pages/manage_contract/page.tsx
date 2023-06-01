@@ -45,7 +45,7 @@ function ManageContract() {
 
     useEffect(() => {
         axios
-        .get<ApiResponse>('https://project-ec-tuankhanh.onrender.com/v1/api/employee/contract?page=2&perPage=5')
+        .get<ApiResponse>('http://localhost:4132/v1/api/employee/contract?page=2&perPage=5')
         .then((response) => setContracts(response.data.contracts))
         .catch((error) => setError(error.message));
     }, []);

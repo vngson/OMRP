@@ -24,13 +24,25 @@ type PRODUCT = {
   TYPE_PROD: string
 }
 
+type ApiResponse = {
+  message: string;
+  product: PRODUCT[];
+  partners: [];
+};
+
 const cx = classNames.bind(styles);
 
-function UpdateProductForm({ initialProduct }: { initialProduct: PRODUCT }) {
-  const [product, setProduct] = useState(initialProduct);
+function UpdateProductForm({ idProduct }: { idProduct: number }) {
+  const [product, setProduct] = useState<PRODUCT[]>([]);
   const [newImages, setNewImages] = useState<File[]>([]);
 
   useEffect(() => {
+    async function fetchData() {
+      const response = await axios.get<ApiResponse>('http://localhost:4132/v1/api/consumer/product')
+      setProduct(response.data.product);
+    }
+    fetchData();
+    
     if (newImages.length > 0) {
       setProduct((prevProduct) => ({
         ...prevProduct,
@@ -47,7 +59,7 @@ function UpdateProductForm({ initialProduct }: { initialProduct: PRODUCT }) {
 
       setProduct(prevProduct => ({
         ...prevProduct,
-        URL: [...prevProduct.URL, { id: prevProduct.URL.length + 1, img: imageURL }]
+        URL: [...prevProduct[0].URL, { img: imageURL }]
       }));
     }
   }
@@ -65,7 +77,7 @@ function UpdateProductForm({ initialProduct }: { initialProduct: PRODUCT }) {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post(`https://project-ec-tuankhanh.onrender.com//v1/api/admin/postProduct/${product.ID_PRODUCTS}`, product);
+      const response = await axios.post(`http://localhost:4132//v1/api/admin/postProduct/${product[0].ID_PRODUCTS}`, product);
       console.log(response.data);
     } catch (error) {
       console.error((error as Error).message);
@@ -92,10 +104,10 @@ function UpdateProductForm({ initialProduct }: { initialProduct: PRODUCT }) {
             placeholder='a'
           />
           <div className={cx('product_update_form-image__show')}>
-            {product.URL.length > 0 && (
+            {product[0].URL.length > 0 && (
               <>
                 <div className={cx('product_update_form-larger_image')}>
-                  {product.URL.slice(0, 1).map((_url, index) => (
+                  {product[0].URL.slice(0, 1).map((_url, index) => (
                     <img
                       key={index}
                       src={_url.img}
@@ -105,7 +117,7 @@ function UpdateProductForm({ initialProduct }: { initialProduct: PRODUCT }) {
                   ))}
                 </div>
                 <div className={cx('product_update_form-small_image')}>
-                  {product.URL.slice(1, 4).map((_url) => (
+                  {product[0].URL.slice(1, 4).map((_url) => (
                     <>
                       <img
                         key={_url.id}
@@ -115,9 +127,9 @@ function UpdateProductForm({ initialProduct }: { initialProduct: PRODUCT }) {
                       />
                     </>
                   ))}
-                  {product.URL.length > 0 &&
-                    product.URL.length < 4 &&
-                    Array.from({ length: 4 - product.URL.length }).map((_, index) => (
+                  {product[0].URL.length > 0 &&
+                    product[0].URL.length < 4 &&
+                    Array.from({ length: 4 - product[0].URL.length }).map((_, index) => (
                       <>
                         <div key={index} className={cx('product_update_form-small__image')}>
                           <Image
@@ -131,7 +143,7 @@ function UpdateProductForm({ initialProduct }: { initialProduct: PRODUCT }) {
                 </div>
               </>
             )}
-            {product.URL.length === 0 && (
+            {product[0].URL.length === 0 && (
               <>
                 <div className={cx('product_update_form-larger_image')}>
                   <Image
@@ -163,7 +175,7 @@ function UpdateProductForm({ initialProduct }: { initialProduct: PRODUCT }) {
             <input
               type="text"
               name="name"
-              value={product.NAME}
+              value={product[0].NAME}
               onChange={handleInputChange}
               className={cx('product_update_form-name__input')}
             />
@@ -173,7 +185,7 @@ function UpdateProductForm({ initialProduct }: { initialProduct: PRODUCT }) {
             <input
               type="text"
               name="type"
-              value={product.TYPE_PROD}
+              value={product[0].TYPE_PROD}
               onChange={handleInputChange}
               className={cx('product_update_form-type__input')}
             />
@@ -182,7 +194,7 @@ function UpdateProductForm({ initialProduct }: { initialProduct: PRODUCT }) {
             Giới thiệu sản phẩm:
             <textarea
               name="description"
-              value={product.INFOR_PRODUCTS||""}
+              value={product[0].INFOR_PRODUCTS||""}
               onChange={handleInputChange}
               className={cx('product_update_form-description__input')}
             />
@@ -192,7 +204,7 @@ function UpdateProductForm({ initialProduct }: { initialProduct: PRODUCT }) {
             <input
               type="number"
               name="quantity"
-              value={product.QUANTITY}
+              value={product[0].QUANTITY}
               onChange={handleInputChange}
               className={cx('product_update_form-quantity__input')}
               min="0"
