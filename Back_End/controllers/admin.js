@@ -84,8 +84,7 @@ exports.postProduct = async (req, res, next) => {
 
   // Đến cuối sẽ thay link onrender vào đây , tạm thời để trên local để làm. Mảng ảnh sản phẩm
   const imageUrls = req.files.map(
-    (file) =>
-      `https://project-ec-tuankhanh.onrender.com/images/${file.filename}`
+    (file) => `http://localhost:4132/images/${file.filename}`
   );
   const nameProduct = req.body.name;
   const typeProduct = req.body.type;
@@ -93,8 +92,9 @@ exports.postProduct = async (req, res, next) => {
   const quantity = req.body.quantity;
   const price = req.body.price;
   const date = new Date().toISOString().slice(0, 10);
-  const id = await Admin.getLastIDProduct();
+  const lastid = await Admin.getLastIDProduct();
   const urlType = await Admin.getURLTypeProduct(typeProduct);
+  const id = Number(lastid.ID_PRODUCTS) + 1;
 
   const newProduct = {
     id: id,
@@ -163,8 +163,7 @@ exports.updateProduct = async (req, res, next) => {
   } else {
     // Đến cuối sẽ thay link onrender vào đây , tạm thời để trên local để làm. Mảng ảnh sản phẩm
     const imageUrls = req.files.map(
-      (file) =>
-        `https://project-ec-tuankhanh.onrender.com/images/${file.filename}`
+      (file) => `http://localhost:4132/images/${file.filename}`
     );
     updateProduct.imageUrls = imageUrls;
     try {

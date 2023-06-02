@@ -46,8 +46,10 @@ exports.getAccount = async function (id) {
 
 exports.getLastIDProduct = async function () {
   const client = await getClient();
-  const rs = await client.query('select * from public."Products"');
-  return rs.rows.length + 1;
+  const rs = await client.query(
+    'select * from public."Products" ORDER BY "ID_PRODUCTS" DESC'
+  );
+  return rs.rows[0];
 };
 
 exports.getURLTypeProduct = async function (type) {
