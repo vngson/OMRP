@@ -8,7 +8,7 @@ import Footer from '@/app/components/footer/page';
 import Sidebar from '@/app/components/sidebar/page';
 import Product from '@/app/components/product_in_list_column/page';
 import RemoveProduct from '../delete_product/page';
-import UpdateProduct from '../update_product/page';
+import UpdateProduct from '../../update_product/id/[id]';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 import { Link } from 'react-router-dom';
@@ -33,10 +33,6 @@ const actions = [
         to: '/make_contract',
     },
 ]
-type url = {
-    id: number,
-    img: string,
-}
   
 type PRODUCT = {
     ID_PRODUCTS: number,
@@ -44,7 +40,7 @@ type PRODUCT = {
     INFOR_PRODUCTS: string | null,
     QUANTITY: number,
     PRICE: number,
-    URL: url[],
+    URL: string,
     TYPE_PROD: string
 }
 
@@ -76,13 +72,13 @@ function ProductArray() {
     }
     const handleUpdate = () => {
     }
-    return ( <div className={cx('list_product')}>
-        <div className={cx('list_product-wrapper')}>
+    return ( <div className={cx('product_array')}>
+        <div className={cx('product_array-wrapper')}>
         <Header name_view='Doanh nghiệp'/>
-        <div className={cx('list_product-middle')}>
-            <div className={cx('list_product-middle__wrapper')}>
+        <div className={cx('product_array-middle')}>
+            <div className={cx('product_array-middle__wrapper')}>
                 <Sidebar author='Doanh nghiệp' page_path='/list_product' LIST_ACTION={actions} avt={avatar}/>
-                <div className={cx('list_product-content')}>
+                <div className={cx('product_array-content')}>
                     {products.map((product) => {
                         return (
                         <div key={product.ID_PRODUCTS} >

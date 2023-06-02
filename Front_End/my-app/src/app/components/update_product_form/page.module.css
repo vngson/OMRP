@@ -52,6 +52,21 @@
     outline: none;
 }
 
+.product_inport_form-price{
+    display: flex;
+    padding-top: 20px;
+    width: 250px;
+    justify-content: space-between;
+    user-select: none;
+}
+
+.product_inport_form-price__input{
+    margin-left: 20px;
+    width: 100px;
+    height: 25px;
+    border: 1px solid #BBBBBB;
+}
+
 .product_update_form-quantity{
     display: flex;
     padding-top: 20px;

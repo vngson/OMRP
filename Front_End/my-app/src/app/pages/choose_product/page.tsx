@@ -8,7 +8,7 @@ import Footer from '@/app/components/footer/page';
 import Sidebar from '@/app/components/sidebar/page';
 import Product from '@/app/components/product_in_list_column/page';
 import RemoveProduct from '../delete_product/page';
-import UpdateProduct from '../update_product/page';
+import UpdateProduct from '../../update_product/id/[id]';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 import { Link } from 'react-router-dom';

@@ -62,12 +62,12 @@
 
 .manage_contract-info{
     display: flex;
-    height: 40px;
+    height: 60px;
     width: 100%;
     align-items: center;
     background: var(--white);
     border: 1px solid var(--primary-color-1);
-    border-radius: 5px;
+    border-radius: 15px;
     margin-bottom: 20px;
     justify-content: flex-start;
     padding-left: 40px;
@@ -97,6 +97,15 @@
     justify-content: center;
     color: var(--green);
     font-weight: 500;
+}
+
+.manage_contract-info__label4{
+    display: flex;
+    width: 180px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    color: var(--green);
 }
 
 .contract-btn{
@@ -152,4 +161,38 @@
 
 .contract-btn__confirm + .contract-btn__refuse {
     margin-left: 20px;
+}
+
+.pagination{
+    display: flex;
+    background-color: transparent;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.page_number{
+    padding: 10px;
+    font-size: 2rem;
+    background-color: transparent ;
+    user-select: none;
+}
+
+.prev-btn,.next-btn{
+    background-color: transparent ;
+    user-select: none;
+}
+
+.message{
+    position: absolute;
+    display: flex;
+    height: 100px;
+    width: 300px;
+    background-color: var(--primary-color-2);
+    border-radius: 25px;
+    border: 1px solid var(--primary-color-2);
+    padding: 20px 0;
+    z-index: 0;
+    margin-top: 20px;
+    align-items: center;
+    justify-content: center;
 }

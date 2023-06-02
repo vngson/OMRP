@@ -61,13 +61,13 @@
 
 .manage_partner-info{
     display: flex;
-    height: 40px;
+    height: 60px;
     width: 100%;
     align-items: center;
     justify-content: center;
     background: var(--white);
     border: 1px solid var(--primary-color-1);
-    border-radius: 5px;
+    border-radius: 15px;
     margin-bottom: 20px;
 }
 
@@ -95,4 +95,23 @@
     justify-content: center;
     color: var(--green);
     font-weight: 500;
+}
+
+.pagination{
+    display: flex;
+    background-color: transparent;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.page_number{
+    padding: 10px;
+    font-size: 2rem;
+    background-color: transparent ;
+    user-select: none;
+}
+
+.prev-btn,.next-btn{
+    background-color: transparent ;
+    user-select: none;
 }

@@ -1,12 +1,6 @@
-'use client';
 import classNames from 'classnames/bind';
 import styles from "./page.module.css"
 import React from "react";
-
-type url = {
-    id: number,
-    img: string,
-}
 
 type PRODUCT = {
     ID_PRODUCTS: number;
@@ -14,7 +8,7 @@ type PRODUCT = {
     INFOR_PRODUCTS: string | null;
     QUANTITY: number,
     PRICE: number,
-    URL: url[],
+    URL: string,
     TYPE_PROD: string
 }
 
@@ -29,7 +23,7 @@ function Product({view, info}: MyComponentProps) {
         <div className={cx('product-wrapper')}>
             <div className={cx("product-info")}>
                 <img
-                    src= {info[0].URL[0].img}
+                    src= {info[0].URL}
                     alt='Hình ảnh sản phẩm'
                     className={cx('product-info__image')}
                     width={150}

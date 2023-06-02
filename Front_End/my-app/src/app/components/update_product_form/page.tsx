@@ -9,44 +9,67 @@ import {
 import styles from './page.module.css';
 import DefaultImage from  "@/assets/images/image_default.jpg"
 
-type url = {
+type ImageFile = {
+  file: File
+  imageUrl: string
+}
+
+type urlg = {
   id: number,
   img: string,
 }
 
-type PRODUCT = {
+type Product_get = {
   ID_PRODUCTS: number;
   NAME: string;
   INFOR_PRODUCTS: string | null;
   QUANTITY: number,
   PRICE: number,
-  URL: url[],
+  STT: number,
+  URL: urlg[],
   TYPE_PROD: string
 }
 
-type ApiResponse = {
+type category = {
+  TYPE_PROD: string,
+  Img: string
+}
+
+type ApiResponse1 = {
   message: string;
-  product: PRODUCT[];
-  partners: [];
+  data: category[];
+};
+
+type ApiResponse2 = {
+  message: string;
+  product: Product_get[];
 };
 
 const cx = classNames.bind(styles);
 
 function UpdateProductForm({ idProduct }: { idProduct: number }) {
-  const [product, setProduct] = useState<PRODUCT[]>([]);
+  const [product, setProduct] = useState<Product_get[]>([]);
+  const [imagees, setImagees] = useState<ImageFile[]>([])
   const [newImages, setNewImages] = useState<File[]>([]);
 
+  const [catelog, setCatelog] =useState<category[]>([])
+
   useEffect(() => {
-    async function fetchData() {
-      const response = await axios.get<ApiResponse>('http://localhost:4132/v1/api/consumer/product')
+    async function fetchData1() {
+      const response = await axios.get<ApiResponse1>('http://localhost:4132/v1/api/consumer/category')
+      setCatelog(response.data.data);
+    }
+    fetchData1();
+    async function fetchData2() {
+      const response = await axios.get<ApiResponse2>(`http://localhost:4132/v1/api/consumer/product/${idProduct}`)
       setProduct(response.data.product);
     }
-    fetchData();
+    fetchData2();
     
     if (newImages.length > 0) {
-      setProduct((prevProduct) => ({
-        ...prevProduct,
-        url: newImages,
+      setProduct((prev) => ({
+        ...prev,
+        URL: [...prev[0].URL, { img: newImages }],
       }));
       setNewImages([]);
     }
@@ -54,12 +77,15 @@ function UpdateProductForm({ idProduct }: { idProduct: number }) {
 
   const handleImportImage = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      const imageURL = URL.createObjectURL(file);
-
-      setProduct(prevProduct => ({
-        ...prevProduct,
-        URL: [...prevProduct[0].URL, { img: imageURL }]
+      const files = Array.from(event.target.files);
+      const newImages = files.map((file) => ({
+        file,
+        imageUrl: URL.createObjectURL(file),
+      }));
+      setImagees((prevImages) => [...prevImages, ...newImages]);
+      setProduct((prev) => ({
+        ...prev,
+        URL: [...prev[0].URL, { img: newImages }],
       }));
     }
   }
@@ -69,20 +95,38 @@ function UpdateProductForm({ idProduct }: { idProduct: number }) {
   };
 
   const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = event.target;
     setProduct((prevProduct) => ({ ...prevProduct, [name]: value }));
-  };     
+  };
+       
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post(`http://localhost:4132//v1/api/admin/postProduct/${product[0].ID_PRODUCTS}`, product);
+      const formData = new FormData();
+      newImages.forEach((image) => {
+        formData.append("images", image);
+      });
+      formData.append("name", product[0].NAME);
+      if (product[0].INFOR_PRODUCTS) {
+        formData.append("desc", product[0].INFOR_PRODUCTS);
+      }
+      formData.append("quantity", product[0].QUANTITY.toString());
+      formData.append("price", product[0].PRICE.toString());
+      formData.append("type", product[0].TYPE_PROD);
+  
+      const response = await axios.put(
+        `http://localhost:4132/v1/api/admin/postProduct/${product[0].ID_PRODUCTS}`,
+        formData,
+      );
       console.log(response.data);
     } catch (error) {
       console.error((error as Error).message);
     }
-  }
+  };
 
   return (
     <div className={cx('product_update_form')}>
@@ -174,7 +218,7 @@ function UpdateProductForm({ idProduct }: { idProduct: number }) {
             Tên sản phẩm:
             <input
               type="text"
-              name="name"
+              name="NAME"
               value={product[0].NAME}
               onChange={handleInputChange}
               className={cx('product_update_form-name__input')}
@@ -184,7 +228,7 @@ function UpdateProductForm({ idProduct }: { idProduct: number }) {
             Loại sản phẩm:
             <input
               type="text"
-              name="type"
+              name="TYPE_PROD"
               value={product[0].TYPE_PROD}
               onChange={handleInputChange}
               className={cx('product_update_form-type__input')}
@@ -193,17 +237,28 @@ function UpdateProductForm({ idProduct }: { idProduct: number }) {
           <label className={cx('product_update_form-description')}>
             Giới thiệu sản phẩm:
             <textarea
-              name="description"
+              name="INFOR_PRODUCTS"
               value={product[0].INFOR_PRODUCTS||""}
               onChange={handleInputChange}
               className={cx('product_update_form-description__input')}
+            />
+          </label>
+          <label className={cx('product_inport_form-price')}>
+            Giá:
+            <input
+              type="number"
+              name="PRICE"
+              value={product[0].PRICE}
+              onChange={handleInputChange}
+              className={cx('product_inport_form-price__input')}
+              min="0"
             />
           </label>
           <label className={cx('product_update_form-quantity')}>
             Số lượng:
             <input
               type="number"
-              name="quantity"
+              name="QUANTITY"
               value={product[0].QUANTITY}
               onChange={handleInputChange}
               className={cx('product_update_form-quantity__input')}

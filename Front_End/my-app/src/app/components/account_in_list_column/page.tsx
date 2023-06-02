@@ -7,6 +7,7 @@ import {
     faCircleCheck,
 } from'@fortawesome/free-regular-svg-icons';
 import styles from "./page.module.css"
+import DefaultImage from  "@/assets/images/image_default.jpg"
 
 type Account = {
     ID_Login: number;
@@ -43,13 +44,20 @@ function Account({account}: MyComponentProps) {
             </div>
             <div className={cx("account__line-top")}></div>
             <div className={cx("account-info")}>
-                <img
-                    src= {account[0].Img}
-                    alt={'avatar'}
-                    className={cx('account-info__avt')}
-                    width={ 80}
-                    height={80}                 
-                />
+                {account[0].Img ? (<img
+                        src= {account[0].Img}
+                        alt={'Avatar'}
+                        className={cx('account-info__avt')}
+                        width={ 80}
+                        height={80}                 
+                    />):(
+                    <Image
+                        src= {DefaultImage}
+                        alt={'Avatar'}
+                        className={cx('account-info__avt')}
+                        width={ 80}
+                        height={80}                 
+                    />)}
                 <label 
                     htmlFor="account-info__username" 
                     className={cx("account-info__username")}
