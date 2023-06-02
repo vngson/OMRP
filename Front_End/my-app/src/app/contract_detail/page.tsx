@@ -6,6 +6,7 @@ import styles from "./page.module.css"
 import Header from '@/app/components/header/page';
 import Footer from '@/app/components/footer/page';
 import Sidebar from '@/app/components/sidebar/page';
+import avatar from "@/assets/images/omrp_logo_white.png"
 
 const actions = [
     {
@@ -22,14 +23,50 @@ const actions = [
     },
 ]
 
+type ContractData = {
+    ID_CONTRACT: string;
+    "Mã số thuế": string;
+    "Ngày lập HĐ": string;
+    "Ngày hết HĐ": string;
+    "Đơn vị đổi": number;
+    "% giao dịch": number;
+    "Tên doanh nghiệp": string;
+    "Số điện thoại": string;
+    Email: string;
+    Image: string;
+  };
+  
+  type ApiResponse = {
+    message: string;
+    contract: ContractData;
+  };
+
 const cx = classNames.bind(styles);
 function ContractDetail() {
+    const [contract, setContract] = useState<ContractData | null>(null);
+
+    useEffect(() => {
+    async function fetchData() {
+        const response = await axios.get<ApiResponse>(
+        `http://localhost:4132/v1/api/employee/contract/001`
+        );
+        setContract(response.data.contract);
+    }
+    fetchData();
+    }, []);
+    
+    if (!contract) {
+      return <div>Loading...</div>;
+    } 
+    else 
+    {
+
     return ( <div className={cx('contract')}>
         <div className={cx('contract-wrapper')}>
         <Header name_view='Nhân viên'/>
         <div className={cx('contract-middle')}>
             <div className={cx('contract-middle__wrapper')}>
-                <Sidebar author='Nhân viên' page_path='/manage_contract' LIST_ACTION={actions}/>
+                <Sidebar author='Nhân viên' page_path='/manage_contract' LIST_ACTION={actions} avt={avatar}/>
                 <div className={cx('contract-container')}>
                     <div className={cx('contract-title')}>
                         <label 
@@ -50,7 +87,7 @@ function ContractDetail() {
                                 htmlFor="info-title__contract_ID" 
                                 className={cx("contract__label2")}
                             >
-                                5977602081 
+                                {contract.ID_CONTRACT} 
                         </label>
                     </div>
                     <div className={cx('contract-content')}>
@@ -80,16 +117,16 @@ function ContractDetail() {
                                 Email 
                             </label> 
                             <label 
-                                htmlFor="info-title__bank_account" 
+                                htmlFor="info-title__date_contract" 
                                 className={cx("contract__label")}
                             >
-                                Tài khoản ngân hàng 
+                                Ngày lập hợp đồng 
                             </label> 
                             <label 
                                 htmlFor="info-title__contract_term" 
                                 className={cx("contract__label")}
                             >
-                                Thời hạn hợp đồng 
+                                Ngày hết hạn hợp đồng 
                             </label> 
                             <label 
                                 htmlFor="info-title__conversion_rate" 
@@ -109,43 +146,43 @@ function ContractDetail() {
                                 htmlFor="info-title__contract_name" 
                                 className={cx("contract__label")}
                             >
-                                Ngô gia 
+                                {contract['Tên doanh nghiệp']}  
                             </label>
                             <label 
                                 htmlFor="info-title__Tax_code" 
                                 className={cx("contract__label")}
                             >
-                                2846389039572 
+                            {contract['Mã số thuế']} 
                             </label> 
                             <label 
                                 htmlFor="info-title__Phone_number" 
                                 className={cx("contract__label")}
                             >
-                                03xxxxxxxx 
+                                {contract['Số điện thoại']}   
                             </label>  
                             <label 
-                                htmlFor="info-title__ID_contract" 
+                                htmlFor="info-title__email"  
                                 className={cx("contract__label")}
                             >
-                                ngogia@gmail.com 
+                                {contract.Email} 
                             </label> 
                             <label 
-                                htmlFor="info-title__ID_contract" 
+                                htmlFor="info-title__date_contract" 
                                 className={cx("contract__label")}
                             >
-                                5008xxxxxxxxx 
+                                {new Date(contract["Ngày lập HĐ"]).toLocaleDateString()}
                             </label> 
                             <label 
-                                htmlFor="info-title__ID_contract" 
+                                htmlFor="info-title__contract_term" 
                                 className={cx("contract__label")}
                             >
-                                3 năm 
+                                {new Date(contract["Ngày hết HĐ"]).toLocaleDateString()}
                             </label> 
                             <label 
-                                htmlFor="info-title__ID_contract" 
+                                htmlFor="info-title__conversion_rate" 
                                 className={cx("contract__label")}
                             >
-                                1 point - 1 VND 
+                                {contract['Đơn vị đổi']} 
                             </label>  
                             <label 
                                 htmlFor="info-title__commission" 
@@ -160,7 +197,7 @@ function ContractDetail() {
         </div>
         <Footer />
         </div>
-    </div> );
+    </div> );}
 }
 
 export default ContractDetail;

@@ -1,41 +1,28 @@
 import classNames from 'classnames/bind';
 import Image from 'next/image';
 import styles from "./page.module.css"
-import avt from "@/assets/images/omrp_logo_white.png"
 import React from "react";
-import { stringify } from 'querystring';
-
-// const LIST_ACTION = [
-//     {
-//         title: 'Danh sách tài khoản',
-//         to: '/list_account',
-//     },
-//     {
-//         title: 'Thêm sản phẩm',
-//         to: '/add_product',
-//     },
-//     {
-//         title: 'Xóa sản phẩm',
-//         to: '/remove_product',
-//     },
-// ]
+import Link from 'next/link';
 
 const cx = classNames.bind(styles);
 
 type Action = {
     title: string;
     to: string;
-  };
-  
+};
+ 
+type StaticImageData = /*unresolved*/ any  
+
 type MyComponentProps = {
     author: string
     page_path: string,
     LIST_ACTION: Action[],
+    avt: StaticImageData,
   };
 
 
 
-export default function Sidebar({author, page_path, LIST_ACTION}: MyComponentProps) {
+export default function Sidebar({author, page_path, LIST_ACTION, avt}: MyComponentProps) {
     const handleClassname = (path:string) => {
         if(page_path===path)
             return 'sidebar-acction__btn-active'
@@ -56,7 +43,13 @@ export default function Sidebar({author, page_path, LIST_ACTION}: MyComponentPro
             </div> 
             <div className={cx('sidebar-acction')}>
             {LIST_ACTION.map((action, index) =>{
-                return <button className={cx(handleClassname(action.to.toString()))} key={index}>{action.title}</button>
+                return (
+                    <Link href={action.to} key={index}>
+                        <button className={cx(handleClassname(action.to.toString()))}>
+                          {action.title}
+                        </button>
+                    </Link>
+                  );
             })}
             </div>
             <button className={cx('sidebar__logout-btn')}>Đăng xuất</button>          

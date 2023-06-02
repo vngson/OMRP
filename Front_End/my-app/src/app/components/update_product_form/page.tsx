@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Image from 'next/image';
 import classNames from 'classnames/bind';import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -8,54 +9,130 @@ import {
 import styles from './page.module.css';
 import DefaultImage from  "@/assets/images/image_default.jpg"
 
+type ImageFile = {
+  file: File
+  imageUrl: string
+}
+
+type urlg = {
+  id: number,
+  img: string,
+}
+
+type Product_get = {
+  ID_PRODUCTS: number;
+  NAME: string;
+  INFOR_PRODUCTS: string | null;
+  QUANTITY: number,
+  PRICE: number,
+  STT: number,
+  URL: urlg[],
+  TYPE_PROD: string,
+  partners: {
+    ID_Partners: string;
+    Name: string;
+    url: string;
+    GiaDoiThuong: number;
+  }[];
+}
+
+type category = {
+  TYPE_PROD: string,
+  Img: string
+}
+
+type ApiResponse1 = {
+  message: string;
+  data: category[];
+};
+
+type ApiResponse2 = {
+  message: string;
+  product: Product_get[];
+};
 
 const cx = classNames.bind(styles);
 
-interface Product {
-  name: string;
-  type: string;
-  description: string;
-  quantity: number;
-  images: File[];
-}
-
-function UpdateProductForm() {
-  const [product, setProduct] = useState<Product>({
-    name: '',
-    type: '',
-    description: '',
-    quantity: 0,
-    images: [],
-  });
+function UpdateProductForm({ idProduct }: { idProduct: number }) {
+  const [product, setProduct] = useState<Product_get[]>([]);
+  const [imagees, setImagees] = useState<ImageFile[]>([])
   const [newImages, setNewImages] = useState<File[]>([]);
 
+  const [catelog, setCatelog] =useState<category[]>([])
+
   useEffect(() => {
+    async function fetchData1() {
+      const response = await axios.get<ApiResponse1>('https://project-ec-tuankhanh.onrender.com/v1/api/consumer/category')
+      setCatelog(response.data.data);
+    }
+    fetchData1();
+    async function fetchData2() {
+      const response = await axios.get<ApiResponse2>(`https://project-ec-tuankhanh.onrender.com/v1/api/consumer/product/${idProduct}`)
+      setProduct(response.data.product);
+    }
+    fetchData2();
+    
     if (newImages.length > 0) {
-      setProduct((prevProduct) => ({
-        ...prevProduct,
-        images: newImages,
+      setProduct((prev) => ({
+        ...prev,
+        URL: [...prev[0].URL, { img: newImages }],
       }));
       setNewImages([]);
     }
   }, [newImages]);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
+  const handleImportImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
       const files = Array.from(event.target.files);
-      setNewImages(files);
+      const newImages = files.map((file) => ({
+        file,
+        imageUrl: URL.createObjectURL(file),
+      }));
+      setImagees((prevImages) => [...prevImages, ...newImages]);
+      setProduct((prev) => ({
+        ...prev,
+        URL: [...prev[0].URL, { img: newImages }],
+      }));
     }
-  };
+  }
 
   const handleLabelClick = () => {
     (document.getElementById('file-input') as HTMLInputElement).click();
   };
 
   const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = event.target;
     setProduct((prevProduct) => ({ ...prevProduct, [name]: value }));
-  };     
+  };
+       
+
+  const handleSubmit = async () => {
+    try {
+      const formData = new FormData();
+      newImages.forEach((image) => {
+        formData.append("images", image);
+      });
+      formData.append("name", product[0].NAME);
+      if (product[0].INFOR_PRODUCTS) {
+        formData.append("desc", product[0].INFOR_PRODUCTS);
+      }
+      formData.append("quantity", product[0].QUANTITY.toString());
+      formData.append("price", product[0].PRICE.toString());
+      formData.append("type", product[0].TYPE_PROD);
+  
+      const response = await axios.put(
+        `https://project-ec-tuankhanh.onrender.com/v1/api/admin/postProduct/${product[0].ID_PRODUCTS}`,
+        formData,
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error((error as Error).message);
+    }
+  };
 
   return (
     <div className={cx('product_update_form')}>
@@ -72,37 +149,37 @@ function UpdateProductForm() {
             type="file"
             multiple
             accept="image/*"
-            onChange={handleFileChange}
+            onChange={handleImportImage}
             className={cx('product_update_form-image__input')}
             placeholder='a'
           />
           <div className={cx('product_update_form-image__show')}>
-            {product.images.length > 0 && (
+            {product[0]?.URL.length > 0 && (
               <>
                 <div className={cx('product_update_form-larger_image')}>
-                  {product.images.slice(0, 1).map((image) => (
+                  {product[0]?.URL.slice(0, 1).map((_url, index) => (
                     <img
-                      key={image.name}
-                      src={URL.createObjectURL(image)}
+                      key={index}
+                      src={_url.img}
                       alt=""
                       className={cx('product_update_form-larger_image-img')}
                     />
                   ))}
                 </div>
                 <div className={cx('product_update_form-small_image')}>
-                  {product.images.slice(1, 4).map((image) => (
+                  {product[0]?.URL.slice(1, 4).map((_url) => (
                     <>
                       <img
-                        key={image.name}
-                        src={URL.createObjectURL(image)}
+                        key={_url.id}
+                        src={_url.img}
                         alt=""
                         className={cx('product_update_form-small_image-child')}
                       />
                     </>
                   ))}
-                  {product.images.length > 0 &&
-                    product.images.length < 4 &&
-                    Array.from({ length: 4 - product.images.length }).map((_, index) => (
+                  {product[0]?.URL.length > 0 &&
+                    product[0]?.URL.length < 4 &&
+                    Array.from({ length: 4 - product[0]?.URL.length }).map((_, index) => (
                       <>
                         <div key={index} className={cx('product_update_form-small__image')}>
                           <Image
@@ -116,7 +193,7 @@ function UpdateProductForm() {
                 </div>
               </>
             )}
-            {product.images.length === 0 && (
+            {product[0]?.URL.length === 0 && (
               <>
                 <div className={cx('product_update_form-larger_image')}>
                   <Image
@@ -147,8 +224,8 @@ function UpdateProductForm() {
             Tên sản phẩm:
             <input
               type="text"
-              name="name"
-              value={product.name}
+              name="NAME"
+              value={product[0]?.NAME}
               onChange={handleInputChange}
               className={cx('product_update_form-name__input')}
             />
@@ -157,8 +234,8 @@ function UpdateProductForm() {
             Loại sản phẩm:
             <input
               type="text"
-              name="type"
-              value={product.type}
+              name="TYPE_PROD"
+              value={product[0]?.TYPE_PROD}
               onChange={handleInputChange}
               className={cx('product_update_form-type__input')}
             />
@@ -166,25 +243,36 @@ function UpdateProductForm() {
           <label className={cx('product_update_form-description')}>
             Giới thiệu sản phẩm:
             <textarea
-              name="description"
-              value={product.description}
+              name="INFOR_PRODUCTS"
+              value={product[0]?.INFOR_PRODUCTS||""}
               onChange={handleInputChange}
               className={cx('product_update_form-description__input')}
+            />
+          </label>
+          <label className={cx('product_inport_form-price')}>
+            Giá:
+            <input
+              type="number"
+              name="PRICE"
+              value={product[0]?.PRICE}
+              onChange={handleInputChange}
+              className={cx('product_inport_form-price__input')}
+              min="0"
             />
           </label>
           <label className={cx('product_update_form-quantity')}>
             Số lượng:
             <input
               type="number"
-              name="quantity"
-              value={product.quantity}
+              name="QUANTITY"
+              value={product[0]?.QUANTITY}
               onChange={handleInputChange}
               className={cx('product_update_form-quantity__input')}
               min="0"
             />
           </label>
-          <button className={cx("product_update_form-btn")}>
-          <FontAwesomeIcon className={cx('btn__icon')} icon={faCircleCheck} />
+          <button className={cx("product_update_form-btn")} onClick={handleSubmit}>
+          <FontAwesomeIcon className={cx('btn__icon')} icon={faCircleCheck} size="2x"/>
             Cập nhật sản phẩm
           </button> 
         </div>     

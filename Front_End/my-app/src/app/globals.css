@@ -67,6 +67,10 @@ body {
   box-sizing: border-box;
 }
 
+a{
+  text-decoration: none;
+}
+
 .button{
   user-select: none;
   font-family: "roboto";
@@ -86,4 +90,3 @@ input,
 input::placeholder {
   font-size: 1.6rem;
 }
-

@@ -7,24 +7,31 @@ import {
     faCircleCheck,
 } from'@fortawesome/free-regular-svg-icons';
 import styles from "./page.module.css"
-import { useState } from 'react';
+import DefaultImage from  "@/assets/images/image_default.jpg"
 
-type Info = {
-    src: StaticImageData;
-    username: string;
-    fullname: string;
-    type: string;
-    title: string;
-}
+type Account = {
+    ID_Login: number;
+    Username: string;
+    Permission: string;
+    Status: string;
+    Name: string;
+    Email: string;
+    Address: string;
+    Phone: string;
+    Img: string;
+};
 
 type MyComponentProps = {
-    info: Info[]
-  };
+    account: Account[]
+};
 
 const cx = classNames.bind(styles);
 
-function Account({info}: MyComponentProps) {
-    const title = info[0].title;
+function Account({account}: MyComponentProps) {
+    const status = account[0].Status;
+    const handleStatus = () =>{
+
+    }
     return  (<div className={cx('account')}>
         <div className={cx('account-wrapper')}>
             <div className={cx("account-name")} >
@@ -32,37 +39,46 @@ function Account({info}: MyComponentProps) {
                     htmlFor="account-name" 
                     className={cx("account-name__text")}
                 >
-                    {info[0].username}
+                    {account[0].Username}
                 </label>
             </div>
             <div className={cx("account__line-top")}></div>
             <div className={cx("account-info")}>
-                <Image
-                    src= {info[0].src}
-                    alt={'avatar'}
-                    className={cx('account-info__avt')}                 
-                />
+                {account[0].Img ? (<img
+                        src= {account[0].Img}
+                        alt={'Avatar'}
+                        className={cx('account-info__avt')}
+                        width={ 80}
+                        height={80}                 
+                    />):(
+                    <Image
+                        src= {DefaultImage}
+                        alt={'Avatar'}
+                        className={cx('account-info__avt')}
+                        width={ 80}
+                        height={80}                 
+                    />)}
                 <label 
                     htmlFor="account-info__username" 
                     className={cx("account-info__username")}
                 >
-                    Tên người dùng : {info[0].fullname}
+                    Tên người dùng : {account[0].Name}
                 </label>
                 <label 
                     htmlFor="account-info__accounttype" 
                     className={cx("account-info__accounttype")}
                 >
-                    Loại tài khoản : {info[0].type} 
+                    Loại tài khoản : {account[0].Permission} 
                 </label>
             </div>
             <div className={cx("account__line-bottom")}></div>
-            {title === 'Mở khóa tài khoản' && (
-            <button className={cx("account-btn__activated")}>
-                <FontAwesomeIcon className={cx('activated__icon')} icon={faCircleCheck} />
+            {status === 'locked' && (
+            <button className={cx("account-btn__activated")} onClick={handleStatus}>
+                <FontAwesomeIcon className={cx('activated__icon')} icon={faCircleCheck} size="2x"/>
                 Mở khóa tài khoản
             </button>)}
-            {title === 'Khóa tài khoản' && (<button className={cx("account-btn__banned")}>
-            <FontAwesomeIcon className={cx('banned__icon')} icon={faCircleXmark} />
+            {status === 'unlocked' && (<button className={cx("account-btn__banned")}>
+            <FontAwesomeIcon className={cx('banned__icon')} icon={faCircleXmark} onClick={handleStatus} size="2x"/>
                 Khóa tài khoản
             </button>) }
         </div>

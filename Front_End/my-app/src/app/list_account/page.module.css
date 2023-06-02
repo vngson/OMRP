@@ -28,5 +28,32 @@
 }
 
 .list_account-content{
+    display: flex;
     margin-left: 40px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.list_account-acc{
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.pagination{
+    display: flex;
+    background-color: transparent;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.page_number{
+    padding: 10px;
+    font-size: 2rem;
+    background-color: transparent ;
+    user-select: none;
+}
+
+.prev-btn,.next-btn{
+    background-color: transparent ;
+    user-select: none;
 }

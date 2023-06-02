@@ -1,7 +1,6 @@
 .product_update_form{
     display: flex;
     width: 700px;
-    height: 500px;
     background: var(--white);
     border-radius: 25px;
 }
@@ -17,6 +16,7 @@
 .product_update_form-info{
     display: flex;
     flex-direction: column;
+    margin-top: 40px;
 }
 
 .product_update_form-name, .product_update_form-type {
@@ -52,6 +52,21 @@
     outline: none;
 }
 
+.product_inport_form-price{
+    display: flex;
+    padding-top: 20px;
+    width: 250px;
+    justify-content: space-between;
+    user-select: none;
+}
+
+.product_inport_form-price__input{
+    margin-left: 20px;
+    width: 100px;
+    height: 25px;
+    border: 1px solid #BBBBBB;
+}
+
 .product_update_form-quantity{
     display: flex;
     padding-top: 20px;
@@ -72,6 +87,7 @@
     width: 340px;
     flex-direction: column;
     align-items: center;
+    margin-top: 40px;
 }
 
 .product_update_form-image__label{
@@ -127,7 +143,8 @@
 .product_update_form-btn{
     width: 200px;
     height: 40px;
-    margin-top: 30px;
+    margin-top: 40px;
+    margin-bottom: 40px;
     margin-left: 100%;
     transform: translateX(-100%);
     background-color: var(--color-btn-1);
@@ -145,6 +162,29 @@
     color: var(--white);
     background-color: transparent;
     height: var(--font-size-icon-small);
+}
+
+.message__label{
+    display: flex;
+    width: 180px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    color: var(--green);
+}
+.message{
+    position: absolute;
+    display: flex;
+    height: 100px;
+    width: 300px;
+    background-color: var(--primary-color-2);
+    border-radius: 25px;
+    border: 1px solid var(--primary-color-2);
+    padding: 20px 0;
+    z-index: 0;
+    margin-top: 20px;
+    align-items: center;
+    justify-content: center;
 }
 
   

@@ -1,15 +1,8 @@
-'use client';
 import classNames from 'classnames/bind';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faCircleXmark,
-    faCircleCheck,
-} from'@fortawesome/free-regular-svg-icons';
 import styles from "./page.module.css"
 import React from "react";
 
-
-type Info = {
+type PRODUCT = {
     ID_PRODUCTS: number;
     NAME: string;
     INFOR_PRODUCTS: string | null;
@@ -21,8 +14,8 @@ type Info = {
 
 type MyComponentProps = {
     view: string;
-    info: Info[]
-  };
+    info: PRODUCT[]
+};
 const cx = classNames.bind(styles);
 
 function Product({view, info}: MyComponentProps) {
@@ -60,7 +53,7 @@ function Product({view, info}: MyComponentProps) {
                             htmlFor="info-title__price" 
                             className={cx("product-info__label")}
                         >
-                            {(view === 'list_product_admin'||view === 'remove_product_admin'||view === 'choose_product_business') && 'Số lượng :'}
+                            {(view === 'list_product_admin'||view === 'delete_product_admin'||view === 'choose_product_business') && 'Số lượng :'}
                             {(view === 'list_product_business'|| view === 'remove_product_business') && 'Giá :'} 
                         </label>
                     </div>
@@ -87,7 +80,7 @@ function Product({view, info}: MyComponentProps) {
                             htmlFor="info-content__username" 
                             className={cx("product-info__label")}
                         >
-                            {(view === 'list_product_admin'||view === 'remove_product_admin'||view === 'choose_product_business') && `${info[0].QUANTITY} `}
+                            {(view === 'list_product_admin'||view === 'delete_product_admin'||view === 'choose_product_business') && `${info[0].QUANTITY} `}
                             {(view === 'list_product_business'|| view === 'remove_product_business') && `${info[0].PRICE} điểm`}
                             
                         </label>
@@ -95,48 +88,6 @@ function Product({view, info}: MyComponentProps) {
                 </div>
             </div>
             <div className={cx("product-line")}></div>
-            {(view === 'list_product_admin') && (
-            <div className={cx('product-btn')}>
-                <button className={cx("product-btn__update")}>
-                    <FontAwesomeIcon className={cx('update__icon')} icon={faCircleCheck} />
-                    Cập nhật sản phẩm
-                </button>
-                <button className={cx("product-btn__remove")}>
-                    <FontAwesomeIcon className={cx('remove__icon')} icon={faCircleXmark} />
-                    Xóa sản phẩm
-                </button>
-            </div>
-            ) }
-            {(view === 'remove_product_admin') && (
-            <div className={cx('product-btn')}>
-                <button className={cx("product-btn__remove")}>
-                    <FontAwesomeIcon className={cx('remove__icon')} icon={faCircleXmark} />
-                    Xác nhận xóa
-                </button>
-            </div>
-            )}
-            {(view === 'choose_product_business') && (
-            <div className={cx('product-btn')}>
-                <button className={cx("product-btn__choose")}>
-                    <FontAwesomeIcon className={cx('choose__icon')} icon={faCircleCheck} />
-                    Chọn sản phẩm
-                </button>
-            </div>)}
-            {(view === 'list_product_business') && (
-            <div className={cx('product-btn')}>
-                <button className={cx("product-btn__remove")}>
-                    <FontAwesomeIcon className={cx('remove__icon')} icon={faCircleXmark} />
-                    Gỡ sản phẩm
-                </button>
-            </div>)}
-            {(view === 'remove_product_business') && (
-            <div className={cx('product-btn')}>
-                <button className={cx("product-btn__remove")}>
-                    <FontAwesomeIcon className={cx('remove__icon')} icon={faCircleXmark} />
-                    Xác nhận gỡ
-                </button>
-            </div>
-            )}
         </div>
     </div>) ;
 }
