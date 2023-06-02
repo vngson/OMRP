@@ -13,6 +13,7 @@ const adminRoute = require("./router/admin");
 const authRoute = require("./router/auth");
 const consumerRoute = require("./router/consumer");
 const employeeRoute = require("./router/employee");
+const partnerRoute = require("./router/partner");
 
 const app = express();
 const port = process.env.PORT || 5001;
@@ -65,6 +66,8 @@ app.use("/v1/api/admin", adminRoute);
 app.use("/v1/api/auth", authRoute);
 app.use("/v1/api/consumer", consumerRoute);
 app.use("/v1/api/employee", employeeRoute);
+
+app.use("/v1/api/partner", partnerRoute);
 
 // Cấu hình múi giờ Việt Nam
 moment.tz.setDefault("Asia/Ho_Chi_Minh");

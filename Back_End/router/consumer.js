@@ -21,6 +21,11 @@ router.get(
 );
 
 router.get(
+  "/exchangePoint/:productId",
+  consumerController.getExchangePointByProductId
+);
+
+router.get(
   "/partnersConsumer/:consumerId",
   consumerController.getPartnersConsumer
 );
