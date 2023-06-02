@@ -25,13 +25,13 @@ const actions = [
 
 const cx = classNames.bind(styles);
 function UpdateProduct() {
-    const router = useRouter();
-    const { id } = router.query;
-    let idNumber: number | null = null;
-    if (typeof id === 'string') {
-        idNumber = parseInt(id);
-    }
-    if (idNumber !== null) {
+    // const router = useRouter();
+    // const { id } = router.query;
+    // let idNumber: number | null = null;
+    // if (typeof id === 'string') {
+    //     idNumber = parseInt(id);
+    // }
+    // if (idNumber !== null) {
         return ( <div className={cx('add_product')}>
             <div className={cx('add_product-wrapper')}>
             <Header name_view='Admin'/>
@@ -39,19 +39,13 @@ function UpdateProduct() {
                 <div className={cx('add_product-middle__wrapper')}>
                     <Sidebar author='Admin' page_path='/list_product' LIST_ACTION={actions} avt={avatar}/>
                     <div className={cx('add_product-content')}>
-                        <UpdateProductForm idProduct={idNumber} />
+                        <UpdateProductForm idProduct={1} />
                     </div>
                 </div>
             </div>
             <Footer />
             </div>
         </div> );
-    }
-    else {
-        return (
-            <div> Cannot get id</div>
-        )
-    }
 }
 
 export default UpdateProduct;

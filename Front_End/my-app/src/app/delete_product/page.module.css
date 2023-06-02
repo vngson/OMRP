@@ -29,6 +29,9 @@
 
 .remove_product-content{
     margin-left: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .remove_product-product{
@@ -70,4 +73,26 @@
     color: var(--white);
     background-color: transparent;
     height: var(--font-size-icon-small);
+}
+
+.message__label{
+    display: flex;
+    width: 180px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    color: var(--green);
+}
+.message{
+    display: flex;
+    height: 100px;
+    width: 300px;
+    background-color: var(--primary-color-2);
+    border-radius: 25px;
+    border: 1px solid var(--primary-color-2);
+    padding: 20px 0;
+    z-index: 0;
+    margin-top: 20px;
+    align-items: center;
+    justify-content: center;
 }

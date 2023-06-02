@@ -54,6 +54,7 @@ function ProductForm() {
   const [newImages, setNewImages] = useState<File[]>([]);
   const [imagees, setImagees] = useState<ImageFile[]>([])
   const [catelog, setCatelog] =useState<category[]>([])
+  const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -127,8 +128,16 @@ function ProductForm() {
         formData,
       );
       console.log(response.data);
+      setMessage('Thêm sản phẩm thành công!');
+      setTimeout(() => {
+        location.reload();
+      }, 2000);
     } catch (error) {
       console.error((error as Error).message);
+      setMessage('Có lỗi xảy ra');
+      setTimeout(() => {
+        location.reload();
+      }, 2000);
     }
   };
   
@@ -136,6 +145,16 @@ function ProductForm() {
   return (
     <div className={cx('product_inport_form')}>
       <div className={cx('product_inport_form-wrapper')}>
+        {message&&(
+            <div className={cx('message')}>
+                <label 
+                    htmlFor="info-title__message" 
+                    className={cx("message__label")}
+                >
+                    {message} 
+                </label>
+            </div>
+        )}
         <div className={cx('product_inport_form-image')}>
           <label
               className={cx('product_inport_form-image__label')}

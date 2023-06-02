@@ -23,35 +23,44 @@ const actions = [
     },
 ]
 
-type CONTRACT = {
-    ID_CONTRACT: number,
-    "Mã số thuế": string,
-    "Ngày lập HĐ": string,
-    "Ngày hết HĐ": string,
-    "Đơn vị đổi": number,
-    "% giao dịch": number,
-    "Tên doanh nghiệp": string,
-    "Số điện thoại": string,
-    Email: string,
-    Image: string
-}
-
-type ApiResponse = {
+type ContractData = {
+    ID_CONTRACT: string;
+    "Mã số thuế": string;
+    "Ngày lập HĐ": string;
+    "Ngày hết HĐ": string;
+    "Đơn vị đổi": number;
+    "% giao dịch": number;
+    "Tên doanh nghiệp": string;
+    "Số điện thoại": string;
+    Email: string;
+    Image: string;
+  };
+  
+  type ApiResponse = {
     message: string;
-    contract: CONTRACT[];
-};
+    contract: ContractData;
+  };
 
 const cx = classNames.bind(styles);
-function ContractDetail({id}: {id: number}) {
-    const [contract, setContract] = useState<CONTRACT[]>([]);
+function ContractDetail() {
+    const [contract, setContract] = useState<ContractData | null>(null);
 
-  useEffect(() => {
+    useEffect(() => {
     async function fetchData() {
-      const response = await axios.get<ApiResponse>(`http://localhost:4132//v1/api/employee/contract/${id}`);
-      setContract(response.data.contract);
+        const response = await axios.get<ApiResponse>(
+        `http://localhost:4132/v1/api/employee/contract/001`
+        );
+        setContract(response.data.contract);
     }
     fetchData();
-  }, []);
+    }, []);
+    
+    if (!contract) {
+      return <div>Loading...</div>;
+    } 
+    else 
+    {
+
     return ( <div className={cx('contract')}>
         <div className={cx('contract-wrapper')}>
         <Header name_view='Nhân viên'/>
@@ -78,7 +87,7 @@ function ContractDetail({id}: {id: number}) {
                                 htmlFor="info-title__contract_ID" 
                                 className={cx("contract__label2")}
                             >
-                                {contract[0].ID_CONTRACT} 
+                                {contract.ID_CONTRACT} 
                         </label>
                     </div>
                     <div className={cx('contract-content')}>
@@ -137,43 +146,43 @@ function ContractDetail({id}: {id: number}) {
                                 htmlFor="info-title__contract_name" 
                                 className={cx("contract__label")}
                             >
-                                {contract[0]['Tên doanh nghiệp']}  
+                                {contract['Tên doanh nghiệp']}  
                             </label>
                             <label 
                                 htmlFor="info-title__Tax_code" 
                                 className={cx("contract__label")}
                             >
-                            {contract[0]['Mã số thuế']} 
+                            {contract['Mã số thuế']} 
                             </label> 
                             <label 
                                 htmlFor="info-title__Phone_number" 
                                 className={cx("contract__label")}
                             >
-                                {contract[0]['Số điện thoại']}   
+                                {contract['Số điện thoại']}   
                             </label>  
                             <label 
                                 htmlFor="info-title__email"  
                                 className={cx("contract__label")}
                             >
-                                {contract[0].Email} 
+                                {contract.Email} 
                             </label> 
                             <label 
                                 htmlFor="info-title__date_contract" 
                                 className={cx("contract__label")}
                             >
-                                {new Date(contract[0]["Ngày lập HĐ"]).toLocaleDateString()}
+                                {new Date(contract["Ngày lập HĐ"]).toLocaleDateString()}
                             </label> 
                             <label 
                                 htmlFor="info-title__contract_term" 
                                 className={cx("contract__label")}
                             >
-                                {new Date(contract[0]["Ngày hết HĐ"]).toLocaleDateString()}
+                                {new Date(contract["Ngày hết HĐ"]).toLocaleDateString()}
                             </label> 
                             <label 
                                 htmlFor="info-title__conversion_rate" 
                                 className={cx("contract__label")}
                             >
-                                {contract[0]['Đơn vị đổi']} 
+                                {contract['Đơn vị đổi']} 
                             </label>  
                             <label 
                                 htmlFor="info-title__commission" 
@@ -188,7 +197,7 @@ function ContractDetail({id}: {id: number}) {
         </div>
         <Footer />
         </div>
-    </div> );
+    </div> );}
 }
 
 export default ContractDetail;

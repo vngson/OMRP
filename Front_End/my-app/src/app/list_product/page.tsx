@@ -108,13 +108,13 @@ function ListProduct() {
                         <div key={product.ID_PRODUCTS} className={cx('list_product-product')} >
                             <Product  info={[product]} view='list_product_admin' />
                             <div className={cx('list_product-btn')} >
-                                <Link href={`/update_product/${product.ID_PRODUCTS}`}> 
+                                <Link href={`/update_product`}> 
                                     <button className={cx("product-btn__update")} >
                                         <FontAwesomeIcon className={cx('update__icon')} icon={faCircleCheck} size="2x" />
                                         Cập nhật sản phẩm
                                     </button> 
                                 </Link>
-                                <Link href={`/delete_product/${product.ID_PRODUCTS}`}>
+                                <Link href={`/delete_product`}>
                                     <button className={cx("product-btn__remove")} >
                                         <FontAwesomeIcon className={cx('remove__icon')} icon={faCircleXmark} size="2x" />
                                         Xóa sản phẩm

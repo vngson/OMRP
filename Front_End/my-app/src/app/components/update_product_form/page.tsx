@@ -27,7 +27,13 @@ type Product_get = {
   PRICE: number,
   STT: number,
   URL: urlg[],
-  TYPE_PROD: string
+  TYPE_PROD: string,
+  partners: {
+    ID_Partners: string;
+    Name: string;
+    url: string;
+    GiaDoiThuong: number;
+  }[];
 }
 
 type category = {
@@ -148,10 +154,10 @@ function UpdateProductForm({ idProduct }: { idProduct: number }) {
             placeholder='a'
           />
           <div className={cx('product_update_form-image__show')}>
-            {product[0].URL.length > 0 && (
+            {product[0]?.URL.length > 0 && (
               <>
                 <div className={cx('product_update_form-larger_image')}>
-                  {product[0].URL.slice(0, 1).map((_url, index) => (
+                  {product[0]?.URL.slice(0, 1).map((_url, index) => (
                     <img
                       key={index}
                       src={_url.img}
@@ -161,7 +167,7 @@ function UpdateProductForm({ idProduct }: { idProduct: number }) {
                   ))}
                 </div>
                 <div className={cx('product_update_form-small_image')}>
-                  {product[0].URL.slice(1, 4).map((_url) => (
+                  {product[0]?.URL.slice(1, 4).map((_url) => (
                     <>
                       <img
                         key={_url.id}
@@ -171,9 +177,9 @@ function UpdateProductForm({ idProduct }: { idProduct: number }) {
                       />
                     </>
                   ))}
-                  {product[0].URL.length > 0 &&
-                    product[0].URL.length < 4 &&
-                    Array.from({ length: 4 - product[0].URL.length }).map((_, index) => (
+                  {product[0]?.URL.length > 0 &&
+                    product[0]?.URL.length < 4 &&
+                    Array.from({ length: 4 - product[0]?.URL.length }).map((_, index) => (
                       <>
                         <div key={index} className={cx('product_update_form-small__image')}>
                           <Image
@@ -187,7 +193,7 @@ function UpdateProductForm({ idProduct }: { idProduct: number }) {
                 </div>
               </>
             )}
-            {product[0].URL.length === 0 && (
+            {product[0]?.URL.length === 0 && (
               <>
                 <div className={cx('product_update_form-larger_image')}>
                   <Image
@@ -219,7 +225,7 @@ function UpdateProductForm({ idProduct }: { idProduct: number }) {
             <input
               type="text"
               name="NAME"
-              value={product[0].NAME}
+              value={product[0]?.NAME}
               onChange={handleInputChange}
               className={cx('product_update_form-name__input')}
             />
@@ -229,7 +235,7 @@ function UpdateProductForm({ idProduct }: { idProduct: number }) {
             <input
               type="text"
               name="TYPE_PROD"
-              value={product[0].TYPE_PROD}
+              value={product[0]?.TYPE_PROD}
               onChange={handleInputChange}
               className={cx('product_update_form-type__input')}
             />
@@ -238,7 +244,7 @@ function UpdateProductForm({ idProduct }: { idProduct: number }) {
             Giới thiệu sản phẩm:
             <textarea
               name="INFOR_PRODUCTS"
-              value={product[0].INFOR_PRODUCTS||""}
+              value={product[0]?.INFOR_PRODUCTS||""}
               onChange={handleInputChange}
               className={cx('product_update_form-description__input')}
             />
@@ -248,7 +254,7 @@ function UpdateProductForm({ idProduct }: { idProduct: number }) {
             <input
               type="number"
               name="PRICE"
-              value={product[0].PRICE}
+              value={product[0]?.PRICE}
               onChange={handleInputChange}
               className={cx('product_inport_form-price__input')}
               min="0"
@@ -259,7 +265,7 @@ function UpdateProductForm({ idProduct }: { idProduct: number }) {
             <input
               type="number"
               name="QUANTITY"
-              value={product[0].QUANTITY}
+              value={product[0]?.QUANTITY}
               onChange={handleInputChange}
               className={cx('product_update_form-quantity__input')}
               min="0"

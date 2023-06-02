@@ -96,9 +96,15 @@ function ManageContract() {
           );
           console.log(response.data);
           setMessage('Duyệt thành công!');
+          setTimeout(() => {
+            location.reload();
+          }, 2000);
         } catch (error) {
           console.error((error as Error).message);
           setMessage('Có lỗi xảy ra');
+          setTimeout(() => {
+            location.reload();
+          }, 2000);
         }
       };
 
@@ -109,9 +115,15 @@ function ManageContract() {
             );
             console.log(response.data);
             setMessage('Đã từ chối hợp đồng!');
+            setTimeout(() => {
+                location.reload();
+              }, 2000);
           } catch (error) {
             console.error((error as Error).message);
             setMessage('Có lỗi xảy ra');
+            setTimeout(() => {
+                location.reload();
+              }, 2000);
           }
         };
     
@@ -123,14 +135,16 @@ function ManageContract() {
             <div className={cx('manage_contract-middle__wrapper')}>
                 <Sidebar author='Nhân viên' page_path='/manage_contract' LIST_ACTION={actions} avt={avatar}/>
                 <div className={cx('manage_contract-content')}>
-                    {/* {message&&(<div className={cx('message')}>
-                        <label 
-                            htmlFor="info-title__message" 
-                            className={cx("manage_contract-info__label4")}
-                        >
-                            {message} 
-                        </label>
-                    </div>)} */}
+                    {message&&(
+                        <div className={cx('message')}>
+                            <label 
+                                htmlFor="info-title__message" 
+                                className={cx("manage_contract-info__label4")}
+                            >
+                                {message} 
+                            </label>
+                        </div>
+                    )}
                     <div className={cx('manage_contract-title')}>
                         <label 
                                 htmlFor="manage_contract-title" 
@@ -162,7 +176,7 @@ function ManageContract() {
                         >
                             {contract['Tên Doanh Nghiệp']} 
                         </label>
-                        <Link href={`/contract_detail/${contract.ID_CONTRACT}`}>
+                        <Link href={`/contract_detail`}>
                         <label 
                             htmlFor="info-title__ID_contract" 
                             className={cx("manage_contract-info__label3")}

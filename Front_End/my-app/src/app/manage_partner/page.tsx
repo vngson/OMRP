@@ -137,7 +137,7 @@ function ManagePartner() {
                                     >
                                         {contract.ID_Partners} 
                                     </label>
-                                    <Link href={`/contract_detail/${contract.ID_CONTRACT}`}>
+                                    <Link href={`/contract_detail`}>
                                         <label 
                                             htmlFor="info-title__ID_contract" 
                                             className={cx("manage_partner-info__label3")}
