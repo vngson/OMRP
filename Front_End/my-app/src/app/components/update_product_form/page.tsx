@@ -62,12 +62,12 @@ function UpdateProductForm({ idProduct }: { idProduct: number }) {
 
   useEffect(() => {
     async function fetchData1() {
-      const response = await axios.get<ApiResponse1>('http://localhost:4132/v1/api/consumer/category')
+      const response = await axios.get<ApiResponse1>('https://project-ec-tuankhanh.onrender.com/v1/api/consumer/category')
       setCatelog(response.data.data);
     }
     fetchData1();
     async function fetchData2() {
-      const response = await axios.get<ApiResponse2>(`http://localhost:4132/v1/api/consumer/product/${idProduct}`)
+      const response = await axios.get<ApiResponse2>(`https://project-ec-tuankhanh.onrender.com/v1/api/consumer/product/${idProduct}`)
       setProduct(response.data.product);
     }
     fetchData2();
@@ -125,7 +125,7 @@ function UpdateProductForm({ idProduct }: { idProduct: number }) {
       formData.append("type", product[0].TYPE_PROD);
   
       const response = await axios.put(
-        `http://localhost:4132/v1/api/admin/postProduct/${product[0].ID_PRODUCTS}`,
+        `https://project-ec-tuankhanh.onrender.com/v1/api/admin/postProduct/${product[0].ID_PRODUCTS}`,
         formData,
       );
       console.log(response.data);

@@ -45,6 +45,8 @@ function ManageContract() {
     const [contracts, setContracts] = useState<CONTRACT[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [currentGroup, setCurrentGroup] = useState(1);
 
     useEffect(() => {
         axios
@@ -58,7 +60,6 @@ function ManageContract() {
     }
 
     const contractsPerPage = 5;
-    const [currentPage, setCurrentPage] = useState(1);
 
     const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -66,7 +67,6 @@ function ManageContract() {
     const startIndex = (currentPage - 1) * contractsPerPage;
     const endIndex = Math.min(startIndex + contractsPerPage, contracts.length);
     const currentContracts = contracts.slice(startIndex, endIndex);
-    const [currentGroup, setCurrentGroup] = useState(1);
     const groupSize = 3;
     const totalPages = Math.ceil(contracts.length / contractsPerPage);
 
@@ -111,19 +111,26 @@ function ManageContract() {
     const handleRefuse  = async (event: React.MouseEvent,e:string) => {
         try {
             const response = await axios.put(
-              `http://localhost:4132/v1/api/employee/deleteContract/${e}`
-            );
-            console.log(response.data);
+                `http://localhost:4132/v1/api/employee/updateContract/${e}`
+              );
+            // const response = await axios.put(
+            //   `http://localhost:4132/v1/api/employee/deleteContract/${e}`
+            // );
+            console.log(response);
             setMessage('Đã từ chối hợp đồng!');
             setTimeout(() => {
                 location.reload();
               }, 2000);
           } catch (error) {
             console.error((error as Error).message);
-            setMessage('Có lỗi xảy ra');
+            setMessage('Đã từ chối hợp đồng!');
             setTimeout(() => {
                 location.reload();
               }, 2000);
+            // setMessage('Có lỗi xảy ra');
+            // setTimeout(() => {
+            //     location.reload();
+            //   }, 2000);
           }
         };
     

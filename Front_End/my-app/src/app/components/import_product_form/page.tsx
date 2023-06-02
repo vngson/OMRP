@@ -112,28 +112,32 @@ function ProductForm() {
   const handleSubmit = async () => {
     try {
       const formData = new FormData();
+      formData.append("name", product.name);
       product.images.forEach((image) => {
         formData.append("images", image.img);
       });
-      formData.append("name", product.name);
+      formData.append("type", product.type);
       if (product.desc) {
         formData.append("desc", product.desc);
       }
       formData.append("quantity", product.quantity.toString());
       formData.append("price", product.price.toString());
-      formData.append("type", product.type);
   
       const response = await axios.post(
-        "http://localhost:4132/v1/api/admin/postProduct/",
+        "http://localhost:4132/v1/api/admin/postProduct",
         formData,
       );
-      console.log(response.data);
+      console.log(response);
       setMessage('Thêm sản phẩm thành công!');
       setTimeout(() => {
         location.reload();
       }, 2000);
     } catch (error) {
       console.error((error as Error).message);
+      // setMessage('Thêm sản phẩm thành công!');
+      // setTimeout(() => {
+      //   location.reload();
+      // }, 2000);
       setMessage('Có lỗi xảy ra');
       setTimeout(() => {
         location.reload();
