@@ -13,6 +13,7 @@ import { useParams } from 'next/navigation'
 import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import UserAPI from '@/app/api/userAPI'
+import Link from 'next/link'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -88,7 +89,7 @@ const products = useSelector((state:any)=> state.selectedProducts.save.products)
       
     </div>
  
-    <button onClick={()=> handleCheckout()} className={styles.checkout}> <Image className={styles.checkout_icon}  src={checkout_icon} alt="" /> Đặt hàng</button>
+    <button onClick={()=> handleCheckout()} className={styles.checkout}> <Link href="/"><Image className={styles.checkout_icon}  src={checkout_icon} alt="" /> Đặt hàng</Link></button>
    </div>
   )
 }

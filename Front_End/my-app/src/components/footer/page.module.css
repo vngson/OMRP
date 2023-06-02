@@ -1,13 +1,16 @@
 .footer{
-    position: relative;
+
     width: 100vw;
     height: 200px;
     background-color: var(--black);
     display: flex;
     justify-content: center;
     bottom: 0;
-    z-index: 1;
-
+    z-index: -1000;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
 }
     
 .footer-wrapper{

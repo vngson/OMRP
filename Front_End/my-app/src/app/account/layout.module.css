@@ -3,6 +3,7 @@
     margin: 0 auto;
     margin-top: 20px;
     margin-left: 250px;
+    min-height: 1000px;
 
 
 }
@@ -15,7 +16,8 @@
     border: solid 1px var(--primary-color-1);
     text-align: center;
     position:fixed;
-    left: 0%;
+    left: 20px;
+    top: 70px
 
 }
 .sidebar img{

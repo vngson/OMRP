@@ -25,7 +25,7 @@ export default function RootLayout({
         <Header/>
         {children}
         {/* {pathname === '/login'?<></>:<Footer/>} */}
-        <Footer/>
+        {/* <Footer/> */}
       </Provider>
       </body>
     </html>

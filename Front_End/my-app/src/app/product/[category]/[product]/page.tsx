@@ -12,7 +12,7 @@ import { Metadata } from "next"
 import PartnerSmallItemSelected from "@/components/items/PartnerSmallItem _Selected/com"
 import UserAPI from "@/app/api/userAPI"
 import { useSelector } from "react-redux"
-
+import Link from "next/link"
 type Props = {
     params: {  category: string, product: string };
     searchParams: { [key: string]: string | string[] | undefined };
@@ -115,7 +115,7 @@ export default function ProductPage({ params, searchParams }: Props){
                     </div>
                 <div className={styles.buttons}>
                     <button onClick={() => handleCartBtn()} className={styles.button}>
-                        Thêm vào giỏ hàng</button>
+                       <Link href="/account/cart"> Thêm vào giỏ hàng</Link></button>
                         <button className={styles.button} >Đổi ngay</button>
                 </div>
             </div>
