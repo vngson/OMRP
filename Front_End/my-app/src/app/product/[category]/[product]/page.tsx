@@ -9,6 +9,9 @@ import PartnerSmallItem from "@/components/items/PartnerSmallItem/com"
 import productAPI from "@/app/api/productAPI"
 import { productApi } from "@/app/api/apiReponseType"
 import { Metadata } from "next"
+import PartnerSmallItemSelected from "@/components/items/PartnerSmallItem _Selected/com"
+import UserAPI from "@/app/api/userAPI"
+import { useSelector } from "react-redux"
 
 type Props = {
     params: {  category: string, product: string };
@@ -16,9 +19,11 @@ type Props = {
   };
 
 export default function ProductPage({ params, searchParams }: Props){
-
+    // const [num, setNum]=useState(0)
     const ID_PRODUCT=params.product
     console.log("parm", ID_PRODUCT)
+    const user=useSelector((state:any)=> state.auth.login.currentUser)
+   const cusID=user.user.userId
     const [infor_value,setInfor_value]= useState<any[]>()
     const [product, setProduct] = useState<productApi>()
     const [bigImg, setBigImg]= useState("")
@@ -36,15 +41,31 @@ export default function ProductPage({ params, searchParams }: Props){
         fetchProduct()
                  
     // console.log("par",infor_value)
-    },[product, bigImg, infor_value])
+    },[])
 
     const infor_title= ["Tên sản phẩm", "Thể loại", "Giới thiệu", "Giá"]
     
     console.log("par",infor_value?.[4]?.[0]?.img)
     
     console.log("bis", bigImg)
-    const [count, setCount ] = useState(1)
+    const [partners,setPartner]= useState("")
+    const [count, setCount ] = useState(0)
+    const handleCartBtn = function () {
+        const newproduct ={
+            idProduct: product?.ID_PRODUCTS.toString(),
+            nameProduct: product?.NAME,
+            price: product?.PRICE,
+            quantity: count,
+            pType: partners,
+        }
+        console.log("res1", typeof(count))
+        console.log("res", newproduct)
+        const res= UserAPI.add2Cart(cusID, newproduct);
+        console.log("res", res)
+    }
+    // idProduct: nameProduct pType, price, quantity: string,
     return (
+        <div className={styles.mass}>
         <div className={styles.container}>
             {infor_value===null?(<></>):(<>
  <div className={styles.photos}>
@@ -68,10 +89,14 @@ export default function ProductPage({ params, searchParams }: Props){
                               {infor_value?.[index].map((partner:any)=> (
                                 <>
                                     {partner.GiaDoiThuong} điểm
-                            
-                                    <PartnerSmallItem logo={partner.url} name={partner.Name}/>
+            
+                            {
+                                partner.ID_Partners===partners?(  <div  className= {styles.selected} onClick={()=>{setPartner(partner.ID_Partners);console.log("p",partner.ID_Partners)}}><PartnerSmallItemSelected logo={partner.url} name={partner.Name}/></div>):(
+                                   <div onClick={()=>{setPartner(partner.ID_Partners);console.log("p",partner.ID_Partners)}}> <PartnerSmallItem logo={partner.url} name={partner.Name} /></div>
+                                )
+                            }</>
 
-                                    </>
+
                             
                               ))}
                               </div>
@@ -84,18 +109,19 @@ export default function ProductPage({ params, searchParams }: Props){
                 </div>
                 {/* footer */}
                 <div className={styles.counter}>
-                    <Image src={arrow_left_product} alt=""/>
-                    <input type="text" value={count} />
-                    <Image src={arrow_right_product} alt=""/>
+                    <Image src={arrow_left_product} alt="" onClick={()=>setCount(count-1)}/>
+                    <input pattern="[0-9]*" name="cost" type="number" value={count} onChange={(e)=>setCount(e.target.value)}/>
+                    <Image src={arrow_right_product} alt="" onClick={()=>setCount(count+1)}/>
                     </div>
                 <div className={styles.buttons}>
-                    <button className={styles.button}>
+                    <button onClick={() => handleCartBtn()} className={styles.button}>
                         Thêm vào giỏ hàng</button>
-                        <button className={styles.button}>Đổi ngay</button>
+                        <button className={styles.button} >Đổi ngay</button>
                 </div>
             </div>
             </>)}
            
+        </div>
         </div>
     )
 

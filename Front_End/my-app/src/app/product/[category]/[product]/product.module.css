@@ -1,3 +1,7 @@
+.mass{
+    display: block;
+    height: 700px;
+}
 .container{
     background-color: white;
     padding: 40px;
@@ -90,3 +94,8 @@
     width: 200px;
 
 }
+
+/* .selected{
+    box-shadow: 1px 1px 20px 1px var(--primary-color-1);
+    border-radius: 20px;
+} */

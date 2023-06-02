@@ -1,7 +1,7 @@
 import Image from "next/image"
 import styles from "./styles.module.css"
 
-export default function PartnerSmallItem_1({logo, name}:any) {
+export default function PartnerSmallItemSelected({logo, name}:any) {
 
     return(
         <div className={styles.partner}>

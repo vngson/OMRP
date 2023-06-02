@@ -1,16 +1,20 @@
 .footer{
-    /* display: flex; */
+    position: relative;
     width: 100vw;
     height: 200px;
     background-color: var(--black);
-    position: absolute;
+    display: flex;
     justify-content: center;
-    bottom: 0%;
+    bottom: 0;
+    z-index: 1;
+
 }
     
 .footer-wrapper{
     display: flex;
     align-items: center;
+    width: 100%;
+    height: 100%;
     justify-content: space-between;
     width: var(--grid-size);
 }

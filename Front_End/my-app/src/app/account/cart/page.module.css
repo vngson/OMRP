@@ -102,3 +102,25 @@
 .checkout{
     background-color: var(--primary-color-1) !important;
 }
+
+.radiobtn{
+    border-radius: 100%;
+    width: 15px;
+    height: 15px;
+    background-color: none;
+    position: relative;
+    left: -30px;
+    bottom: -30px;
+    border: solid 1px var(--background-color);
+}
+
+.radiobtn_click{
+    border-radius: 100%;
+    width: 15px;
+    height: 15px;
+    background-color: #3F7CAC;
+    position: relative;
+    left: -30px;
+    bottom: -30px;
+    border: solid 1px #3F7CAC;
+}

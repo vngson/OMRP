@@ -13,6 +13,7 @@ import delete_icon from "./delete_icon.svg"
 import checkout_icon from "./checkout_icon.svg"
 import partner_img_1_square from "./partner_img_1_square.png"
 import user_avt_1 from "./user-avatar.jpg"
+import searchicon from "./searchicon.svg"
 export {
     banner_home_customer,
     product_img_1,
@@ -28,5 +29,6 @@ export {
     delete_icon,
     checkout_icon,
     partner_img_1_square,
-    user_avt_1
+    user_avt_1,
+    searchicon
 }

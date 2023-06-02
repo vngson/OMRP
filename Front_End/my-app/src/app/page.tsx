@@ -14,6 +14,7 @@ import { useActionData } from 'react-router-dom'
 import { categoryApi } from './api/apiReponseType'
 import { useSelector } from 'react-redux'
 import { Metadata } from 'next'
+import Link from 'next/link'
 const inter = Inter({ subsets: ['latin'] })
 export const metadata = {
   title: 'Next App',
@@ -27,6 +28,7 @@ type apiResponse ={
   totalItems: string
 }
 type productApi = {
+  ID_PRODUCTS: any
   URL: string,
   NAME: string,
   PRICE: number
@@ -201,8 +203,10 @@ export default function Home() {
             {/* slide */}
             {categorylist.map((cate:any, index)=>(
               <div key={index} className={styles.catalog_product}>
+                  <Link href={`/product/${cate.TYPE_PROD}`}>
                 <Image src={cate.Img} width={100} height={120} alt=""></Image>
                 <p className={styles.catalog_product_title}>{cate.TYPE_PROD}</p>
+                </Link>
               </div>
             ))}
            
@@ -228,21 +232,21 @@ export default function Home() {
             <>
             {curr_productlist.map((prod:productApi)=>(
            
-              <ProductItem img={prod.URL} name={prod.NAME} price={prod.PRICE}/>
+              <ProductItem img={prod.URL} name={prod.NAME} price={prod.PRICE} id={prod.ID_PRODUCTS} />
             ))}
             </>
           ):(productListTab===2?(
             <>
             {curr_productExchangePointlist.map((prod:productApi)=>(
            
-              <ProductItem img={prod.URL} name={prod.NAME} price={prod.PRICE}/>
+              <ProductItem img={prod.URL} name={prod.NAME} price={prod.PRICE} id={prod.ID_PRODUCTS} />
             ))}
             </>
           ):(
             <>
             {curr_productPointlist.map((prod:productApi)=>(
            
-              <ProductItem img={prod.URL} name={prod.NAME} price={prod.PRICE}/>
+              <ProductItem img={prod.URL} name={prod.NAME} price={prod.PRICE} id={prod.ID_PRODUCTS} />
             ))}
             </>
           ))}

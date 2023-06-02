@@ -1,14 +1,17 @@
 
 import authreducer from "./authSlice"
-
+// import selectedProductsreducer from './selectedProductsSlice'
 export default configureStore({
     reducer:{
         auth:authreducer,
+        selectproducts: selectedProductsreducer
     },
 })
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import authReducer from "./authSlice";
 import userReducer from "./userSlice";
+import selectedProductsreducer from './selectedProductsSlice'
+
 import {
   persistStore,
   persistReducer,
@@ -26,7 +29,7 @@ const persistConfig = {
   version: 1,
   storage,
 };
-const rootReducer = combineReducers({ auth: authReducer, users: userReducer });
+const rootReducer = combineReducers({ auth: authReducer, users: userReducer, selectedProducts: selectedProductsreducer });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({

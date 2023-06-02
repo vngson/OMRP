@@ -35,6 +35,11 @@ const nextConfig = {
         hostname: 'localhost',
  
       },
+      {
+        protocol: 'https',
+        hostname: '24hstore.vn',
+ 
+      },
     ],
   },
 }

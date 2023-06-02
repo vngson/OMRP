@@ -3,6 +3,8 @@ import classNames from 'classnames/bind';
 import Image from 'next/image';
 import styles from "./page.module.css"
 import logo from "@/assets/images/omrp_logo_transparent.png"
+import React from "react";
+
 
 const cx = classNames.bind(styles);
 

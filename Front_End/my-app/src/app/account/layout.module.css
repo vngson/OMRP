@@ -2,6 +2,7 @@
     width: var(--max-width);
     margin: 0 auto;
     margin-top: 20px;
+    margin-left: 250px;
 
 
 }
@@ -14,6 +15,7 @@
     border: solid 1px var(--primary-color-1);
     text-align: center;
     position:fixed;
+    left: 0%;
 
 }
 .sidebar img{
@@ -30,6 +32,7 @@
     border-radius: 50px;
     padding: 5px 20px;
     margin-bottom: 10px;
+    cursor: pointer;
 
 }
 .sidebar button{
@@ -48,5 +51,6 @@
     padding: 5px 20px;
     margin-bottom: 10px;
     box-shadow: 1px 1px ;
+    cursor: pointer;
 
 }

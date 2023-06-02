@@ -1,19 +1,31 @@
-
+/* eslint-disable react/jsx-key */
+'use client'
 import PartnerSmallItem from "@/components/items/PartnerSmallItem/com"
 import styles from "./page.module.css"
 import { arrow_left_product, arrow_right_product, delete_icon, partner_img_1, product_img_1 } from "@/assets/images"
 import Image from "next/image"
 import { count } from "console"
+import { useSelector } from "react-redux"
+import UserAPI from "@/app/api/userAPI"
+import { useEffect, useState } from "react"
 export default function CartPage(){
-    const a=[1,2,2,3]
-    const table=[{name: "Bình giữ nhiệt",
-            price: 30,
-            count: 2,
-            img: product_img_1},{name: "Bình giữ nhiệt",
-            price: 30,
-            count: 2,
-            img: product_img_1},]
+  
 
+            const user=useSelector((state:any)=> state.auth.login.currentUser)
+            // const cusID=user.user.userId
+            const cusID="1"
+    const [historyExchange, setHistoryExchange]= useState([])
+    const fetchHistoryExchange= async function (){
+        const res= await UserAPI.getHistoryExchange(cusID, "", "");
+        setHistoryExchange(res.data.data)
+        console.log("hídd", historyExchange)
+
+
+    }
+    useEffect(()=>{
+        fetchHistoryExchange()
+        console.log("hí", historyExchange)
+    },[])
     return(
         <div className={styles.container}>
             <div className={styles.header}>
@@ -22,19 +34,19 @@ export default function CartPage(){
                 <div className={styles.p}>Giá</div>
           
             </div>
-            {a.map((aa)=>(
+            {historyExchange?.map((exc:any)=>(
                 <div className={styles.partner}>
-                    <PartnerSmallItem name="Phuc long" logo={partner_img_1}/>
-                    <div className={styles.ordercode}>12341431234</div>
+                    <PartnerSmallItem name={exc.TenDoiTac} logo={exc.ImgDoiTac}/>
+                    <div className={styles.ordercode}>{exc.ID_TRADE}</div>
                     <div className={styles.partner_table}>
-                        {table.map((aa) => (
+                        {exc.PRODUCTS.map((prod:any) => (
                             <div className={styles.row}>
-                                <Image src={product_img_1} width={80} height={80} className={styles.img} alt=""/>
-                                <div className={styles.row_element}>{aa.name}
-                                <p className={styles.count}>x2</p></div>
+                                <Image src={prod.ImgSanPham} width={80} height={80} className={styles.img} alt=""/>
+                                <div className={styles.row_element}>{prod.NAME}
+                                <p className={styles.count}>x{prod.QUANTITY}</p></div>
                                 <p className={styles.row_element}></p>
                                 
-                                <p className={styles.row_element}>{aa.price*aa.count}</p>
+                                <p className={styles.row_element}>{prod.TOTAL_POINTS}</p>
                             </div>
                           
                         ))}

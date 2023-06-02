@@ -39,9 +39,13 @@ const productAPI = {
     getAllProductOfPartner: function(id_partner:string, page:string, perPage: string){
         const url=`${apiV1}/employee/partnerProducts/${id_partner}?page=${page}&perPage=${perPage}`
         return get(url, "")
+    },
+    search: function (query: string){
+        const url=`${apiV1}/consumer/product?keyword=${query}&page=1&perPage=10`
+        return get(url,"")
     }
 }
 
 
-
+///v1/api/consumer/product
 export default productAPI;

@@ -8,7 +8,7 @@ export type categoryApi ={
 
 export type productApi= {
     NAME: string,
-    ID_PRODUCTS: number,
+    // ID_PRODUCTS: number,
     PRICE: number,
     QUANTITY: number,
     TYPE_PROD: string,
@@ -20,6 +20,7 @@ export type productApi= {
         url: string,
         GiaDoiThuong: number}
     ]
+    ID_PRODUCTS: string,
 
 }
 export type userApi ={
