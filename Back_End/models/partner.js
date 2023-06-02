@@ -66,7 +66,7 @@ exports.getPartnerProduct = async function (id_products, id_partners) {
   const client = await getClient();
 
   const rs1 = await client.query(
-    `select * from public."EXCHANGE_POINT" where ID_PRODUCTS = $1 and ID_PARTNERS = $2`,
+    `select * from public."EXCHANGE_POINT" where "ID_PRODUCTS" = $1 and "ID_PARTNERS" = $2`,
     [id_products, id_partners]
   )
   return rs1.rows;
@@ -90,7 +90,7 @@ exports.deleteProduct = async function (id_products, id_partners) {
   const client = await getClient();
 
   const rs1 = await client.query(
-    'DELETE FROM public."EXCHANGE_POINT" where ID_PRODUCTS = $1 and ID_PARTNERS = $2',
+    'DELETE FROM public."EXCHANGE_POINT" where "ID_PRODUCTS" = $1 and "ID_PARTNERS" = $2',
     [id_products, id_partners]
   );
   return rs1.rows;

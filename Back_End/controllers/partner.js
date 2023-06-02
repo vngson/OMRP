@@ -26,8 +26,13 @@ exports.registerContract = async (req, res, next) => {
     contractPartner: partnerId
   };
   try {
+    const contracts = await Partner.getContracts(partnerId);
+    if (contracts.length !== 0) {
+      const error = new Error("Contract has exists ! ");
+      error.statusCode = 403;
+      throw error;
+    }
     const postContract = await Partner.insertNewContract(newConstract);
-
     res.status(200).json({
       message: "Post new contract successfully",
       newConstract: newConstract,
@@ -79,8 +84,8 @@ exports.postProduct = async (req, res, next) => {
       error.statusCode = 403;
       throw error;
     }
-    if (haveProduct.length === 0) {
-      const error = new Error("Could not find product");
+    if (haveProduct.length !== 0) {
+      const error = new Error("Product has exists");
       error.statusCode = 404;
       throw error;
     }
