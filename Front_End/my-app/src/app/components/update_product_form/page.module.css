@@ -1,0 +1,150 @@
+.product_update_form{
+    display: flex;
+    width: 700px;
+    height: 500px;
+    background: var(--white);
+    border-radius: 25px;
+}
+
+.product_update_form-wrapper{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.product_update_form-info{
+    display: flex;
+    flex-direction: column;
+}
+
+.product_update_form-name, .product_update_form-type {
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    width: 250px;
+    user-select: none;
+}
+
+.product_update_form-name__input, .product_update_form-type__input{
+    height: 25px;
+    margin-top: 10px;
+    border: 1px solid #BBBBBB;
+}
+
+.product_update_form-description{
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    width: 250px;
+    user-select: none;
+}
+
+.product_update_form-description__input{
+    height: 150px;
+    margin-top: 10px;
+    border: 1px solid #BBBBBB;
+    user-select: none;
+}
+
+.product_update_form-description__input:focus {
+    outline: none;
+}
+
+.product_update_form-quantity{
+    display: flex;
+    padding-top: 20px;
+    width: 250px;
+    justify-content: space-between;
+    user-select: none;
+}
+
+.product_update_form-quantity__input{
+    margin-left: 20px;
+    width: 100px;
+    height: 25px;
+    border: 1px solid #BBBBBB;
+}
+
+.product_update_form-image{
+    display: flex;
+    width: 340px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.product_update_form-image__label{
+    display: flex;
+    width: 150px;
+    height: 40px;
+    background: #FFFFFF;
+    border: 1px solid var(--primary-color-1);
+    border-radius: 25px;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    cursor: pointer;
+}
+
+.product_update_form-image__input{
+    display: none;
+}
+
+.product_update_form-image__show{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    user-select: none;
+}
+
+.product_update_form-larger_image {
+    width: 300px;
+    height: 300px;
+  }
+  
+.product_update_form-larger_image-img {
+    width: 100%;
+    height: 100%;
+    border: 1px solid var(--primary-color-1);
+    border-radius: 5px;
+}
+
+.product_update_form-small_image{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.product_update_form-small_image-child{
+    width: 90px;
+    height: 90px;
+    margin-top: 20px;
+    border: 1px solid var(--primary-color-1);
+    border-radius: 5px;
+}
+
+.product_update_form-btn{
+    width: 200px;
+    height: 40px;
+    margin-top: 30px;
+    margin-left: 100%;
+    transform: translateX(-100%);
+    background-color: var(--color-btn-1);
+    border-radius: 25px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    user-select: none;
+}
+
+.btn__icon{
+    padding-right: 10px;
+    color: var(--white);
+    background-color: transparent;
+    height: var(--font-size-icon-small);
+}
+
+  

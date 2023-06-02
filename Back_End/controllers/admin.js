@@ -92,8 +92,9 @@ exports.postProduct = async (req, res, next) => {
   const quantity = req.body.quantity;
   const price = req.body.price;
   const date = new Date().toISOString().slice(0, 10);
-  const id = await Admin.getLastIDProduct();
+  const lastid = await Admin.getLastIDProduct();
   const urlType = await Admin.getURLTypeProduct(typeProduct);
+  const id = Number(lastid.ID_PRODUCTS) + 1;
 
   const newProduct = {
     id: id,

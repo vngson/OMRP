@@ -1,0 +1,32 @@
+.list_product{
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.list_product-wrapper{
+    position: relative;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.list_product-middle{
+    flex: 1;
+    margin-top: 140px;
+    margin-bottom: 240px;
+    width: var(--grid-size);
+}
+
+.list_product-middle__wrapper{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.list_product-content{
+    margin-left: 40px;
+}
