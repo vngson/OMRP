@@ -1,0 +1,58 @@
+.container{
+    width: var(--max-width);
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-left: 250px;
+    min-height: 1000px;
+
+
+}
+.sidebar   {
+    background-color: white;
+    padding: 50px 20px 100px 20px;
+    height: fit-content;
+
+    border-radius: 30px;
+    border: solid 1px var(--primary-color-1);
+    text-align: center;
+    position:fixed;
+    left: 20px;
+    top: 70px
+
+}
+.sidebar img{
+    margin-bottom: 20px;
+}
+.user_name{
+    border-bottom: solid 1px var(--primary-color-1);
+    margin: 0px 40px;
+    padding-bottom: 10px;
+   margin-bottom: 30px;
+}
+.element{
+    background-color: var(--background-color);
+    border-radius: 50px;
+    padding: 5px 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
+
+}
+.sidebar button{
+    color: white;
+    background-color: var(--primary-color-1);
+
+    padding: 5px 10px 5px 10px;
+    width: fit-content;
+    border-radius: 40px;
+    margin-top: 40px;
+}
+.element_focus{
+    background-color: var(--primary-color-2);
+    color: var(--primary-color-1);
+    border-radius: 50px;
+    padding: 5px 20px;
+    margin-bottom: 10px;
+    box-shadow: 1px 1px ;
+    cursor: pointer;
+
+}
