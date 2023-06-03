@@ -28,13 +28,13 @@ exports.registerContract = async (req, res, next) => {
   try {
     const contracts = await Partner.getContracts(partnerId);
     if (contracts.length !== 0) {
-      const error = new Error("Contract has exists ! ");
-      error.statusCode = 403;
+      const error = new Error("Contract has exsited ! ");
+      error.statusCode = 400;
       throw error;
     }
     const postContract = await Partner.insertNewContract(newConstract);
     res.status(200).json({
-      message: "Post new contract successfully",
+      message: "Register new contract successfully",
       newConstract: newConstract,
     });
   } catch (error) {
@@ -55,7 +55,7 @@ exports.getContracts = async (req, res, next) => {
       throw error;
     }
     res.status(200).json({
-      message: "Fetched products successfully ",
+      message: "Fetched Contracts successfully ",
       contracts: contracts,
     });
   } catch (error) {

@@ -65,11 +65,11 @@ exports.getContract = async (req, res, next) => {
     const contract = await Employee.getContract(idContract);
 
     if (contract.length === 0) {
-      const error = new Error("Could not find product ! ");
+      const error = new Error("Could not find contract ! ");
       error.statusCode = 404;
       throw error;
     }
-    res.status(200).json({ message: "Contract fetched !", contract: contract });
+    res.status(200).json({ message: "Contract fetched successfully!", contract: contract });
   } catch (error) {
     if (!error.statusCode) {
       error.statusCode = 500;
@@ -156,7 +156,7 @@ exports.updateContract = async (req, res, next) => {
   try {
     const putContract = await Employee.updateContract(contractId);
     res.status(200).json({
-      message: "Update product successfully",
+      message: "Update contract successfully",
     });
   } catch (error) {
     if (!error.statusCode) {
@@ -172,7 +172,7 @@ exports.deleteContract = async (req, res, next) => {
   try {
     const deleteContract = await Employee.deleteContract(contractId);
     res.status(200).json({
-      message: "Delete product successfully",
+      message: "Delete contract successfully",
     });
   } catch (error) {
     if (!error.statusCode) {
