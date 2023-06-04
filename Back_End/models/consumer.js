@@ -39,14 +39,13 @@ exports.getProductsSearched = async function (skip, limit, keyword) {
   try {
     const rs = await client.query(
       'SELECT P."ID_PRODUCTS",P."NAME",P."INFOR_PRODUCTS",P."QUANTITY",P."PRICE",IP."URL",TP."TYPE_PROD" FROM public."Products" as P JOIN public."IMAGE_PRODUCT" as IP ON P."ID_PRODUCTS" = IP."ID_PRODUCTS" AND IP."STT" = $1 JOIN public."Type_Products" AS TP ON P."ID_PRODUCTS" = TP."ID_PRODUCTS" WHERE P."NAME" ILIKE $2 OFFSET $3 LIMIT $4 ',
-      [1, `%@${keyword}%`, skip, limit]
+      [1, `%${keyword}%`, skip, limit]
     );
     return rs.rows;
   } finally {
     client.release(); // Giải phóng kết nối
   }
 };
-
 exports.getProductTypeSearched = async function (skip, limit, type, keyword) {
   const client = await getClient();
   try {
@@ -56,7 +55,7 @@ exports.getProductTypeSearched = async function (skip, limit, type, keyword) {
     );
     return rs.rows;
   } finally {
-    client.release(); // Giải phóng kết nối
+    client.release();
   }
 };
 
@@ -69,7 +68,7 @@ exports.countProductSearched = async function (keyword) {
     );
     return rs.rows[0];
   } finally {
-    client.release(); // Giải phóng kết nối
+    client.release();
   }
 };
 

@@ -26,7 +26,6 @@ exports.getProducts = async (req, res, next) => {
   const perPage = req.query.perPage || 4; // Lấy tham số query hoặc mặc định là 4
   const type = req.query.type || null; // Lấy tham số query hoặc mặc định không có
   const keyword = req.query.keyword || null;
-
   try {
     const skip = (currentPage - 1) * perPage;
     const limit = Number(perPage);
