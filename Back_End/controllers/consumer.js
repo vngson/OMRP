@@ -26,7 +26,6 @@ exports.getProducts = async (req, res, next) => {
   const perPage = req.query.perPage || 4; // Lấy tham số query hoặc mặc định là 4
   const type = req.query.type || null; // Lấy tham số query hoặc mặc định không có
   const keyword = req.query.keyword || null;
-
   try {
     const skip = (currentPage - 1) * perPage;
     const limit = Number(perPage);
@@ -338,7 +337,6 @@ exports.postCart = async (req, res, next) => {
   const productId = req.body.idProduct;
   const productName = req.body.nameProduct;
   const pointType = req.body.pType;
-  const price = req.body.price;
   const quantityInput = req.body.quantity;
 
   const cart = {
@@ -346,7 +344,6 @@ exports.postCart = async (req, res, next) => {
     productId: productId,
     productName: productName,
     pointType: pointType,
-    price: price,
   };
 
   try {
@@ -356,9 +353,6 @@ exports.postCart = async (req, res, next) => {
       haveProduct.length === 0
         ? quantityInput
         : Number(haveProduct[0].QUANTITY) + Number(quantityInput);
-    const totalPrice = Number(price) * Number(quantity);
-
-    cart.totalPrice = totalPrice;
     cart.quantity = quantity;
 
     const addToCart =
@@ -382,6 +376,7 @@ exports.getCart = async (req, res, next) => {
 
   try {
     const partnersArr = await Consumer.getPartnersCart(consumerId);
+
     if (partnersArr.length === 0) {
       const error = new Error("Could not find partners consumer in cart ! ");
       error.statusCode = 404;
@@ -394,15 +389,26 @@ exports.getCart = async (req, res, next) => {
       throw error;
     }
 
-    partnersArr.forEach((partner) => {
-      partner.products = productCart.filter((product) => {
-        return partner.ID_DoanhNghiep === product.POINT_TYPE;
-      });
-    });
+    let totalCart = 0;
+    await Promise.all(
+      partnersArr.map(async (partner) => {
+        partner.products = productCart.filter((product) => {
+          return partner.ID_DoanhNghiep === product.POINT_TYPE;
+        });
 
-    const totalCart = productCart.reduce((result, obj) => {
-      return result + obj.TOTAL_PRICE;
-    }, 0);
+        await Promise.all(
+          partner.products.map(async (product) => {
+            const price = await Consumer.getPointProductCart(
+              product.ID_PRODUCTS,
+              partner.ID_DoanhNghiep
+            );
+            product.PRICE = price.PRICE;
+            product.TOTAL_PRICE = product.PRICE * product.QUANTITY;
+            totalCart += Number(product.TOTAL_PRICE);
+          })
+        );
+      })
+    );
 
     const totalItems = productCart.length;
 

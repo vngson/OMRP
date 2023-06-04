@@ -2,6 +2,7 @@ const Partner = require("../models/partner");
 const Admin = require("../models/admin");
 const Employee = require("../models/employee");
 const moment = require("moment");
+
 exports.registerContract = async (req, res, next) => {
   const partnerId = req.params.partnerId;
 
@@ -18,7 +19,7 @@ exports.registerContract = async (req, res, next) => {
   const id = await Partner.getLastIDContract();
 
   const newConstract = {
-    id: id,
+    id: Number(id.ID_CONTRACT) + 1,
     tax: tax,
     deputy: deputy,
     date: date,
@@ -28,10 +29,15 @@ exports.registerContract = async (req, res, next) => {
     contractPartner: partnerId,
   };
   try {
+    const contracts = await Partner.getContracts(partnerId);
+    if (contracts.length !== 0) {
+      const error = new Error("Contract has exsited ! ");
+      error.statusCode = 400;
+      throw error;
+    }
     const postContract = await Partner.insertNewContract(newConstract);
-
     res.status(200).json({
-      message: "Post new contract successfully",
+      message: "Register new contract successfully",
       newConstract: newConstract,
     });
   } catch (error) {
