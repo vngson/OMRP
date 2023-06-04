@@ -275,15 +275,13 @@ exports.addToCart = async function (info) {
   const client = await getClient();
   try {
     const rs = await client.query(
-      `insert into public.\"Cart\"(\"ID_CUSTOMERS\",\"ID_PRODUCTS\", \"NAME_PRODUCTS\", \"PRICE\", \"QUANTITY\", \"TOTAL_PRICE\",\"POINT_TYPE\")
-      VALUES ($1, $2, $3, $4,$5,$6,$7) returning *`,
+      `insert into public.\"Cart\"(\"ID_CUSTOMERS\",\"ID_PRODUCTS\", \"NAME_PRODUCTS\",\"QUANTITY\",\"POINT_TYPE\")
+      VALUES ($1, $2, $3, $4,$5) returning *`,
       [
         info.consumerId,
         info.productId,
         info.productName,
-        info.price,
         info.quantity,
-        info.totalPrice,
         info.pointType,
       ]
     );
@@ -296,14 +294,8 @@ exports.updateToCart = async function (info) {
   const client = await getClient();
   try {
     const rs = await client.query(
-      'UPDATE public."Cart" SET "QUANTITY" = $1, "TOTAL_PRICE" = $2 WHERE "ID_CUSTOMERS" = $3 AND "ID_PRODUCTS" = $4 AND "POINT_TYPE" = $5',
-      [
-        info.quantity,
-        info.totalPrice,
-        info.consumerId,
-        info.productId,
-        info.pointType,
-      ]
+      'UPDATE public."Cart" SET "QUANTITY" = $1 WHERE "ID_CUSTOMERS" = $2 AND "ID_PRODUCTS" = $3 AND "POINT_TYPE" = $4',
+      [info.quantity, info.consumerId, info.productId, info.pointType]
     );
   } finally {
     client.release(); // Giải phóng kết nối
@@ -327,10 +319,23 @@ exports.getProductsCart = async function (idConsumer) {
   const client = await getClient();
   try {
     const rs = await client.query(
-      'SELECT C."ID_PRODUCTS",C."NAME_PRODUCTS",C."PRICE",C."QUANTITY",C."TOTAL_PRICE",IP."URL",C."POINT_TYPE" FROM public."Cart" AS C, public."IMAGE_PRODUCT" AS IP WHERE C."ID_CUSTOMERS" = $1 AND C."ID_PRODUCTS" = IP."ID_PRODUCTS" AND IP."STT" = $2 ORDER BY C."POINT_TYPE"',
+      'SELECT C."ID_PRODUCTS",C."NAME_PRODUCTS",C."QUANTITY",IP."URL",C."POINT_TYPE" FROM public."Cart" AS C, public."IMAGE_PRODUCT" AS IP WHERE C."ID_CUSTOMERS" = $1 AND C."ID_PRODUCTS" = IP."ID_PRODUCTS" AND IP."STT" = $2 ORDER BY C."POINT_TYPE"',
       [idConsumer, 1]
     );
     return rs.rows;
+  } finally {
+    client.release(); // Giải phóng kết nối
+  }
+};
+
+exports.getPointProductCart = async function (idProduct, idPartner) {
+  const client = await getClient();
+  try {
+    const rs = await client.query(
+      'SELECT "PRICE" FROM public."EXCHANGE_POINT" WHERE "ID_PRODUCTS" = $1 AND "ID_PARTNERS" = $2 ',
+      [idProduct, idPartner]
+    );
+    return rs.rows[0];
   } finally {
     client.release(); // Giải phóng kết nối
   }
