@@ -1,5 +1,29 @@
 const Consumer = require("../models/consumer");
 
+exports.getInfoConsumer = async (req, res, next) => {
+  const consumerId = req.params.consumerId;
+  try {
+    const consumer = await Consumer.getInfoConsumer(consumerId);
+    if (!consumer) {
+      const error = new Error("Could not find consumer ! ");
+      error.statusCode = 404;
+      throw error;
+    }
+    const pointsConsumer = await Consumer.getPointsConsumerById(consumerId);
+    consumer.Points = pointsConsumer;
+
+    res.status(200).json({
+      message: "Fetched info consumer successfully ! ",
+      data: consumer,
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
 exports.getCategory = async (req, res, next) => {
   try {
     const categoryData = await Consumer.getCategoryProduct();
