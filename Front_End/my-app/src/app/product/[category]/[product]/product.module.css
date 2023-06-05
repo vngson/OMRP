@@ -15,6 +15,7 @@
     
 }
 
+
 .photos{
   padding-left: 50px;
     margin-right: 50px;
@@ -76,6 +77,20 @@
     position: relative;
     width: 120px;
     text-align: center;
+}
+.maxover{
+    color: gray;
+    opacity: 0.3;
+    font-size: 12px;
+    position: relative;
+    /* left: 50%; */
+    top: 10px;
+    transform: translateX(0%);
+    text-align: center;
+    padding: 0px;
+}
+.empty{
+    height: 14px;
 }
 .buttons{
     

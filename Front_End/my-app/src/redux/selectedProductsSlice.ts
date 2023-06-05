@@ -33,12 +33,13 @@ const selectedProductsSlice = createSlice({
         },
         deleteSuccess: (state) => {
             state.delete.isSaving = false;
-            state.delete.products = null;
+            state.save.products = null;
             state.delete.error = false;
         },
         deleteFailed: (state) =>{
             state.delete.isSaving = false;
             state.delete.error = true;
+            state.save.products = null;
         },
         deleteStart: (state) =>{
             state.delete.isSaving = true;

@@ -13,13 +13,14 @@ import logo from "@/assets/images/omrp_logo_transparent.png"
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import SearchComp from '../search/search';
+import { userApi } from '@/app/api/apiReponseType';
 
 const cx = classNames.bind(styles);
 
 export default function Header() {
-    // const [user, setUser]= useState(null);
+
     const user = useSelector((state: any)=> state.auth.login.currentUser)
-    // console.log("urs",user)
+
     return <div className={cx('header')}>
         <div className={cx('header-wrapper')} >
             <Link href="/" className={cx('header-logo')}><Image src={logo} width={80} height={60} alt='logo' /></Link>
@@ -45,9 +46,9 @@ export default function Header() {
                 Đăng nhập
             </Link>)}
            <Link href="/account/cart"> 
-           <div className={cx('header-icon__wrapper')}><Link href="/account/cart"></Link><FontAwesomeIcon className={cx('header-cart')} icon={faCartShopping} /></div></Link>
-         
-            <div className={cx('header-icon__wrapper')}><FontAwesomeIcon className={cx('header-profile')} icon={faUser} /></div>
+           <div className={cx('header-icon__wrapper')}><FontAwesomeIcon className={cx('header-cart')} size="2x" icon={faCartShopping} /></div></Link>
+         {/* <Link href="/account/cart"></Link> */}
+            <div className={cx('header-icon__wrapper')}><FontAwesomeIcon className={cx('header-profile')} size="2x" icon={faUser} /></div>
         </div>
     </div>
 };

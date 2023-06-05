@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 "use client"
-import PartnerSmallItem from "@/components/items/PartnerSmallItem/com"
+import PartnerSmallItem from "@/components/items/partner/PartnerSmallItem/com"
 import styles from "./page.module.css"
 import { arrow_left_product, arrow_right_product, delete_icon, partner_img_1, product_img_1 } from "@/assets/images"
 import Image from "next/image"
@@ -11,22 +11,16 @@ import { useEffect, useState } from "react"
 import { productApi } from "@/app/api/apiReponseType"
 import Link from "next/link"
 import {useRouter} from "next/navigation"
-import { saveSelectedProducts } from "@/redux/apiRequests"
+import { saveSelectedProducts } from "@/redux/SelectedProductapiRequests";
 export default function CartPage(props:any){
     const user=useSelector((state:any)=> state.auth.login.currentUser)
-    // const userid=user.user.userId;
-    const userid="1"
+    const userid=user?.user?.userId;
+    // const userid="1"
     const dispatch=useDispatch()
     const router=useRouter();
     const [selectedPartnercheckout, setSelectedPartnercheckout]=useState({})
     const [cart, setCart]= useState<any[]>([])
-    const product ={
-        productId:1,
-        productName: "Nước hoa hồng cocoon (rose water toner)",
-        pointType: "2    ",
-        price: 1019,
 
-    }
     const [total,setTotal]= useState(0)
     const fetchCart = async function (){
         const res = await UserAPI.getCart(userid);
@@ -34,16 +28,20 @@ export default function CartPage(props:any){
         setCart( res.data.data)
         const tempcart= res.data.data
         console.log("ctart", tempcart)
-        console.log("len0", tempcart.length)
-        setTotal(0)
+        let temptotal=0
+        for (let i=0;i<tempcart.length;i++){
+          for ( let j=0;j<tempcart[i].products.length;j++){
+                temptotal=temptotal+tempcart[i].products[j].Total_Point;
+            }
+      
+        }
+        // console.log("len0", tempcart.length)
+        setTotal(temptotal)
        
 
 
     }
-    const insertCart = async function (){
-        const res = await UserAPI.add2Cart(userid, product);
-        console.log("res insert", res)
-    }
+   
     useEffect(()=>{
         fetchCart();
         let sum=0;
@@ -53,17 +51,18 @@ export default function CartPage(props:any){
                 console.log("car[",cart[i].products?.[j])
                 console.log("sum:", cart[i].products?.[j]?.QUANTITY * cart[i].products?.[j]?.PRICE)
                 sum=sum+ cart[i].products?.[j]?.QUANTITY * cart[i].products?.[j]?.PRICE;
+                // console.log("cart af", sum)
             }
            }
         setTotal(sum)
-        // console.log("cart af", cart)
+        // console.log("sum total", sum)
+        // console.log("sum totalff", total)
 
     },[])
-    const handleinsert =  function () {
-        insertCart();
-    }
+   
     const handleCheckoutButton = function (){
         saveSelectedProducts(selectedPartnercheckout, dispatch, router)
+        router.push("/order/fromcart")
     }
     const handlePartnerBtn = function (partner: {}){
         setSelectedPartnercheckout(partner);

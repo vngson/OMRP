@@ -157,3 +157,33 @@
     cursor: pointer;
     font-size: 18px;
 }
+
+.modal{
+    background-color: var(--primary-color-2);
+    position: relative;
+    top:-400px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+    padding: 50px;
+    align-items: center;
+    text-align: center;
+    border-radius: 5px;
+    
+}
+.modal h5{
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 50px;
+}
+.modal-header{
+  
+
+}
+.button_{
+    margin-left: 40px;
+    background-color: var(--primary-color-1);
+    padding: 10px;
+    border-radius: 20px;
+    color: white;
+}

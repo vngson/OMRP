@@ -14,10 +14,12 @@ import ProductItem from '@/components/items/ProductItem/ProductItem'
 import { useState, useEffect } from 'react'
 import productAPI from './api/productAPI'
 import { useActionData } from 'react-router-dom'
-import { categoryApi } from './api/apiReponseType'
+import { categoryApi , userApi} from './api/apiReponseType'
 import { useSelector } from 'react-redux'
 import { Metadata } from 'next'
 import Link from 'next/link'
+import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap';
+import {useRouter} from 'next/navigation';
 const inter = Inter({ subsets: ['latin'] })
 export const metadata = {
   title: 'Next App',
@@ -31,6 +33,7 @@ type apiResponse ={
   totalItems: string
 }
 type productApi = {
+  IMG: any;
   ID_PRODUCTS: any
   URL: string,
   NAME: string,
@@ -52,22 +55,32 @@ export default function Home() {
   const [categorylist, setCategorylist] = useState<categoryApi[]>([])
   const [cate_idx, setCate_idx] = useState(0)
   const [pagi_idx, setPagi_idx] = useState(1)
+  const [pagi_idx1, setPagi_idx1] = useState(1)
+  const [pagi_idx2, setPagi_idx2] = useState(1)
   const [numpages, setNumPages] = useState(0)
+  const [numpages1, setNumPages1] = useState(0)
+  const [numpages2, setNumPages2] = useState(0)
   const [isIncreasing, setIsIncreasing]=useState(false)
+  const [isIncreasing1, setIsIncreasing1]=useState(false)
+  const [isIncreasing2, setIsIncreasing2]=useState(false)
   const [productListTab, setProductListTab] = useState(1) // 1 : all 2: productExchangePoint- đủ điểm đổi 3: productPoint - có thể đổi
   const productListTabName = ["Tất cả sản phẩm", "Sản phẩm đủ điểm đổi","Sản phẩm có thể đổi"]
   const itemPerpage =10;
-
+  const [modalOpen, setModalOpen] = useState(false)
+  const router=useRouter();
   const user=useSelector((state:any)=> state.auth.login.currentUser)
-  // const cusID=user.user.userId
-  const cusID="8"
+  const cusID=user?.user?.userId
+  const permission = user?.user?.permission
+  console.log("user per", permission)
+ 
   const fetchProductList = async () => {
   
     const res = await productAPI.getAllProducts(pagi_idx,itemPerpage);
     setCurr_Productlist(res.data.products)
-    console.log(res.data)
+    // console.log(res.data)
     setNumPages(res.data.totalItems/itemPerpage);
-    console.log("num pages", res.data.totalItems/itemPerpage)
+    // console.log("num pages", res.data.totalItems/itemPerpage)
+
     
   }
   // 1: all product list
@@ -75,13 +88,13 @@ export default function Home() {
     
     const res = await productAPI.getAllProducts(page_idx,itemPerpage);
     setNext_Productlist(res.data.products) 
-    console.log("next: ",res.data)
+    // console.log("next: ",res.data)
   }
   const fetchPrevProductList = async (page_idx: number) => {
     
     const res = await productAPI.getAllProducts(page_idx,itemPerpage);
     setPrev_Productlist(res.data.products) 
-    console.log("prev",res.data)
+    // console.log("prev",res.data)
   }
   // get category
   const fetchCategoryList= async() => {
@@ -92,16 +105,16 @@ export default function Home() {
     const r=len%6;
     const r_array=list.slice(1,r+1)
     setCategorylist(list.concat(r_array))
-    console.log("cata", list)
+    // console.log("cata", list)
   }
   // 2: productExchangePoint- đủ điểm đổi
   const fetchProductExchangePointList = async () => {
   
-    const res = await productAPI.getProductExchangePointList(cusID, pagi_idx,itemPerpage);
+    const res = await productAPI.getProductExchangePointList(cusID, pagi_idx1,itemPerpage);
     setCurr_ProductExchangePointlist(res.data.products)
-    console.log(res.data)
-    setNumPages(res.data.totalItems/itemPerpage);
-    console.log("num pages", res.data.totalItems/itemPerpage)
+    // console.log(res.data)
+    setNumPages1(res.data.totalItems/itemPerpage);
+    // console.log("num pages", res.data.totalItems/itemPerpage)
     
   }
   const fetchNextProductExchangePointList = async (page_idx: number) => {
@@ -114,15 +127,15 @@ export default function Home() {
   
     const res = await productAPI.getProductExchangePointList(cusID, page_idx,itemPerpage);
     setPrev_ProductExchangePointlist(res.data.products) 
-    console.log("prev",res.data)
+    // console.log("prev",res.data)
   }
   // 3: productPoint- co the doi
     const fetchProductPointList = async () => {
   
     const res = await productAPI.getProductPointList(cusID, pagi_idx,itemPerpage);
     setCurr_ProductPointlist(res.data.products)
-    console.log(res.data)
-    setNumPages(res.data.totalItems/itemPerpage);
+    // console.log(res.data)
+    setNumPages2(res.data.totalItems/itemPerpage);
     console.log("num pages", res.data.totalItems/itemPerpage)
     
   }
@@ -130,13 +143,13 @@ export default function Home() {
   
     const res = await productAPI.getProductPointList(cusID, page_idx,itemPerpage);
     setNext_ProductPointlist(res.data.products) 
-    console.log("next: ",res.data)
+    // console.log("next: ",res.data)
   }
   const fetchPrevProductPointList = async (page_idx: number) => {
   
     const res = await productAPI.getProductPointList(cusID, page_idx,itemPerpage);
     setPrev_ProductPointlist(res.data.products) 
-    console.log("prev",res.data)
+    // console.log("prev",res.data)
   }
  
   useEffect(()=> {
@@ -145,9 +158,9 @@ export default function Home() {
     fetchProductList();
     fetchNextProductList(pagi_idx+1);
     fetchProductExchangePointList();
-    fetchNextProductExchangePointList(pagi_idx+1);
+    fetchNextProductExchangePointList(pagi_idx1+1);
     fetchProductPointList();
-    fetchNextProductPointList(pagi_idx+1);
+    fetchNextProductPointList(pagi_idx2+1);
 
     // console.log(productlist)
 
@@ -167,32 +180,41 @@ export default function Home() {
       }
     }
    else if (productListTab===2){
-    if (isIncreasing===true){
+    if (isIncreasing1===true){
       setPrev_ProductExchangePointlist(curr_productExchangePointlist)
       setCurr_ProductExchangePointlist(next_productExchangePointlist);
-      fetchNextProductExchangePointList(pagi_idx+1);
+      fetchNextProductExchangePointList(pagi_idx1+1);
     } else{
       setNext_ProductExchangePointlist(curr_productExchangePointlist)
       setCurr_ProductExchangePointlist(prev_productExchangePointlist);
-      fetchPrevProductExchangePointList(pagi_idx-1);
+      fetchPrevProductExchangePointList(pagi_idx1-1);
     }
 
    }
    else {
-    if (isIncreasing===true){
+    if (isIncreasing2===true){
       setPrev_ProductPointlist(curr_productPointlist)
       setCurr_ProductPointlist(next_productPointlist);
-      fetchNextProductPointList(pagi_idx+1);
+      fetchNextProductPointList(pagi_idx2+1);
     } else{
       setNext_ProductPointlist(curr_productPointlist)
       setCurr_ProductPointlist(prev_productPointlist);
-      fetchPrevProductPointList(pagi_idx-1);
+      fetchPrevProductPointList(pagi_idx2-1);
     }
 
    }
 
     // console.log(productlist)
-  },[pagi_idx])
+  },[pagi_idx,pagi_idx1,pagi_idx2])
+
+  // if(permission==="1"){
+  //   router.push("/")
+  //   return (<></>)
+  // } else if (permission==="2")
+  // {
+  //   router.push("/business")
+  //   return (<></>)
+  // } else { router.push("/")}
   return (
     <main  className={styles.main} >
       <div className={styles.banner}><Image src={banner_home_customer} className={styles.banner_img} alt=""/></div>
@@ -223,8 +245,8 @@ export default function Home() {
           {productListTabName.map((tab, index) =>
               <div
                className={`${index+1===productListTab? styles.product_list__navbar_title_current: styles.product_list__navbar_title}`}
-               onClick={()=>{setProductListTab(index+1);
-                              setPagi_idx(1)}}>{tab}</div>
+               onClick={()=>{ index!==0 && (cusID===null|| cusID==="")?setModalOpen(true):setProductListTab(index+1);
+                              }}>{tab}</div>
          
           )}
         
@@ -242,20 +264,22 @@ export default function Home() {
             <>
             {curr_productExchangePointlist.map((prod:productApi)=>(
            
-              <ProductItem img={prod.URL} name={prod.NAME} price={prod.PRICE} id={prod.ID_PRODUCTS} />
+              <ProductItem img={prod.IMG} name={prod.NAME} price={prod.PRICE} id={prod.ID_PRODUCTS} />
             ))}
             </>
           ):(
             <>
             {curr_productPointlist.map((prod:productApi)=>(
            
-              <ProductItem img={prod.URL} name={prod.NAME} price={prod.PRICE} id={prod.ID_PRODUCTS} />
+              <ProductItem img={prod.IMG} name={prod.NAME} price={prod.PRICE} id={prod.ID_PRODUCTS} />
             ))}
             </>
           ))}
         
         </div>
-        {numpages<1?(<></>):(
+        {productListTab===1?(
+            <>
+            {numpages<1?(<></>):(
           <div className={styles.pagination}>
           {pagi_idx -1<=0?(<></>):(<>
           <Image onClick={() =>{setPagi_idx(pagi_idx-1); setIsIncreasing(false);}} className={styles.pagination_num} src={arrow_left_product} alt=""/><p onClick={() =>{setPagi_idx(pagi_idx-1); setIsIncreasing(false);}} className={styles.pagination_num}>{pagi_idx-1}</p></>)}
@@ -265,6 +289,62 @@ export default function Home() {
           
         </div>
         )}
+            </>
+          ):(productListTab===2?(
+            <>
+            {numpages1<1?(<></>):(
+          <div className={styles.pagination}>
+          {pagi_idx1 -1<=0?(<></>):(<>
+          <Image onClick={() =>{setPagi_idx1(pagi_idx1-1); setIsIncreasing1(false);}} className={styles.pagination_num} src={arrow_left_product} alt=""/><p onClick={() =>{setPagi_idx1(pagi_idx1-1); setIsIncreasing1(false);}} className={styles.pagination_num}>{pagi_idx1-1}</p></>)}
+          <p className={styles.pagination_num} style={{color: `var(--primary-color-1)`}}>{pagi_idx1}</p>
+          {pagi_idx1 >numpages1?(<></>):(<>
+          <p onClick={() =>{setPagi_idx1(pagi_idx1+1); setIsIncreasing1(true);}} className={styles.pagination_num}>{pagi_idx1+1}</p><Image onClick={() =>{setPagi_idx1(pagi_idx1+1);setIsIncreasing1(true);}} className={styles.pagination_num} src={arrow_right_product} alt=""/></>)}
+          
+        </div>
+        )}
+            </>
+          ):(
+            <>
+           {numpages2<1?(<></>):(
+          <div className={styles.pagination}>
+          {pagi_idx2 -1<=0?(<></>):(<>
+          <Image onClick={() =>{setPagi_idx2(pagi_idx2-1); setIsIncreasing2(false);}} className={styles.pagination_num} src={arrow_left_product} alt=""/><p onClick={() =>{setPagi_idx2(pagi_idx2-1); setIsIncreasing2(false);}} className={styles.pagination_num}>{pagi_idx2-1}</p></>)}
+          <p className={styles.pagination_num} style={{color: `var(--primary-color-1)`}}>{pagi_idx2}</p>
+          {pagi_idx2 >numpages2?(<></>):(<>
+          <p onClick={() =>{setPagi_idx2(pagi_idx2+1); setIsIncreasing2(true);}} className={styles.pagination_num}>{pagi_idx2+1}</p><Image onClick={() =>{setPagi_idx2(pagi_idx2+1);setIsIncreasing2(true);}} className={styles.pagination_num} src={arrow_right_product} alt=""/></>)}
+          
+        </div>
+        )}
+            </>
+          ))}
+          <div className={styles.modal_container} >
+        <Modal className={styles.modal}  toggle={() => setModalOpen(!modalOpen)} isOpen={modalOpen} >
+        <div className={styles.modal_header}>
+          <h5 className={styles.modal_title} id="exampleModalLabel">
+            Đăng nhập để xem danh sách nhé!
+          </h5>
+  
+        </div>
+        <ModalBody>...</ModalBody>
+        <ModalFooter>
+          <Button
+            color="secondary"
+            type="button"
+            onClick={() => {router.push("/login")}}
+            className={styles.button_}
+          >
+            Đăng nhập
+         
+          </Button>
+          <Button color="primary" type="button" 
+          onClick={() => {setModalOpen(!modalOpen);
+          setProductListTab(1);
+          setProductListTab(1)}}
+            className={styles.button_}>
+            Bỏ qua
+          </Button>
+        </ModalFooter>
+      </Modal></div>
         
       </div>
 

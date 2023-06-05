@@ -12,6 +12,7 @@
     cursor: pointer;
     box-shadow: 1px 1px 1px 1px var(--primary-color-1);
 }
+
 .partner_img{
     position: relative;
     right: 10px;

@@ -21,6 +21,7 @@ export type productApi= {
         GiaDoiThuong: number}
     ]
     ID_PRODUCTS: string,
+    IMG:string
 
 }
 export type userApi ={

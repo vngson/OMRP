@@ -22,15 +22,8 @@ import {
   getUsersStart,
   getUsersSuccess,
 } from "./userSlice";
-import {
-  saveFailed,
-  saveStart,
-  saveSuccess,
-  deleteFailed,
-  deleteStart,
-  deleteSuccess,
-
-} from "./selectedProductsSlice";
+  // @ts-ignore
+// import { cookies } from 'next/headers';
 
 import { Dispatch, AnyAction } from "redux";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
@@ -38,29 +31,14 @@ import { NavigateFunction } from "react-router";
 import jwt_decode from "jwt-decode";
 //npm install axios
 
-
-export const saveSelectedProducts = (products:any, dispatch: (arg0: { payload: any; type: "selectedProducts/saveStart" | "selectedProducts/saveSuccess" | "selectedProducts/saveFailed"; }) => void,router: string[] | AppRouterInstance) => {
-
-  dispatch(saveStart());
-  try {
-    //const res = await axios.post("https://project-ec-tuankhanh.onrender.com/auth/login", user);
-
-
-    dispatch(saveSuccess(products));
-
-    // console.log("res.data", res.data);
-
-    router.push("/order/slug")
-    return 1
-  } catch (err) {
-    dispatch(saveFailed(products));
-    router.push("/order/slug")
-  }
-};
 export const loginUser = async (user: any, dispatch: (arg0: { payload: any; type: "auth/loginStart" | "auth/loginSuccess" | "auth/loginFailed"; }) => void,router: string[] | AppRouterInstance) => {
 
   dispatch(loginStart());
   try {
+
+    // cookies().set('nameeee', 'lee');
+    // const name = cookies().get('nameeee');
+    // console.log("naem", name)
     //const res = await axios.post("https://project-ec-tuankhanh.onrender.com/auth/login", user);
 
     const res=await UserAPI.login(user);
@@ -124,12 +102,10 @@ export const deleteUser = async (token: any, dispatch: (arg0: { payload: any; ty
 //     dispatch(logOutFailed());
 //   }
 // };
-export const logOut = async (dispatch: Dispatch<AnyAction>, id: any, accessToken: AxiosInstance, axiosJWT: { post: (arg0: string, arg1: any, arg2: { headers: { token: string; }; }) => any; }) => {
+export const logOut = async (dispatch: Dispatch<AnyAction>) => {
   dispatch(logOutStart());
   try {
-    await axiosJWT.post("https://5dlr4.wiremockapi.cloud/users/logout", id, {
-      headers: { token: `Bearer ${accessToken}` },
-    });
+   
     dispatch(logOutSuccess());
     // navigate("/login");
   } catch (err) {

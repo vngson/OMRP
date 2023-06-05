@@ -70,16 +70,20 @@
     background: #E9E9E9;
     border-radius: 15px;
     cursor: pointer;
+    padding:0px;
+
 }
 
 .header-cart{
     height: var(--font-size-icon-big);
     color: var(--primary-color-1);
+    /* transform: scale(2,2); */
 }
 
 .header-profile{
     height: var(--font-size-icon-big);
     color: var(--primary-color-1);
+    /* transform: scale(2,2); */
 }
 
 

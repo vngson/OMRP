@@ -1,4 +1,4 @@
-"use client"
+ "use client"
 import classNames from 'classnames/bind';
 import Image from 'next/image'
 import styles from "./page.module.css"
@@ -14,6 +14,8 @@ import LoginForm from '@/components/login/login/login';
 const cx = classNames.bind(styles);
 
 export default function Login_Page() {
+
+
     const [ loginPage, setLoginPage] = useState(true)
     const [username, setUsername]=useState("")
     const [pwd, setPwd] = useState("")
@@ -50,6 +52,7 @@ export default function Login_Page() {
                 className={cx('login-register__background')}
             />
             <div className={cx('login-register__nav')}><Login_Register_Nav/></div>
+           
         </div>
     </div>) ;
 }

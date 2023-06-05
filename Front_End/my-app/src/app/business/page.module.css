@@ -1,7 +1,9 @@
 .main{
     padding: 50px 80px 50px 80px;
     display: block;
-    width: 100%;
+    width: var(--max-width);
+    margin: 0 auto;
+    
     /* backgr */
 }
 .banner{

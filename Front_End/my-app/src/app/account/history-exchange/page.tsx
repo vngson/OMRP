@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 'use client'
-import PartnerSmallItem from "@/components/items/PartnerSmallItem/com"
+import PartnerSmallItem from "@/components/items/partner/PartnerSmallItem/com"
 import styles from "./page.module.css"
 import { arrow_left_product, arrow_right_product, delete_icon, partner_img_1, product_img_1 } from "@/assets/images"
 import Image from "next/image"

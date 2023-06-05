@@ -5,65 +5,163 @@ import styles from "./product.module.css"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 import React from "react"
-import PartnerSmallItem from "@/components/items/PartnerSmallItem/com"
+
 import productAPI from "@/app/api/productAPI"
 import { productApi } from "@/app/api/apiReponseType"
 import { Metadata } from "next"
-import PartnerSmallItemSelected from "@/components/items/PartnerSmallItem _Selected/com"
+import PartnerSmallItemSelected from "@/components/items/partner/PartnerSmallItem_Selected/com"
 import UserAPI from "@/app/api/userAPI"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import Link from "next/link"
 type Props = {
     params: {  category: string, product: string };
     searchParams: { [key: string]: string | string[] | undefined };
   };
-
+import { useRouter } from "next/navigation"
+import { saveSelectedProducts } from "@/redux/SelectedProductapiRequests"
+import PartnerSmallItem from "@/components/items/partner/PartnerSmallItemVisablemore/com"
 export default function ProductPage({ params, searchParams }: Props){
     // const [num, setNum]=useState(0)
     const ID_PRODUCT=params.product
-    console.log("parm", ID_PRODUCT)
+    // console.log("parm", ID_PRODUCT)
     const user=useSelector((state:any)=> state.auth.login.currentUser)
-   const cusID=user.user.userId
+   const cusID=user?.user?.userId
+   const userpoint=user?.userInfo.Points
+   
+   console.log("usrpoint", userpoint)
     const [infor_value,setInfor_value]= useState<any[]>()
+
     const [product, setProduct] = useState<productApi>()
+
     const [bigImg, setBigImg]= useState("")
+
+    const [maxitem, setMaxitem]= useState(1)
+
+    const infor_title= ["Tên sản phẩm", "Thể loại", "Giới thiệu", "Giá"]
+
+    const [partners,setPartner]= useState<any>()
+
+    const [count, setCount ] = useState(1)
+
+    const [selectedPartnercheckout, SetSelectedPartnercheckout]= useState("")
+
+    const [maxover, setMaxover]= useState(2)
+
+    const [ispartnerselected, setIspartnerselected]=useState(false)
+
     useEffect(()=> {
         const fetchProduct = async () => {
             const res = await productAPI.getProduct(ID_PRODUCT)
             setProduct(res.data.product)
-            setInfor_value([res.data.product.NAME, res.data.product.TYPE_PROD, res.data.product.INFOR_PRODUCTS, res.data.product.partners, res.data.product.URL]);
             console.log("r", res.data.product)
-            console.log("r", res.data.product.partners)
-            // setBigImg(res.data.product.URL[0].img)
-            setBigImg(infor_value?.[4]?.[0]?.img)
-    
+            const partners= res.data.product.partners
+            console.log("parnter",partners)
+            for (let i=0;i<partners.length;i++){
+                res.data.product.partners[i] = {... res.data.product.partners[i], userPoint:0}
+                for (let j=0;j<userpoint.length;j++){
+                    if(partners[i].ID_Partners===userpoint[j].ID_Partners){
+                        res.data.product.partners[i] = {... res.data.product.partners[i], userPoint:userpoint[j].POINTS}
+                        // userpoint.splice(j, 1)
+                    }
+                }
+            }
+            setInfor_value([res.data.product.NAME, res.data.product.TYPE_PROD, res.data.product.INFOR_PRODUCTS, res.data.product.partners, res.data.product.URL, res.data.product.QUANTITY]);
+
+          
+            // setBigImg(.URL[0].img)
+            setBigImg(res.data.product.URL?.[0].img)
+            // console.log("par",res.data.product.URL?.[0].img)
+            console.log("parnter after", res.data.product.partners)
         }
         fetchProduct()
                  
     // console.log("par",infor_value)
     },[])
+    const [userpartnerPoint, setUserpartnerPoint]=useState(0)
+    useEffect(()=>{
+        console.log("parnter sele", partners);
+        let uss=0
+        for (let i=0;i<userpoint.length;i++){
+            if(partners?.ID_Partners===userpoint[i].ID_Partners)
+                // setUserpartnerPoint(userpoint[i].POINTS)
+                uss=userpoint[i].POINTS
+        }
+        const max=Math.floor(uss/partners?.GiaDoiThuong)
+     
+        setMaxitem(max)
+        console.log("max", max)
+        console.log("sel", maxitem);
 
-    const infor_title= ["Tên sản phẩm", "Thể loại", "Giới thiệu", "Giá"]
+      console.log("is",ispartnerselected)
+        console.log("userspint", uss);
+    },[maxitem, partners, userpoint,ispartnerselected])
+
     
-    console.log("par",infor_value?.[4]?.[0]?.img)
-    
-    console.log("bis", bigImg)
-    const [partners,setPartner]= useState("")
-    const [count, setCount ] = useState(0)
-    const handleCartBtn = function () {
+    // console.log("par",infor_value?.[4]?.[0]?.img)
+    const router=useRouter()
+    // console.log("bis", bigImg)
+    const handleCartBtn =async function () {
+        if(!ispartnerselected){
+
+            return;
+        }
         const newproduct ={
             idProduct: product?.ID_PRODUCTS.toString(),
             nameProduct: product?.NAME,
-            price: product?.PRICE,
             quantity: count,
-            pType: partners,
+            pType: partners.ID_Partners,
         }
-        console.log("res1", typeof(count))
+     
         console.log("res", newproduct)
-        const res= UserAPI.add2Cart(cusID, newproduct);
+        const res= await UserAPI.add2Cart(cusID, newproduct);
+        router.push("/account/cart")
         console.log("res", res)
     }
+    console.log("res1", typeof(count))
+    const handleExchangeBtn = function () {
+        console.log("res1", typeof(count))
+        const selectedProduct = {
+            ID_DoanhNghiep: partners.ID_Partners,
+            Total_Point_Trade: count*partners?.GiaDoiThuong,
+            products: [{
+                ID_PRODUCTS: product?.ID_PRODUCTS,
+                NAME_PRODUCTS: product?.NAME,
+                QUANTITY: count,
+                TOTAL_PRICE: count*partners?.GiaDoiThuong,
+                url:product?.URL
+            }],
+            TenDoanhNghiep:partners.Name,
+            Img: partners.url,
+        }
+        saveSelectedProducts(selectedProduct, dispatch, router)
+        router.push("/order/slug")
+    }
     // idProduct: nameProduct pType, price, quantity: string,
+    const dispatch=useDispatch()
+    const handlePartnerBtn = function (partner: any){
+        SetSelectedPartnercheckout(partner);
+      
+
+    }
+    const handleCheckoutButton = function (){
+        
+    }
+    const handleChangecount=(e:any) => {
+        console.log("count", count) 
+        if(e>infor_value?.[5]){
+            setMaxover(3)
+        }
+        if(e<=0){return}
+        if (e<maxitem){
+            setCount(e);
+            setMaxover(1);
+        } else if (e===maxitem) {
+            setCount(e);
+            setMaxover(2);
+        } else{
+            setMaxover(3);
+        }
+    }
     return (
         <div className={styles.mass}>
         <div className={styles.container}>
@@ -73,7 +171,7 @@ export default function ProductPage({ params, searchParams }: Props){
                 <div className={styles.smallImgs}>
                 {infor_value?.[4].map((photo:any)=>( photo?.img!== bigImg? ( 
                
-               <Image src={photo?.img} width={100} height={100} alt="" onClick={(e)=>setBigImg(photo)}/>):(<></>)
+               <Image src={photo?.img} width={100} height={100} alt="" onClick={(e)=>setBigImg(photo?.img)}/>):(<></>)
             
           ))}
                 </div>
@@ -89,12 +187,12 @@ export default function ProductPage({ params, searchParams }: Props){
                               {infor_value?.[index].map((partner:any)=> (
                                 <>
                                     {partner.GiaDoiThuong} điểm
-            
-                            {
-                                partner.ID_Partners===partners?(  <div  className= {styles.selected} onClick={()=>{setPartner(partner.ID_Partners);console.log("p",partner.ID_Partners)}}><PartnerSmallItemSelected logo={partner.url} name={partner.Name}/></div>):(
-                                   <div onClick={()=>{setPartner(partner.ID_Partners);console.log("p",partner.ID_Partners)}}> <PartnerSmallItem logo={partner.url} name={partner.Name} /></div>
-                                )
-                            }</>
+                                    <div onClick={()=>{partner!==partners?(setIspartnerselected(true), setPartner(partner)):(setIspartnerselected(false),setPartner(null))}}>
+                                        <PartnerSmallItem 
+                                        // onClick={()=>setPartner(partner)}
+                                        logo={partner.url} name={partner.Name} point={partner.GiaDoiThuong} userpoint = {partner.userPoint} />
+                                    </div>
+                            </>
 
 
                             
@@ -109,14 +207,16 @@ export default function ProductPage({ params, searchParams }: Props){
                 </div>
                 {/* footer */}
                 <div className={styles.counter}>
-                    <Image src={arrow_left_product} alt="" onClick={()=>setCount(count-1)}/>
-                    <input pattern="[0-9]*" name="cost" type="number" value={count} onChange={(e)=>setCount(e.target.value)}/>
-                    <Image src={arrow_right_product} alt="" onClick={()=>setCount(count+1)}/>
+                    <Image src={arrow_left_product} alt="" onClick={()=>handleChangecount(count-1)}/>
+                    <input pattern="[0-9]*" name="cost" type="number" value={count} onChange={(e)=>handleChangecount(e.target.value)}/>
+                    <Image src={arrow_right_product} alt="" onClick={()=>handleChangecount(count+1)}/>
                     </div>
+                    {!ispartnerselected?(<p className={styles.maxover}>Vui lòng chọn đối tác để tiếp tục!</p>):(<div className={styles.empty}></div>)}
+                   {maxover===3&& ispartnerselected===true?( <p className={styles.maxover}>Đã vượt quá số sản phẩm tối đa!</p>):(<div className={styles.empty}></div>)}
                 <div className={styles.buttons}>
                     <button onClick={() => handleCartBtn()} className={styles.button}>
-                       <Link href="/account/cart"> Thêm vào giỏ hàng</Link></button>
-                        <button className={styles.button} >Đổi ngay</button>
+                       Thêm vào giỏ hàng</button>
+                        <button onClick={() => handleExchangeBtn()}  className={styles.button} >Đổi ngay</button>
                 </div>
             </div>
             </>)}
@@ -140,26 +240,4 @@ export async function generateStaticParams() {
         product: prod.ID_PRODUCTS
     }));
 
-
-    // return products.map((prod:productApi) => ({
-    //     category: prod.TYPE_PROD,
-    //     product: prod.ID_PRODUCTS,
-    //   }));
-
-
-
 }
-
-// export function generateMetadata({ params, searchParams }: Props): Metadata {
-//     return {
-//       title: 'Next.js',
-//     };
-//   }
-//   export async function generateStaticParams(){
-//     const res = await productAPI.getAllCatagories();
-//     const types = res.data.data
-  
-//     return types.map((type:categoryApi)=> {
-//       category: type.TYPE_PROD
-//     })
-//   }

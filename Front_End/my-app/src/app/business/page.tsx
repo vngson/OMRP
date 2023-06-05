@@ -4,10 +4,9 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from './page.module.css'
 // import LoginRegister from '@/components/login_register/login_register'
-
 import { arrow_img, arrow_left_product, arrow_right_product, banner_home_customer, partner_img_1_square, product_img_1, product_img_2 } from '@/assets/images'
 import ProductItem from '@/components/items/ProductItem/ProductItem'
-import PartnerLargeItem from '@/components/items/PartnerLargeItem/PartnerLargeItem'
+import PartnerLargeItem from '@/components/items/partner/PartnerLargeItem/PartnerLargeItem'
 import { useSelector } from 'react-redux'
 import UserAPI from '../api/userAPI'
 import { useState, useEffect } from 'react'
@@ -19,6 +18,7 @@ export default function BusinessListPage() {
   const cusID=user.user.userId
   const a= [1,2,3,4,5,6,]
   const b= [1,2,3,4,5,6,1,2,3,4,5,6,]
+
   //consumerPartner
   //AllPartners
   const [curr_allpartners, setCurr_allpartners]=useState([])
@@ -31,6 +31,10 @@ export default function BusinessListPage() {
   const [pagi_idx, setPagi_idx] = useState(1)
   const [numpages, setNumPages] = useState(0)
   const [isIncreasing, setIsIncreasing]=useState(false)
+  const [pagi_idx1, setPagi_idx1] = useState(1)
+  const [numpages1, setNumPages1] = useState(0)
+  const [isIncreasing1, setIsIncreasing1]=useState(false)
+
   const [partnerListTab, setpartnerListTab] = useState(1) // 1 : all 2: cos the doi
   const partnerListTabName = ["Tất cả doanh nghiệp", "Danh sách các doanh nghiệp có thể đổi quà"]
   const itemPerpage =10;
@@ -59,10 +63,10 @@ export default function BusinessListPage() {
    // 2: productExchangePoint- đủ điểm đổi
    const fetchconsumerPartners = async () => {
   
-    const res = await UserAPI.getExchangePartners(cusID, pagi_idx.toString(),itemPerpage.toString());
+    const res = await UserAPI.getExchangePartners(cusID, pagi_idx1.toString(),itemPerpage.toString());
     setCurr_consumerPartners(res.data.partners)
     console.log(res.data)
-    setNumPages(res.data.totalItems/itemPerpage);
+    setNumPages1(res.data.totalItems/itemPerpage);
     console.log("num pages", res.data.totalItems/itemPerpage)
     
   }
@@ -84,7 +88,7 @@ export default function BusinessListPage() {
     fetchPartnerList();
     fetchNextPartnerList(pagi_idx+1);
     fetchconsumerPartners();
-    fetchNextconsumerPartners(pagi_idx+1);
+    fetchNextconsumerPartners(pagi_idx1+1);
 
 
     // console.log(productlist)
@@ -104,14 +108,14 @@ export default function BusinessListPage() {
       }
     }
    else if (partnerListTab===2){
-    if (isIncreasing===true){
+    if (isIncreasing1===true){
       setPrev_consumerPartners(curr_consumerPartners)
       setCurr_consumerPartners(next_consumerPartners);
-      fetchNextconsumerPartners(pagi_idx+1);
+      fetchNextconsumerPartners(pagi_idx1+1);
     } else{
         setNext_consumerPartners(curr_consumerPartners)
         setCurr_consumerPartners(prev_consumerPartners);
-        fetchPrevconsumerPartners(pagi_idx-1);
+        fetchPrevconsumerPartners(pagi_idx1-1);
     }
 
    }
@@ -128,7 +132,7 @@ export default function BusinessListPage() {
                 partnerListTabName.map((e, index) =>(
                 <div className={`${index+1===partnerListTab? styles.partner_list__navbar_title_current: styles.partner_list__navbar_title}`}
                 onClick={()=>{setpartnerListTab(index+1);
-                    setPagi_idx(1)}}
+                    }}
                 >{e}</div>))
             }
          
@@ -140,18 +144,20 @@ export default function BusinessListPage() {
                 {curr_allpartners.map((partner:any)=>(
            
            // eslint-disable-next-line react/jsx-key
-           <PartnerLargeItem img={partner.url} name={partner.Name} point={null}/>
+           <PartnerLargeItem img={partner.url} name={partner.Name} point={null} id={partner.ID_Partners}/>
          ))}
             </>):(<>
                 {curr_consumerPartners.map((partner:any)=>(
            
            // eslint-disable-next-line react/jsx-key
-           <PartnerLargeItem img={partner.IMG} name={partner.Name} point={partner.POINTS}/>
+           <PartnerLargeItem img={partner.IMG} name={partner.Name} point={partner.POINTS} id={partner.ID_Partners}/>
          ))}
             </>)}
         
         </div>
-        {numpages<=1?(<></>):(
+
+        {partnerListTab===1?(<>
+          {numpages<=1?(<></>):(
           <div className={styles.pagination}>
           {pagi_idx -1<=0?(<></>):(<>
           <Image onClick={() =>{setPagi_idx(pagi_idx-1); setIsIncreasing(false);}} className={styles.pagination_num} src={arrow_left_product} alt=""/><p onClick={() =>{setPagi_idx(pagi_idx-1); setIsIncreasing(false);}} className={styles.pagination_num}>{pagi_idx-1}</p></>)}
@@ -161,6 +167,19 @@ export default function BusinessListPage() {
           
         </div>
         )}
+            </>):(<>
+              {numpages1<=1?(<></>):(
+          <div className={styles.pagination}>
+          {pagi_idx1 -1<=0?(<></>):(<>
+          <Image onClick={() =>{setPagi_idx1(pagi_idx1-1); setIsIncreasing1(false);}} className={styles.pagination_num} src={arrow_left_product} alt=""/><p onClick={() =>{setPagi_idx1(pagi_idx1-1); setIsIncreasing1(false);}} className={styles.pagination_num}>{pagi_idx1-1}</p></>)}
+          <p className={styles.pagination_num} style={{color: `var(--primary-color-1)`}}>{pagi_idx1}</p>
+          {pagi_idx1 >numpages1?(<></>):(<>
+          <p onClick={() =>{setPagi_idx1(pagi_idx1+1); setIsIncreasing1(true);}} className={styles.pagination_num}>{pagi_idx1+1}</p><Image onClick={() =>{setPagi_idx1(pagi_idx1+1);setIsIncreasing1(true);}} className={styles.pagination_num} src={arrow_right_product} alt=""/></>)}
+          
+        </div>
+        )}
+            </>)}
+        
       </div>
 
     </main>

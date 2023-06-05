@@ -24,17 +24,25 @@ const products = useSelector((state:any)=> state.selectedProducts.save.products)
     const [modalOpen, setModalOpen] = useState(false)
     const router=useRouter();
   const param=useParams();
-//   console.log("par",products)
+  console.log("par",products)
+    const [total, setTotal]= useState(0)
     let temptotal=0
-    const user=useSelector((state:any)=> state.auth.login.currentUser)
-    // const id=user.user.userId
-    const id="1"
-  console.log("id",id)
-    const total =products.Total_Point_Trade;
+    
+
+    useEffect(()=>{
+        for (let i=0;i<products.products.length;i++){
+            temptotal=temptotal+products.products[i].TOTAL_PRICE;
+                }
+                setTotal(temptotal);
+        
+    },[])
     const dispatch=useDispatch()
  
     const [address, setAddress]= useState("");
     const [phone, setPhone]= useState("");
+    const user=useSelector((state:any)=> state.auth.login.currentUser)
+    // const id=user.user.userId
+    const id="1"
     const handleCheckout =  async function () {
 
         let prods=[]
@@ -49,12 +57,11 @@ const products = useSelector((state:any)=> state.selectedProducts.save.products)
             Address: address,
             Phone: phone,
             Total_Point_Trade: total.toString(),
-            Id_DoiTac: products.ID_DoanhNghiep.slice(0,1),
+            Id_DoiTac: products.ID_DoanhNghiep,
             Products: prods
         }
   
-        console.log("res", newOrder)
-        const res = await UserAPI.order(id,newOrder,"false")
+        const res = await UserAPI.order(id,newOrder,"true")
         console.log("res", res)
         // console.log("new", newOrder)
         setModalOpen(true)
@@ -77,7 +84,7 @@ const products = useSelector((state:any)=> state.selectedProducts.save.products)
                     
             <><div className={styles.product}>
 
-                <Image src={prod.url[0].img} alt="" width={60} height={60}/>
+                <Image src={prod.URL} width={60} height={60} alt="" />
                 <p className={styles.title}>{prod.NAME_PRODUCTS}</p>
                 <p className={styles.title}>x{prod.QUANTITY}</p>
                 <p className={styles.title}>{prod.PRICE}</p>

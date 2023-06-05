@@ -13,6 +13,9 @@
 .login-register__background{
     width: 90vw;
     height: 95vh;
+    position: relative;
+    left: 5%;
+    top: -15%;
 }
 
 .login-register__nav{
