@@ -1,10 +1,13 @@
 const { getClient } = require("../config/postgres");
 
-exports.getInfoConsumer = async function () {
+exports.getInfoConsumer = async function (idConsumer) {
   const client = await getClient();
   try {
-    const rs = await client.query('select * from public."Customers"');
-    return rs.rows;
+    const rs = await client.query(
+      'select * from public."Customers" where "ID_Customers" = $1',
+      [idConsumer]
+    );
+    return rs.rows[0];
   } finally {
     client.release(); // Giải phóng kết nối
   }
@@ -140,6 +143,19 @@ exports.getPointsConsumer = async function (username) {
     const rs = await client.query(
       'SELECT P."ID_Partners",P."Name", P."url" AS "IMG", AP."POINTS" FROM public."ACCUMULATION_POINTS" AS AP, public."Account" AS A, public."Customers" AS C, public."Partners" AS P WHERE A."Username" = C."Phone" AND AP."ID_CUSTOMERS" = C."ID_Customers" AND AP."ID_TYPEP" = P."ID_Partners" AND A."Username" = $1',
       [username]
+    );
+    return rs.rows;
+  } finally {
+    client.release(); // Giải phóng kết nối
+  }
+};
+
+exports.getPointsConsumerById = async function (idConsumer) {
+  const client = await getClient();
+  try {
+    const rs = await client.query(
+      'SELECT P."ID_Partners",P."Name", P."url" AS "IMG", AP."POINTS" FROM public."ACCUMULATION_POINTS" AS AP,public."Customers" AS C, public."Partners" AS P WHERE AP."ID_CUSTOMERS" = C."ID_Customers" AND AP."ID_TYPEP" = P."ID_Partners" AND C."ID_Customers" = $1',
+      [idConsumer]
     );
     return rs.rows;
   } finally {

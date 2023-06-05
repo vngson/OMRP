@@ -34,6 +34,8 @@ router.get("/getCart/:consumerId", consumerController.getCart);
 
 router.get("/getHistory/:consumerId", consumerController.getHistoryConsumer);
 
+router.get("/infoConsumer/:consumerId", consumerController.getInfoConsumer);
+
 //POST;
 router.post("/order/:consumerId", consumerController.orderProducts);
 

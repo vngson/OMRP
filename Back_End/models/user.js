@@ -53,7 +53,7 @@ exports.getLastIdUser = async function () {
   const client = await getClient();
   try {
     const rs = await client.query('select * from public."Account"');
-    return rs.rows.length + 1;
+    return rs.rows.length + 2;
   } finally {
     client.release(); // Giải phóng kết nối
   }
@@ -76,9 +76,9 @@ exports.insertUser = async function (data) {
   const client = await getClient();
   try {
     const rs = await client.query(
-      `insert into public.\"Account\"(\"ID_Login\",\"Username\", \"Pass\", \"CREATED_DATE\", \"ROLE\")
-      VALUES ($1, $2, $3, $4,$5) returning *`,
-      [data.id, data.phone, data.password, data.cDate, data.role]
+      `insert into public.\"Account\"(\"ID_Login\",\"Username\", \"Pass\", \"CREATED_DATE\", \"ROLE\", \"Status\")
+      VALUES ($1, $2, $3, $4,$5,$6) returning *`,
+      [data.id, data.phone, data.password, data.cDate, data.role, "unlocked"]
     );
   } finally {
     client.release(); // Giải phóng kết nối
