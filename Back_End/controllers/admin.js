@@ -1,6 +1,10 @@
 const Admin = require("../models/admin");
 const Consumer = require("../models/consumer");
 
+const fs = require("fs");
+const path = require("path");
+const { dirname } = require("path");
+
 exports.getAccounts = async (req, res, next) => {
   const type = req.query.type;
   let accountData;
@@ -80,7 +84,8 @@ exports.postProduct = async (req, res, next) => {
 
   // Đến cuối sẽ thay link onrender vào đây , tạm thời để trên local để làm. Mảng ảnh sản phẩm
   const imageUrls = req.files.map(
-    (file) => `http://localhost:4132/images/${file.filename}`
+    (file) =>
+      `https://project-ec-tuankhanh.onrender.com/images/${file.filename}`
   );
   const nameProduct = req.body.name;
   const typeProduct = req.body.type;
@@ -158,7 +163,8 @@ exports.updateProduct = async (req, res, next) => {
   } else {
     // Đến cuối sẽ thay link onrender vào đây , tạm thời để trên local để làm. Mảng ảnh sản phẩm
     const imageUrls = req.files.map(
-      (file) => `http://localhost:4132/images/${file.filename}`
+      (file) =>
+        `https://project-ec-tuankhanh.onrender.com/images/${file.filename}`
     );
     updateProduct.imageUrls = imageUrls;
     try {
@@ -194,6 +200,116 @@ exports.deleteProduct = async (req, res, next) => {
     const deleteProduct = await Admin.deleteProduct(productId);
     res.status(200).json({
       message: "Delete product successfully",
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+// Xử lý đồng bộ điểm, Xuất file từ điểm hệ thống
+exports.exportFileSystem = async (req, res, next) => {
+  try {
+    const pointsArr = await Admin.getPoints();
+
+    // Gôm các đối tượng có cùng ID, thêm mới thuộc tính customer
+    const mergedPoints = pointsArr.reduce((newPoints, obj) => {
+      const existingObj = newPoints.find((data) => data.id === obj.id);
+
+      if (existingObj) {
+        // Đối tượng đã tồn tại, thêm đối tượng con vào thuộc tính PRODUCTS
+        existingObj.customer.push({
+          username: obj.username,
+          point: obj.point,
+        });
+      } else {
+        // Đối tượng chưa tồn tại, tạo mới và thêm vào mảng
+        newPoints.push({
+          id: obj.id,
+          name: obj.name,
+          email: obj.email,
+          address: obj.address,
+          phone: obj.phone,
+          customer: [
+            {
+              username: obj.username,
+              point: obj.point,
+            },
+          ],
+        });
+      }
+
+      return newPoints;
+    }, []);
+
+    const outputDir = path.join(__dirname, "..", "data", "point_system");
+
+    mergedPoints.forEach((obj) => {
+      const fileName = `${obj.name.replace(/\s/g, "")}_${obj.id.trim()}.json`;
+      const filePath = path.join(outputDir, fileName);
+      const jsonContent = JSON.stringify(obj, null, 2);
+
+      fs.writeFile(filePath, jsonContent, "utf8", (err) => {
+        if (err) {
+          const error = new Error("Error writing JSON file");
+          error.statusCode = 404;
+          throw error;
+        }
+      });
+    });
+
+    res.status(200).json({
+      message: "Export file points system successfully !",
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
+// Xử lý đồng bộ điểm, nhập điểm từ file đối tác gửi
+exports.synchronizingPoints = async (req, res, next) => {
+  try {
+    // Xử lý đọc tất cả file trong data
+    const dataDir = path.join(__dirname, "..", "data", "point_partner");
+    const files = fs.readdirSync(dataDir); // Read the list of files synchronously
+
+    let mergedData = []; // Array to store the merged data
+
+    files.map((file) => {
+      const filePath = path.join(dataDir, file);
+      if (path.extname(file) === ".json") {
+        // Read the contents of each JSON file
+        const jsonData = fs.readFileSync(filePath, "utf-8");
+        const parsedData = JSON.parse(jsonData);
+        mergedData = mergedData.concat(parsedData); // Merge the data into the mergedData array
+      }
+    });
+
+    await Promise.all(
+      mergedData.map(async (partner) => {
+        await Promise.all(
+          partner.customer.map(async (data) => {
+            const idConsumer = await Admin.getIdConsumer(data.username);
+            if (!idConsumer) {
+              const error = new Error("Could not find id Consumer");
+              error.statusCode = 404;
+              throw error;
+            }
+            const updatePoint = await Admin.updatePoints(
+              partner.id,
+              idConsumer.id,
+              data.point
+            );
+          })
+        );
+      })
+    );
+    res.status(200).json({
+      message: "Update points consumer successfully",
     });
   } catch (error) {
     if (!error.statusCode) {
