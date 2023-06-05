@@ -46,6 +46,14 @@ const UserAPI = {
     const url = `${apiV1}/consumer/getHistory/${idcus}?page=${page}&perPage=${perPage}`;
     return get(url, "");
   },
+  getInfoUser: function(idcus: string){
+    const url = `${apiV1}/consumer/infoConsumer/${idcus}`;
+    return get(url, "");
+  },
+  updateCart: function (idcus: string,data:any){
+    const url = `${apiV1}/consumer/updateCart/${idcus}`;
+    return put(url, data,"");
+  }
   ///v1/api/employee/partner?page=1&perPage=5
   ///v1/api/consumer/getHistory/1?page=1&perPage=1 (Nếu không có query thì mặc định là page = 1 và perPage = 3)
   // patchResource: function (data: any, id: string, token: string) {

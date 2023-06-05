@@ -94,6 +94,13 @@
     align-items: center;
     text-align: center;
     border-radius: 5px;
+    color: white;
+    animation-name: slide-in-up;
+    animation-duration: 2s;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-direction:normal;
+    animation-timing-function:easy-in-out;
     
 }
 .modal h5{
@@ -112,3 +119,17 @@
     border-radius: 20px;
     color: white;
 }
+
+@keyframes slide-in-up {
+    from {
+        /* height: 20px; */
+      /* transform: translateY(-50%); */
+      transform: translateX(20%);
+
+    }
+  
+    to {
+    /* height: 200px; */
+      /* transform: translateY(-15%); */
+    }
+  }

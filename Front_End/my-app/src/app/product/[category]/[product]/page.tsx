@@ -26,9 +26,9 @@ export default function ProductPage({ params, searchParams }: Props){
     // console.log("parm", ID_PRODUCT)
     const user=useSelector((state:any)=> state.auth.login.currentUser)
    const cusID=user?.user?.userId
-   const userpoint=user?.userInfo.Points
+//    const userpoint=user?.userInfo.Points
+const [userpoint, setUserpoint]=useState<any>([])
    
-   console.log("usrpoint", userpoint)
     const [infor_value,setInfor_value]= useState<any[]>()
 
     const [product, setProduct] = useState<productApi>()
@@ -48,49 +48,59 @@ export default function ProductPage({ params, searchParams }: Props){
     const [maxover, setMaxover]= useState(2)
 
     const [ispartnerselected, setIspartnerselected]=useState(false)
+    const fetchProduct = async () => {
+        const res1 = await UserAPI.getInfoUser(cusID);
+        // console.log("user point new", res1.data.data.Points)
+        setUserpoint(res1.data.data.Points)
+        let userpointt=res1.data.data.Points
+        const res = await productAPI.getProduct(ID_PRODUCT)
+     
+        console.log("user point new", res.data.product.partners)
 
-    useEffect(()=> {
-        const fetchProduct = async () => {
-            const res = await productAPI.getProduct(ID_PRODUCT)
-            setProduct(res.data.product)
-            console.log("r", res.data.product)
-            const partners= res.data.product.partners
-            console.log("parnter",partners)
-            for (let i=0;i<partners.length;i++){
-                res.data.product.partners[i] = {... res.data.product.partners[i], userPoint:0}
-                for (let j=0;j<userpoint.length;j++){
-                    if(partners[i].ID_Partners===userpoint[j].ID_Partners){
-                        res.data.product.partners[i] = {... res.data.product.partners[i], userPoint:userpoint[j].POINTS}
-                        // userpoint.splice(j, 1)
-                    }
+        console.log("r", res.data.product)
+        let partners= res.data.product.partners
+        console.log("parnter",partners)
+        for (let i=0;i<partners.length;i++){
+            partners[i] = {... res.data.product.partners[i], userpoint:0}
+            for (let j=0;j<userpointt.length;j++){
+                console.log("pảtner[", partners[i])
+                console.log("userpoi", userpointt[j])
+                if(partners[i].ID_Partners===userpointt[j].ID_Partners){
+                    partners[i] = {... res.data.product.partners[i], userpoint:userpointt[j].POINTS}
+                    // userpoint.splice(j, 1)
                 }
             }
-            setInfor_value([res.data.product.NAME, res.data.product.TYPE_PROD, res.data.product.INFOR_PRODUCTS, res.data.product.partners, res.data.product.URL, res.data.product.QUANTITY]);
-
-          
-            // setBigImg(.URL[0].img)
-            setBigImg(res.data.product.URL?.[0].img)
-            // console.log("par",res.data.product.URL?.[0].img)
-            console.log("parnter after", res.data.product.partners)
         }
+        setInfor_value([res.data.product.NAME, res.data.product.TYPE_PROD, res.data.product.INFOR_PRODUCTS, partners, res.data.product.URL, res.data.product.QUANTITY]);
+
+      
+        // setBigImg(res.data.product.URL[0].img)
+        setBigImg(res.data.product.URL?.[0].img)
+        // console.log("par",res.data.product.URL?.[0].img)
+        console.log("parnter after", res.data.product.partners)
+        setProduct(res.data.product)
+    }
+   
+    useEffect(()=> {
+
         fetchProduct()
                  
     // console.log("par",infor_value)
     },[])
+  
     const [userpartnerPoint, setUserpartnerPoint]=useState(0)
     useEffect(()=>{
-        console.log("parnter sele", partners);
+        // console.log("parnter sele", partners);
         let uss=0
-        for (let i=0;i<userpoint.length;i++){
-            if(partners?.ID_Partners===userpoint[i].ID_Partners)
+        for (let i=0;i<userpoint?.length;i++){
+            if(partners?.ID_Partners===userpoint?.[i]?.ID_Partners)
                 // setUserpartnerPoint(userpoint[i].POINTS)
-                uss=userpoint[i].POINTS
+                uss=userpoint?.[i]?.POINTS
         }
         const max=Math.floor(uss/partners?.GiaDoiThuong)
      
         setMaxitem(max)
         console.log("max", max)
-        console.log("sel", maxitem);
 
       console.log("is",ispartnerselected)
         console.log("userspint", uss);
@@ -117,9 +127,9 @@ export default function ProductPage({ params, searchParams }: Props){
         router.push("/account/cart")
         console.log("res", res)
     }
-    console.log("res1", typeof(count))
+
     const handleExchangeBtn = function () {
-        console.log("res1", typeof(count))
+
         const selectedProduct = {
             ID_DoanhNghiep: partners.ID_Partners,
             Total_Point_Trade: count*partners?.GiaDoiThuong,
@@ -190,7 +200,7 @@ export default function ProductPage({ params, searchParams }: Props){
                                     <div onClick={()=>{partner!==partners?(setIspartnerselected(true), setPartner(partner)):(setIspartnerselected(false),setPartner(null))}}>
                                         <PartnerSmallItem 
                                         // onClick={()=>setPartner(partner)}
-                                        logo={partner.url} name={partner.Name} point={partner.GiaDoiThuong} userpoint = {partner.userPoint} />
+                                        logo={partner.url} name={partner.Name} point={partner.GiaDoiThuong} userpoint = {partner.userpoint} />
                                     </div>
                             </>
 

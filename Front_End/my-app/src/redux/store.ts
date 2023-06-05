@@ -24,12 +24,14 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
+const rootReducer = combineReducers({ auth: authReducer, users: userReducer, selectedProducts: selectedProductsreducer });
+
 const persistConfig = {
   key: "root",
   version: 1,
   storage,
+  whitelist: ['auth']
 };
-const rootReducer = combineReducers({ auth: authReducer, users: userReducer, selectedProducts: selectedProductsreducer });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({

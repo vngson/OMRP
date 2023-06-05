@@ -15,7 +15,7 @@ export default function AccountLayout({children}:any) {
 
     const dispatch=useDispatch()
     const handleLogoutBtn= () =>{
-        // logOut(dispatch);
+        logOut(dispatch);
         router.push("/")
     }
     return(

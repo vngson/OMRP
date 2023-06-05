@@ -12,11 +12,11 @@ export default function CartPage(){
   
 
             const user=useSelector((state:any)=> state.auth.login.currentUser)
-            // const cusID=user.user.userId
-            const cusID="1"
+            const cusID=user?.user?.userId
+            // const cusID="1"
     const [historyExchange, setHistoryExchange]= useState([])
     const fetchHistoryExchange= async function (){
-        const res= await UserAPI.getHistoryExchange(cusID, "", "");
+        const res= await UserAPI.getHistoryExchange(cusID, "1", "20");
         setHistoryExchange(res.data.data)
         console.log("hídd", historyExchange)
 
@@ -52,10 +52,10 @@ export default function CartPage(){
                         ))}
                     </div>
                     <div className={styles.footer}>
-                        <p className={styles.footer_ele}>Trạng thái giao hàng</p>
-                        <p className={styles.footer_ele}>Giao hàng thành công</p>
+                        <p className={styles.footer_ele}></p>
+                        <p className={styles.footer_ele}></p>
                         <p className={styles.footer_ele}>Tổng cộng</p>
-                        <p className={styles.total_value}>80</p></div>
+                        <p className={styles.total_value}>{exc.TOTAL_POINTS_TRADE}</p></div>
                 </div>
             ))}
 

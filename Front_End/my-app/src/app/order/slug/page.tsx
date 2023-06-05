@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react'
 import UserAPI from '@/app/api/userAPI'
 import Link from 'next/link'
 import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap'
-import { deleteSelectedProducts } from '@/redux/apiRequests'
+import { deleteSelectedProducts } from '@/redux/SelectedProductapiRequests'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,10 +27,10 @@ const products = useSelector((state:any)=> state.selectedProducts.save.products)
 //   console.log("par",products)
     let temptotal=0
     const user=useSelector((state:any)=> state.auth.login.currentUser)
-    // const id=user.user.userId
-    const id="1"
+    const id=user?.user?.userId
+    // const id="1"
   console.log("id",id)
-    const total =products.Total_Point_Trade;
+    const total =products?.Total_Point_Trade;
     const dispatch=useDispatch()
  
     const [address, setAddress]= useState("");
@@ -38,18 +38,18 @@ const products = useSelector((state:any)=> state.selectedProducts.save.products)
     const handleCheckout =  async function () {
 
         let prods=[]
-        for (let i =0;i<products.products.length;i++){
-            prods.push({Id_Product: products.products?.[i].ID_PRODUCTS.toString(),
-                Name_Product:products.products?.[i].NAME_PRODUCTS,
-                Quantity:products.products?.[i].QUANTITY.toString(),
-                Total_Point: products.products?.[i].TOTAL_PRICE.toString()})
+        for (let i =0;i<products?.products?.length;i++){
+            prods.push({Id_Product: products?.products?.[i].ID_PRODUCTS.toString(),
+                Name_Product:products?.products?.[i]?.NAME_PRODUCTS,
+                Quantity:products?.products?.[i]?.QUANTITY.toString(),
+                Total_Point: products?.products?.[i]?.TOTAL_PRICE.toString()})
         }
      
         const newOrder ={
             Address: address,
             Phone: phone,
             Total_Point_Trade: total.toString(),
-            Id_DoiTac: products.ID_DoanhNghiep.slice(0,1),
+            Id_DoiTac: products?.ID_DoanhNghiep.slice(0,1),
             Products: prods
         }
   
@@ -61,7 +61,7 @@ const products = useSelector((state:any)=> state.selectedProducts.save.products)
         deleteSelectedProducts(dispatch, router)
     }
   return (
-   <div className={styles.container}>
+   <div className={styles.container} style={{opacity: `${modalOpen?0.2:1}`}}>
     <div className={styles.inputs}>
         <div className={styles.input}>Địa chỉ giao hàng      </div>
         <input type="text" value={address} onChange={(e)=>{setAddress(e.target.value)}}/>
@@ -70,17 +70,17 @@ const products = useSelector((state:any)=> state.selectedProducts.save.products)
     </div>
    
     <div className={styles.products}>
-        <PartnerSmallItem_1 name={products.TenDoanhNghiep} logo={products.Img}/>
+        <PartnerSmallItem_1 name={products?.TenDoanhNghiep} logo={products?.Img}/>
         <div className={styles.line}></div>
         <div className={styles.productlist}>
-        {products.products.map((prod:any)=>(
+        {products?.products.map((prod:any)=>(
                     
             <><div className={styles.product}>
 
                 <Image src={prod.url[0].img} alt="" width={60} height={60}/>
                 <p className={styles.title}>{prod.NAME_PRODUCTS}</p>
                 <p className={styles.title}>x{prod.QUANTITY}</p>
-                <p className={styles.title}>{prod.PRICE}</p>
+                <p className={styles.title}>{prod.TOTAL_PRICE}</p>
             </div><div className={styles.line1}></div></>
         ))}
         </div>
@@ -116,42 +116,8 @@ const products = useSelector((state:any)=> state.selectedProducts.save.products)
             Xem đơn hàng
           </Button>
         </ModalFooter>
-      </Modal></div>
+      </Modal>
+      </div>
    </div>
   )
 }
-
-// export default withRouter((props) => (
-
-//     <div className={styles.container}>
-//     <div className={styles.inputs}>
-//         <div className={styles.input}>Địa chỉ giao hàng      </div>
-//         <input type="text" />
-//         <div className={styles.input}>Số điện thoại        </div>
-//         <input type="text" />
-//     </div>
-   
-//     <div className={styles.products}>
-//         <PartnerSmallItem_1 name="Phuc Long" logo={partner_img_1}/>
-//         <div className={styles.line}></div>
-//         <div className={styles.productlist}>
-//         {a.map(a=>(
-                    
-//             <><div className={styles.product}>
-
-//                 <Image src={product_img_1} alt="" />
-//                 <p className={styles.title}>Binh giu nhiet</p>
-//                 <p className={styles.title}>x2</p>
-//                 <p className={styles.title}>60</p>
-//             </div><div className={styles.line1}></div></>
-//         ))}
-//         </div>
-//         <div className={styles.line2}></div>
-//         <div className={styles.total}>  <p className={styles.total_title}>Tong cong</p>
-//         <div className={styles.total_value}>60</div></div>
-      
-//     </div>
- 
-//     <button className={styles.checkout}> <Image className={styles.checkout_icon}  src={checkout_icon} alt=""/> Đặt hàng</button>
-//    </div>
-//    ))

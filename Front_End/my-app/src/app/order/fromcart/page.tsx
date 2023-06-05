@@ -15,14 +15,18 @@ import { useEffect, useState } from 'react'
 import UserAPI from '@/app/api/userAPI'
 import Link from 'next/link'
 import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap'
-import { deleteSelectedProducts } from '@/redux/apiRequests'
+import { deleteSelectedProducts } from '@/redux/SelectedProductapiRequests'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function BuninessPage() {
 const products = useSelector((state:any)=> state.selectedProducts.save.products)
+const router=useRouter();
+if(products===null){
+  router.push("/account/history-exchange")
+}
     const [modalOpen, setModalOpen] = useState(false)
-    const router=useRouter();
+
   const param=useParams();
   console.log("par",products)
     const [total, setTotal]= useState(0)
@@ -30,8 +34,8 @@ const products = useSelector((state:any)=> state.selectedProducts.save.products)
     
 
     useEffect(()=>{
-        for (let i=0;i<products.products.length;i++){
-            temptotal=temptotal+products.products[i].TOTAL_PRICE;
+        for (let i=0;i<products?.products?.length;i++){
+            temptotal=temptotal+products?.products?.[i]?.TOTAL_PRICE;
                 }
                 setTotal(temptotal);
         
@@ -41,23 +45,23 @@ const products = useSelector((state:any)=> state.selectedProducts.save.products)
     const [address, setAddress]= useState("");
     const [phone, setPhone]= useState("");
     const user=useSelector((state:any)=> state.auth.login.currentUser)
-    // const id=user.user.userId
-    const id="1"
+    const id=user?.user?.userId
+    // const id="1"
     const handleCheckout =  async function () {
 
         let prods=[]
-        for (let i =0;i<products.products.length;i++){
-            prods.push({Id_Product: products.products?.[i].ID_PRODUCTS.toString(),
-                Name_Product:products.products?.[i].NAME_PRODUCTS,
-                Quantity:products.products?.[i].QUANTITY.toString(),
-                Total_Point: products.products?.[i].TOTAL_PRICE.toString()})
+        for (let i =0;i<products?.products?.length;i++){
+            prods.push({Id_Product: products.products?.[i]?.ID_PRODUCTS.toString(),
+                Name_Product:products?.products?.[i]?.NAME_PRODUCTS,
+                Quantity:products?.products?.[i]?.QUANTITY.toString(),
+                Total_Point: products?.products?.[i]?.TOTAL_PRICE.toString()})
         }
      
         const newOrder ={
             Address: address,
             Phone: phone,
             Total_Point_Trade: total.toString(),
-            Id_DoiTac: products.ID_DoanhNghiep,
+            Id_DoiTac: products?.ID_DoanhNghiep,
             Products: prods
         }
   
@@ -67,6 +71,7 @@ const products = useSelector((state:any)=> state.selectedProducts.save.products)
         setModalOpen(true)
         deleteSelectedProducts(dispatch, router)
     }
+  
   return (
    <div className={styles.container}>
     <div className={styles.inputs}>
@@ -77,10 +82,10 @@ const products = useSelector((state:any)=> state.selectedProducts.save.products)
     </div>
    
     <div className={styles.products}>
-        <PartnerSmallItem_1 name={products.TenDoanhNghiep} logo={products.Img}/>
+        <PartnerSmallItem_1 name={products?.TenDoanhNghiep} logo={products?.Img}/>
         <div className={styles.line}></div>
         <div className={styles.productlist}>
-        {products.products.map((prod:any)=>(
+        {products?.products?.map((prod:any)=>(
                     
             <><div className={styles.product}>
 
@@ -128,37 +133,3 @@ const products = useSelector((state:any)=> state.selectedProducts.save.products)
   )
 }
 
-// export default withRouter((props) => (
-
-//     <div className={styles.container}>
-//     <div className={styles.inputs}>
-//         <div className={styles.input}>Địa chỉ giao hàng      </div>
-//         <input type="text" />
-//         <div className={styles.input}>Số điện thoại        </div>
-//         <input type="text" />
-//     </div>
-   
-//     <div className={styles.products}>
-//         <PartnerSmallItem_1 name="Phuc Long" logo={partner_img_1}/>
-//         <div className={styles.line}></div>
-//         <div className={styles.productlist}>
-//         {a.map(a=>(
-                    
-//             <><div className={styles.product}>
-
-//                 <Image src={product_img_1} alt="" />
-//                 <p className={styles.title}>Binh giu nhiet</p>
-//                 <p className={styles.title}>x2</p>
-//                 <p className={styles.title}>60</p>
-//             </div><div className={styles.line1}></div></>
-//         ))}
-//         </div>
-//         <div className={styles.line2}></div>
-//         <div className={styles.total}>  <p className={styles.total_title}>Tong cong</p>
-//         <div className={styles.total_value}>60</div></div>
-      
-//     </div>
- 
-//     <button className={styles.checkout}> <Image className={styles.checkout_icon}  src={checkout_icon} alt=""/> Đặt hàng</button>
-//    </div>
-//    ))

@@ -207,14 +207,14 @@ export default function Home() {
     // console.log(productlist)
   },[pagi_idx,pagi_idx1,pagi_idx2])
 
-  // if(permission==="1"){
-  //   router.push("/")
-  //   return (<></>)
-  // } else if (permission==="2")
-  // {
-  //   router.push("/business")
-  //   return (<></>)
-  // } else { router.push("/")}
+   if(permission==="3"){
+    // router.push("/404")
+    // return (<></>)
+  } else if (permission==="2")
+  {
+    router.push("/business")
+    return (<></>)
+  } else { }
   return (
     <main  className={styles.main} >
       <div className={styles.banner}><Image src={banner_home_customer} className={styles.banner_img} alt=""/></div>

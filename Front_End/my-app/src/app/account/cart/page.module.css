@@ -5,7 +5,32 @@
     margin-top: 50px;
     font-size: 16px;
 }
-
+.noti{
+    position:absolute;
+    z-index: 20;
+    background-color: var(--primary-color-1);
+    width: max-content;
+    padding: 10px 40px;
+    color: white;
+    border-radius: 20px;
+    opacity: 0.5;
+    top:-10%;
+    animation-name: slide-in-up;
+    animation-duration: 2s;
+    animation-delay: 2s;
+    animation-iteration-count: 2;
+    animation-direction:alternate;
+    animation-timing-function:easy-in-out;
+}
+@keyframes slide-in-up {
+    from {
+      transform: translateY(-10%);
+    }
+  
+    to {
+      transform: translateY(250px);
+    }
+  }
 .header{
     background-color: white;
     display: grid;
@@ -56,6 +81,9 @@
     position: relative;
     width: 120px;
     text-align: center;
+}
+.arrow{
+    cursor: pointer;
 }
 .total{
     display: flex;
