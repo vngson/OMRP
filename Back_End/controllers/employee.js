@@ -5,7 +5,6 @@ exports.getListContract = async (req, res, next) => {
   const currentPage = req.query.page || 1; // Lấy tham số query hoặc mặc định là 1
   const perPage = req.query.perPage || 4; // Lấy tham số query hoặc mặc định là 4
   try {
-    const count = await Employee.getCountContract();
     const skip = (currentPage - 1) * perPage;
     const limit = Number(perPage);
     const contracts = await Employee.getListContract(skip, limit);
@@ -14,6 +13,7 @@ exports.getListContract = async (req, res, next) => {
       error.statusCode = 404;
       throw error;
     }
+    const count = await Employee.getCountContract();
     res.status(200).json({
       message: "Fetched contracts successfully ",
       contracts: contracts,
@@ -34,7 +34,6 @@ exports.getListContractPendingApproval = async (req, res, next) => {
   const currentPage = req.query.page || 1; // Lấy tham số query hoặc mặc định là 1
   const perPage = req.query.perPage || 4; // Lấy tham số query hoặc mặc định là 4
   try {
-    const count = await Employee.getCountContractPendingApproval();
     const skip = (currentPage - 1) * perPage;
     const limit = Number(perPage);
     const contracts = await Employee.getListContractPendingApproval(skip, limit);
@@ -43,6 +42,7 @@ exports.getListContractPendingApproval = async (req, res, next) => {
       error.statusCode = 404;
       throw error;
     }
+    const count = await Employee.getCountContractPendingApproval();
     res.status(200).json({
       message: "Fetched contracts successfully ",
       contracts: contracts,
@@ -83,7 +83,6 @@ exports.getListPartner = async (req, res, next) => {
   const currentPage = req.query.page || 1; // Lấy tham số query hoặc mặc định là 1
   const perPage = req.query.perPage || 4; // Lấy tham số query hoặc mặc định là 4
   try {
-    const count = await Employee.getCountPartner();
     const skip = (currentPage - 1) * perPage;
     const limit = Number(perPage);
     const partners = await Employee.getListPartner(skip, limit);
@@ -92,6 +91,7 @@ exports.getListPartner = async (req, res, next) => {
       error.statusCode = 404;
       throw error;
     }
+    const count = await Employee.getCountPartner();
     res.status(200).json({
       message: "Fetched partners successfully ",
       partners: partners,

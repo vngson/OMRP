@@ -30,6 +30,7 @@ exports.getProducts = async (req, res, next) => {
     const skip = (currentPage - 1) * perPage;
     const limit = Number(perPage);
     let count, products;
+    
     if (type) {
       if(keyword) {
         count = await Consumer.countProductTypeSearched(type, keyword);
@@ -50,7 +51,6 @@ exports.getProducts = async (req, res, next) => {
         products = await Consumer.getProducts(skip, limit);
       }
     }
-       
     if (products.length === 0) {
       const error = new Error("Could not find products ! ");
       error.statusCode = 404;

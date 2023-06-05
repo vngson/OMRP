@@ -81,7 +81,7 @@ exports.getContractsIsValid = async function (partnerId) {
       'SELECT * FROM public."Contract" as C JOIN public."Partners" as P ON C."CONTRACT_PARTNER" = P."ID_Partners" WHERE P."ID_Partners" = $1 and C."STATUS" = $2',
       [partnerId, "Đã duyệt"]
     );
-    return rs.rows;
+    return rs.rows.length > 0;
   } finally {
     client.release(); // Giải phóng kết nối
   }
@@ -96,7 +96,7 @@ exports.getPartnerProduct = async function (id_products, id_partners) {
       `select * from public."EXCHANGE_POINT" where "ID_PRODUCTS" = $1 and "ID_PARTNERS" = $2`,
       [id_products, id_partners]
     );
-    return rs1.rows;
+    return rs1.rows.length > 0;
   } finally {
     client.release(); // Giải phóng kết nối
   }
