@@ -55,16 +55,18 @@ exports.getAccounts = async (req, res, next) => {
 
 exports.updateStatus = async (req, res, next) => {
   const idAccount = req.params.id;
-  const status = req.body.status;
-
   try {
     const haveAccount = await Admin.getAccount(idAccount);
-    if (haveAccount.length === 0) {
+    if (!haveAccount) {
       const error = new Error("Could not find account");
       error.statusCode = 404;
       throw error;
     }
-    const updateStatus = await Admin.updateAccountStatus(idAccount, status);
+
+    const updateStatus =
+      haveAccount.Status === "locked"
+        ? await Admin.updateAccountStatus(idAccount, "unlocked")
+        : await Admin.updateAccountStatus(idAccount, "locked");
     res.status(200).json({ message: "Updated status successfully" });
   } catch (error) {
     if (!error.statusCode) {
