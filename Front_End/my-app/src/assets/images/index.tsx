@@ -14,6 +14,7 @@ import checkout_icon from "./checkout_icon.svg"
 import partner_img_1_square from "./partner_img_1_square.png"
 import user_avt_1 from "./user-avatar.jpg"
 import searchicon from "./searchicon.svg"
+import notexist from "./notexist.gif"
 export {
     banner_home_customer,
     product_img_1,
@@ -30,5 +31,6 @@ export {
     checkout_icon,
     partner_img_1_square,
     user_avt_1,
-    searchicon
+    searchicon,
+    notexist
 }

@@ -1,9 +1,12 @@
 .container{
+    margin: 30px;
     width: var(--max-width);
     margin: 0 auto;
     margin-top: 20px;
-    margin-left: 250px;
     min-height: 1000px;
+    display: grid;
+    grid-template-columns: 20% 80%;
+    grid-column-gap: 20px;
 
 
 }
@@ -17,8 +20,20 @@
     text-align: center;
     position:fixed;
     left: 20px;
-    top: 70px
+    top: 70px;
 
+}
+.sidebar_sticky{
+    background-color: white;
+    padding: 50px 20px 100px 20px;
+    height: fit-content;
+
+    border-radius: 30px;
+    border: solid 1px var(--primary-color-1);
+    text-align: center;
+    position:fixed;
+    left: 20px;
+    top: 10px;
 }
 .sidebar img{
     margin-bottom: 20px;

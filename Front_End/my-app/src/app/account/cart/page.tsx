@@ -2,7 +2,7 @@
 "use client"
 import PartnerSmallItem from "@/components/items/partner/PartnerSmallItem/com"
 import styles from "./page.module.css"
-import { arrow_left_product, arrow_right_product, delete_icon, partner_img_1, product_img_1 } from "@/assets/images"
+import { arrow_left_product, arrow_right_product, delete_icon, notexist, partner_img_1, product_img_1 } from "@/assets/images"
 import Image from "next/image"
 import { count } from "console"
 import { useDispatch, useSelector } from "react-redux"
@@ -173,7 +173,19 @@ export default function CartPage(props:any){
         setIndexprod(indexproc)
      
     }   
-    
+    const handleDeleteTotallyBtn=async ()=>{
+        const res = await UserAPI.deleteCart(userid, "", "");
+        setNoti(res.data.message)
+        setTimeout(() => {
+            setNoti("")
+        }, 5000);
+        console.log("not",res.data.message)
+        router.push("/account/cart")
+    }
+    if(cart.length===0){
+        return(<div className={styles.notexist}><p className="">Không có sản phẩm nào trong giỏ hàng!</p> 
+        <Image alt =" "src={notexist} className={styles.gif} width={100} height={100}/></div>)
+    }else
     return(
         <>
         <div className={styles.container}>
@@ -222,9 +234,10 @@ export default function CartPage(props:any){
                 <p className={styles.total_value}>{total}</p></div>
             <div className={styles.buttons}>
       
-      
+            <button onClick={()=>handleDeleteTotallyBtn()}> <Image className={styles.delete_icon} src={delete_icon} alt=""/> Xóa toàn bộ giỏ hàng</button>
+
                 <button> <Image className={styles.delete_icon} src={delete_icon} alt=""/> Xóa</button>
-                <button onClick={()=>handleUpdateBtn()} > <Image className={styles.delete_icon} src={delete_icon} alt=""/> 
+                <button style={{background: `#FDEA9F`}} onClick={()=>handleUpdateBtn()} > <Image className={styles.delete_icon} src={delete_icon} alt=""/> 
                 Cập nhật giỏ hàng</button>
       
                 <button className={styles.checkout}> <Image className={styles.checkout_icon}  src={delete_icon} onClick={()=>handleCheckoutButton()} alt=""/>

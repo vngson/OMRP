@@ -1,7 +1,7 @@
 .container{
-    width: var(--max-width);
+    /* width: var(--max-width); */
   
-    margin: 0 auto;
+    /* margin: 0 auto; */
     margin-top: 50px;
     font-size: 16px;
 }
@@ -105,20 +105,22 @@
     /* position: relative; */
     width: 100%;
     margin-top: 50px;
-
+    font-weight:700;
     text-align: end;
     margin-bottom: 50px;
+    font-size: 14px;
 }
 .buttons button{
     /* margin-left: 20px; */
     border-radius: 30px;
-    padding: 5px 60px 15px 60px;
+    padding: 0px 20px 10px 20px;
     /* align-items: center; */
     position: relative;
     height: fit-content;
     color: white;
     background-color: #EF5959;
     margin-left: 20px;
+ 
 }
 
 .delete_icon, .checkout_icon{
@@ -151,4 +153,17 @@
     left: -30px;
     bottom: -30px;
     border: solid 1px #3F7CAC;
+}
+.notexist{
+    text-align: center;
+    vertical-align: middle;
+    display: block;
+    font-size: 20px;
+    
+}
+.notexist p {
+    margin-bottom: 50px;
+}
+.gif{
+    opacity: 0.5;
 }

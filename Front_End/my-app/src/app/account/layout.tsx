@@ -4,26 +4,43 @@ import { user_avt_1 } from "@/assets/images";
 import styles from "./layout.module.css"
 import Image from "next/image";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "@/redux/apiRequests";
 import axios from "axios";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 export default function AccountLayout({children}:any) {
     const pathname= usePathname();
     const router = useRouter()
     const ele=["Thông tin tài khoản", "Lịch sử trao đổi", "Danh sách doanh nghiệp", "Giỏ hàng"];
     const ele_url=["/account/infor","/account/history-exchange", "/account/business", "/account/cart"]
-
+    const user = useSelector((state: any)=> state.auth.login.currentUser)
     const dispatch=useDispatch()
     const handleLogoutBtn= () =>{
         logOut(dispatch);
         router.push("/")
     }
+    const [sticky, setSticky] = useState(false);
+
+    // on render, set listener
+    useEffect(() => {
+  
+      window.addEventListener("scroll", isSticky);
+      return () => {
+        window.removeEventListener("scroll", isSticky);
+      };
+    }, []);
+    const isSticky = () => {
+      /* Method that will fix header after a specific scrollable */
+      const scrollTop = window.scrollY;
+      scrollTop >= 100 ? setSticky(true) : setSticky(false);
+      // setSticky(true)
+    };
     return(
         <div className={styles.container}>
-            <div className={styles.sidebar}>
+            <div className={`${sticky? styles.sidebar_sticky: styles.sidebar}`}>
 
                 <Image className={styles.img} src={user_avt_1} alt=""/>
-                <div className={styles.user_name}>Kim Ngan</div>
+                <div className={styles.user_name}>{user?.userInfo?.NAME}</div>
                 {ele.map((e,index)=>( ele_url[index]===pathname?(
                        <div className={styles.element_focus} >{e}</div>
                 ):(
@@ -34,6 +51,7 @@ export default function AccountLayout({children}:any) {
 
                 <button onClick={()=>handleLogoutBtn()}>Đăng xuất</button>       
             </div>
+            <div></div>
             {children}
         </div>
     )
