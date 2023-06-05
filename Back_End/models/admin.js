@@ -55,7 +55,7 @@ exports.getAccount = async function (id) {
   const client = await getClient();
   try {
     const rs = await client.query(
-      'SELECT public."Account"  WHERE "ID_Login" = $1 ',
+      'SELECT "ID_Login" FROM  public."Account"  WHERE "ID_Login" = $1 ',
       [id]
     );
 

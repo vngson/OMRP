@@ -49,6 +49,8 @@ Endpoint Add to cart : PUT /v1/api/consumer/addToCart/idConsumer
 
 Endpoint Get Cart : GET /v1/api/consumer/getCart/idConsumer
 
+Endpoint Update Cart : PUT /v1/api/consumer/updateCart/idConsumer
+
 Endpoint Delete Cart : DELETE /v1/api/consumer/deleteCart/idConsumer?partnerId=8&productId=21 (Mặc định nếu không có query thì sẽ xóa hết toàn bộ, có partnerId sẽ xóa hết sản phẩm của 
 đối tác đó, có thêm productId sẽ xóa sản phẩm của đối tác đó. Nếu có productId nhưng không có partnerId sẽ có lỗi)
 

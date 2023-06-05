@@ -68,7 +68,6 @@ exports.getContracts = async (req, res, next) => {
     next(error);
   }
 };
-
 exports.postProduct = async (req, res, next) => {
   const id_products = req.params.productId;
   const id_partners = req.params.partnerId;
@@ -81,23 +80,25 @@ exports.postProduct = async (req, res, next) => {
   };
   try {
     const haveContract = await Partner.getContractsIsValid(id_partners);
+    if (!haveContract) {
+      const error = new Error("Could not find contracts !");
+      error.statusCode = 404;
+      throw error;
+    }
+
     const haveProduct = await Partner.getPartnerProduct(
       id_products,
       id_partners
     );
-    if (haveContract.length === 0) {
-      const error = new Error("Contract has expired");
-      error.statusCode = 403;
+    if (haveProduct) {
+      const error = new Error("Product has exists");
+      error.statusCode = 400;
       throw error;
     }
-    if (haveProduct.length !== 0) {
-      const error = new Error("Could not import product");
-      error.statusCode = 404;
-      throw error;
-    }
+
     const postProduct = await Partner.insertNewProductCanExchange(newProduct);
     res.status(200).json({
-      message: "Create product successfully",
+      message: "Post new product successfully",
       postProduct: postProduct,
     });
   } catch (error) {
@@ -114,16 +115,17 @@ exports.deleteProduct = async (req, res, next) => {
 
   try {
     const haveContract = await Partner.getContractsIsValid(id_partners);
+    if (!haveContract) {
+      const error = new Error("Could not find contracts !");
+      error.statusCode = 404;
+      throw error;
+    }
+
     const haveProduct = await Partner.getPartnerProduct(
       id_products,
       id_partners
     );
-    if (haveContract.length === 0) {
-      const error = new Error("Contract has expired");
-      error.statusCode = 404;
-      throw error;
-    }
-    if (haveProduct.length === 0) {
+    if (!haveProduct) {
       const error = new Error("Could not find product");
       error.statusCode = 404;
       throw error;

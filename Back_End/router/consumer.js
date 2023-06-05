@@ -41,6 +41,8 @@ router.post("/order/:consumerId", consumerController.orderProducts);
 router.put("/updateInfo/:consumerId", consumerController.updateInfoConsumer);
 router.put("/addToCart/:consumerId", consumerController.postCart);
 
+router.put("/updateCart/:consumerId", consumerController.updateCart);
+
 // DELETE
 router.delete("/deleteCart/:consumerId", consumerController.deleteCart);
 

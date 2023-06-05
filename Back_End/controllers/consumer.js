@@ -402,8 +402,12 @@ exports.getCart = async (req, res, next) => {
               product.ID_PRODUCTS,
               partner.ID_DoanhNghiep
             );
+            const quantity = await Consumer.getQuantityProduct(
+              product.ID_PRODUCTS
+            );
             product.PRICE = price.PRICE;
             product.TOTAL_PRICE = product.PRICE * product.QUANTITY;
+            product.QUANTITYSTORE = quantity.QUANTITY;
             totalCart += Number(product.TOTAL_PRICE);
           })
         );
@@ -417,6 +421,41 @@ exports.getCart = async (req, res, next) => {
       data: partnersArr,
       totalPriceCart: totalCart,
       totalItems: totalItems,
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
+exports.updateCart = async (req, res, next) => {
+  const consumerId = req.params.consumerId;
+
+  const products = req.body.cartProducts;
+
+  try {
+    await Promise.all(
+      products.map(async (data) => {
+        const updateCart =
+          Number(data.quantity) === 0
+            ? await Consumer.deletePartnerProductCart(
+                consumerId,
+                data.idPartner,
+                data.idProducts
+              )
+            : await Consumer.updateQuantityCart(
+                consumerId,
+                data.idProducts,
+                data.idPartner,
+                data.quantity
+              );
+      })
+    );
+
+    res.status(200).json({
+      message: "Update Cart Successfully !",
     });
   } catch (error) {
     if (!error.statusCode) {
@@ -490,6 +529,16 @@ exports.orderProducts = async (req, res, next) => {
         const order = orderFromCart
           ? await Consumer.orderByCart(obj, data)
           : await Consumer.order(obj, data);
+        // update quantity store
+        const quantityStore = await Consumer.getQuantityProduct(
+          data.Id_Product
+        );
+
+        const quantity = Number(quantityStore.QUANTITY) - Number(data.Quantity);
+        const updateQuantity = await Consumer.updateQuantity(
+          data.Id_Product,
+          quantity
+        );
       })
     );
 

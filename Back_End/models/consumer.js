@@ -341,6 +341,36 @@ exports.getPointProductCart = async function (idProduct, idPartner) {
   }
 };
 
+exports.getQuantityProduct = async function (idProduct) {
+  const client = await getClient();
+  try {
+    const rs = await client.query(
+      'SELECT "QUANTITY" FROM public."Products" WHERE "ID_PRODUCTS" = $1 ',
+      [idProduct]
+    );
+    return rs.rows[0];
+  } finally {
+    client.release(); // Giải phóng kết nối
+  }
+};
+
+exports.updateQuantityCart = async function (
+  idConsumer,
+  idProduct,
+  idPartner,
+  quantity
+) {
+  const client = await getClient();
+  try {
+    const rs = await client.query(
+      'UPDATE public."Cart" SET "QUANTITY" = $1 WHERE "ID_PRODUCTS" = $2 AND "ID_CUSTOMERS" = $3 AND "POINT_TYPE" = $4 ',
+      [quantity, idProduct, idConsumer, idPartner]
+    );
+  } finally {
+    client.release(); // Giải phóng kết nối
+  }
+};
+
 exports.deleteAllCart = async function (idConsumer) {
   const client = await getClient();
   try {
@@ -446,6 +476,17 @@ exports.orderByCart = async function (obj, product) {
   }
 };
 
+exports.updateQuantity = async function (idProduct, quantity) {
+  const client = await getClient();
+  try {
+    const rs = await client.query(
+      'UPDATE public."Products" SET "QUANTITY" = $1 WHERE "ID_PRODUCTS" = $2 ',
+      [quantity, idProduct]
+    );
+  } finally {
+    client.release(); // Giải phóng kết nối
+  }
+};
 exports.getPointConsumer = async function (idConsumer, idPartner) {
   const client = await getClient();
   try {
