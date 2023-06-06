@@ -19,6 +19,7 @@ import { userApi } from '@/app/api/apiReponseType';
 import { Divider } from '@nextui-org/react';
 import PartnerSmallItem from '../items/partner/PartnerSmallItem/com';
 import UserAPI from '@/app/api/userAPI';
+import { loginSuccess } from '@/redux/authSlice';
 
 const cx = classNames.bind(styles);
 
@@ -30,6 +31,7 @@ export default function Header() {
         const fetch= async () =>{
             const res = await UserAPI.getInfoUser(user?.user?.userId);
            setPoints(res.data.data.Points)
+           loginSuccess(res.data)
         }
         fetch()
     },[])

@@ -26,8 +26,8 @@ export default function ProductPage({ params, searchParams }: Props){
     // console.log("parm", ID_PRODUCT)
     const user=useSelector((state:any)=> state.auth.login.currentUser)
    const cusID=user?.user?.userId
-//    const userpoint=user?.userInfo.Points
-const [userpoint, setUserpoint]=useState<any>([])
+   const userpoint=user?.userInfo.Points
+// const [userpoint, setUserpoint]=useState<any>([])
    
     const [infor_value,setInfor_value]= useState<any[]>()
 
@@ -50,9 +50,9 @@ const [userpoint, setUserpoint]=useState<any>([])
     const [ispartnerselected, setIspartnerselected]=useState(false)
     const fetchProduct = async () => {
         const res1 = await UserAPI.getInfoUser(cusID);
-        // console.log("user point new", res1.data.data.Points)
-        setUserpoint(res1.data.data.Points)
-        let userpointt=res1.data.data.Points
+        console.log("user point new", res1.data.data.Points)
+        // setUserpoint(res1.data.data.Points)
+        let userpointt=userpoint
         const res = await productAPI.getProduct(ID_PRODUCT)
      
         console.log("user point new", res.data.product.partners)

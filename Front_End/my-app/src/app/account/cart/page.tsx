@@ -16,12 +16,12 @@ import { useMutation, useQuery } from "react-query"
 export default function CartPage(props:any){
     const user=useSelector((state:any)=> state.auth.login.currentUser)
     const userid=user?.user?.userId;
-    const [userpoints,setuserpoints]=useState<any>([])
+    // const [userpoints,setuserpoints]=useState<any>([])
     const [change, setChange]=useState(false)
     const [index, setIndex]=useState(0)
     const [indexproc, setIndexprod]=useState(0)
     const [count, setcount]=useState(-1)
-    // const userpoints = user?.userInfo.Points
+    const userpoints = user?.userInfo.Points
     // const userid="1"
     const dispatch=useDispatch()
     const router=useRouter();
@@ -31,10 +31,11 @@ export default function CartPage(props:any){
     const [total,setTotal]= useState(0)
 
     const fetchCart = async function (){
-        const res1 = await UserAPI.getInfoUser(userid);
-        setuserpoints(res1.data.data.Points)
-        const tempuserpoints=res1.data.data.Points
-        console.log("points", res1.data.data.Points)
+        // const res1 = await UserAPI.getInfoUser(userid);
+        // setuserpoints(res1.data.data.Points)
+        // const tempuserpoints=res1.data.data.Points
+        // console.log("points", res1.data.data.Points)
+        const tempuserpoints=userpoints
         const res = await UserAPI.getCart(userid);
         // console.log("cart", res.data)
         // setCart( res.data.data)
