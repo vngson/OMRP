@@ -36,7 +36,7 @@ export default function AccountLayout({children}:any) {
       // setSticky(true)
     };
     const ele=    ["Hồ sơ doanh nghiệp","Chọn sản phẩm","Danh sách sản phẩm","Hợp đồng"]
-    const ele_url=["/account/infor","/account/history-exchange", "/business", "/account/cart"]
+    const ele_url=["/mybusiness/infor","/mybusiness/chooseproduct", "/mybusiness/product", "/mybusiness/contract"]
 
     const handleLogoutBtn= () =>{
         logOut(dispatch);
@@ -61,7 +61,7 @@ export default function AccountLayout({children}:any) {
 
                 <Image className={styles.img} src={user_avt_1} alt=""/>
                 <div className={styles.user_name}>{user?.userInfo?.NAME}</div>
-                {ele.map((e,index)=>( ele_url[index]===pathname?(
+                {ele.map((e:any,index)=>( ele_url[index]===pathname?(
                        <div className={styles.element_focus} >{e}</div>
                 ):(
                         <div className={styles.element} onClick={()=> router.push(ele_url[index])} >{e}</div>

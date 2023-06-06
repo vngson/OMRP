@@ -1,3 +1,15 @@
+.contract-container{
+    display: flex;
+    margin-left: 40px;
+    width: 600px;
+    align-items: center;
+    background-color: var(--white);
+    border-radius: 25px;
+    flex-direction: column;
+    height: fit-content;
+ 
+
+}
 .contract{
     display: flex;
     height: 100%;
@@ -27,7 +39,7 @@
     height: 100%;
 }
 
-z
+
 
 .contract-title{
     display: flex;
@@ -44,10 +56,19 @@ z
 .contract-ID{
     display: flex;
     margin-left: 300px;
+     /* margin-bottom: 20px; */
+     height: 20px;
 }
+.contract-status{
+    display: flex;
+         height: 20px;
+    margin-left: 300px;
+        margin-bottom: 20px;
 
+}
 .contract-content{
     display: flex;
+    font-size: 26px;
 
 }
 
@@ -62,7 +83,8 @@ z
     height: 30px;
     align-items: center;
     justify-content: flex-start;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    font-size: 16px;
 }
 
 .contract__label1{
@@ -71,7 +93,7 @@ z
     height: 30px;
     align-items: center;
     justify-content: flex-start;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .contract__label2{

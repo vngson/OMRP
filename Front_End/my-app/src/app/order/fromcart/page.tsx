@@ -1,5 +1,5 @@
 "use client"
-import { withRouter } from 'next/router'
+
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from './page.module.css'

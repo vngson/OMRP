@@ -70,7 +70,7 @@ export default function Header() {
                 htmlFor="header__name-view" 
                 className={cx("header-label")}
             >
-                Chào, {user?.userInfo?.NAME}
+                Chào, {user?.userInfo?.NAME|| user?.userInfo?.Name} 
             </label>):( <Link href={"/login"}
                 className={cx("header-label")}
             >
