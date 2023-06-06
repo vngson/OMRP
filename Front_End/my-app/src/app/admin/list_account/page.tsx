@@ -1,6 +1,7 @@
 'use client';
 import classNames from 'classnames/bind';
 import axios from 'axios';
+import { baseURL } from '@/app/api/bareURL';
 import styles from "./page.module.css"
 import Header from '@/app/components/header/page';
 import Footer from '@/app/components/footer/page';
@@ -38,15 +39,15 @@ type _AccountDT = {
 const actions = [
     {
         title: 'Danh sách tài khoản',
-        to: '/list_account',
+        to: '/admin/list_account',
     },
     {
         title: 'Thêm sản phẩm',
-        to: '/add_product',
+        to: '/admin/add_product',
     },
     {
         title: 'Danh sách sản phẩm',
-        to: '/list_product',
+        to: '/admin/list_product',
     },
 ]
 
@@ -63,11 +64,13 @@ type ApiResponse2 = {
 const cx = classNames.bind(styles);
 function ListAccount() {
     const [accounts, setAccounts] = useState<_AccountKH[]>([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [currentGroup, setCurrentGroup] = useState(1);
 
     useEffect(() => {
         async function fetchData() {
-        const consumerResponse = await axios.get<ApiResponse1>('http://localhost:4132/v1/api/admin/account?type=KH');
-        const partnerResponse = await axios.get<ApiResponse2>('http://localhost:4132/v1/api/admin/account?type=DT');
+        const consumerResponse = await axios.get<ApiResponse1>(`${baseURL}/admin/account?type=KH`);
+        const partnerResponse = await axios.get<ApiResponse2>(`${baseURL}/admin/account?type=DT`);
         const data1 = consumerResponse.data.data;
         const data2 = partnerResponse.data.data;
         const newAccounts: _AccountKH[] = [];
@@ -106,7 +109,7 @@ function ListAccount() {
     }, []);
 
     const accountsPerPage = 5;
-    const [currentPage, setCurrentPage] = useState(1);
+    
 
     const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -114,7 +117,7 @@ function ListAccount() {
     const startIndex = (currentPage - 1) * accountsPerPage;
     const endIndex = Math.min(startIndex + accountsPerPage, accounts.length);
     const currentAccounts= accounts.slice(startIndex, endIndex);
-    const [currentGroup, setCurrentGroup] = useState(1);
+    
     const groupSize = 3;
     const totalPages = Math.ceil(accounts.length / accountsPerPage);
 
@@ -141,7 +144,7 @@ function ListAccount() {
         <Header name_view='Admin'/>
         <div className={cx('list_account-middle')}>
             <div className={cx('list_account-middle__wrapper')}>
-                <Sidebar author='Admin' page_path='/list_account' LIST_ACTION={actions} avt={avatar}/>
+                <Sidebar author='Admin' page_path='/admin/list_account' LIST_ACTION={actions} avt={avatar}/>
                 <div className={cx('list_account-content')}>
                     {currentAccounts.map((_account) => {
                             return (

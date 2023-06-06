@@ -1,25 +1,27 @@
 'use client';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { baseURL } from '@/app/api/bareURL';
 import classNames from 'classnames/bind';
 import styles from "./page.module.css"
 import Header from '@/app/components/header/page';
 import Footer from '@/app/components/footer/page';
 import Sidebar from '@/app/components/sidebar/page';
 import avatar from "@/assets/images/omrp_logo_white.png"
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const actions = [
     {
         title: 'Hổ trợ khách hàng',
-        to: '/customer_support',
+        to: '/employee/customer_support',
     },
     {
         title: 'Quản lý đối tác',
-        to: '/manage_partner',
+        to: '/employee/manage_partner',
     },
     {
         title: 'Quản lý hợp đồng',
-        to: '/manage_contract',
+        to: '/employee/manage_contract',
     },
 ]
 
@@ -44,11 +46,13 @@ type ContractData = {
 const cx = classNames.bind(styles);
 function ContractDetail() {
     const [contract, setContract] = useState<ContractData | null>(null);
-
+    const router = useRouter();
+    const searchParams = useSearchParams(); // get the search params object
+    const id = searchParams.get("id"); // get the value of id
     useEffect(() => {
     async function fetchData() {
         const response = await axios.get<ApiResponse>(
-        `http://localhost:4132/v1/api/employee/contract/001`
+            `${baseURL}/employee/contract/${id}`
         );
         setContract(response.data.contract);
     }
@@ -66,7 +70,7 @@ function ContractDetail() {
         <Header name_view='Nhân viên'/>
         <div className={cx('contract-middle')}>
             <div className={cx('contract-middle__wrapper')}>
-                <Sidebar author='Nhân viên' page_path='/manage_contract' LIST_ACTION={actions} avt={avatar}/>
+                <Sidebar author='Nhân viên' page_path='/employee/manage_contract' LIST_ACTION={actions} avt={avatar}/>
                 <div className={cx('contract-container')}>
                     <div className={cx('contract-title')}>
                         <label 

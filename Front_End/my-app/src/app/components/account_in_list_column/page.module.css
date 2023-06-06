@@ -12,6 +12,7 @@
     height: 100%;
     flex-direction: column;
     position: relative;
+    align-items: center;
 }
 
 .account-name{
@@ -34,8 +35,6 @@
 .account__line-top{
     width: 800px;
     height: 1px;
-    margin-left: 50%;
-    transform: translateX(-50%);
     background:var(--primary-color-1)
 }
 
@@ -121,3 +120,25 @@
 }
 
 
+.message__label{
+    display: flex;
+    width: 180px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    color: var(--green);
+}
+.message{
+    position: absolute;
+    display: flex;
+    height: 100px;
+    width: 300px;
+    background-color: var(--primary-color-2);
+    border-radius: 25px;
+    border: 1px solid var(--primary-color-2);
+    padding: 20px 0;
+    z-index: 0;
+    margin-top: 20px;
+    align-items: center;
+    justify-content: center;
+}

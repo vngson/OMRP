@@ -1,31 +1,16 @@
-import { Inter } from 'next/font/google'
+'use client';
 import classNames from 'classnames/bind';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { publicRoutes } from './routes/page';
 import styles from './page.module.css'
+import ListAccount from './admin/list_account/page';
 
 const cx = classNames.bind(styles);
-const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+const id:number = 2;
   return (
-    <Router>
       <div className={cx('main')}>
-          <Routes>
-            {publicRoutes.map((route, index) => {
-                const Page = route.component;
-                return (
-                    <Route
-                        key={index}
-                        path={route.path}
-                        element={
-                          <><Page /></>
-                        }
-                    />
-                );
-            })}
-          </Routes>
+          <ListAccount/>
       </div>
-    </Router>
   )
 }

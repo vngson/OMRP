@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { baseURL } from '@/app/api/bareURL';
 import classNames from 'classnames/bind';
 import styles from "./page.module.css"
 import Header from '@/app/components/header/page';
@@ -14,15 +15,15 @@ import Link from 'next/link';
 const actions = [
     {
         title: 'Hổ trợ khách hàng',
-        to: '/customer_support',
+        to: '/employee/customer_support',
     },
     {
         title: 'Quản lý đối tác',
-        to: '/manage_partner',
+        to: '/employee/manage_partner',
     },
     {
         title: 'Quản lý hợp đồng',
-        to: '/manage_contract',
+        to: '/employee/manage_contract',
     },
 ]
 
@@ -44,10 +45,13 @@ const cx = classNames.bind(styles);
 function ManagePartner() {
     const [contracts, setContracts] = useState<CONTRACT[]>([]);
     const [error, setError] = useState<string | null>(null);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const [currentGroup, setCurrentGroup] = useState(1);
 
     useEffect(() => {
         axios
-        .get<ApiResponse>('https://project-ec-tuankhanh.onrender.com/v1/api/employee/contract??page=1&perPage=100')
+        .get<ApiResponse>(`${baseURL}/employee/contract??page=1&perPage=100`)
         .then((response) => setContracts(response.data.contracts))
         .catch((error) => setError(error.message));
     }, []);
@@ -57,7 +61,6 @@ function ManagePartner() {
     }
 
     const contractsPerPage = 5;
-    const [currentPage, setCurrentPage] = useState(1);
 
     const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -65,7 +68,6 @@ function ManagePartner() {
     const startIndex = (currentPage - 1) * contractsPerPage;
     const endIndex = Math.min(startIndex + contractsPerPage, contracts.length);
     const currentContracts = contracts.slice(startIndex, endIndex);
-    const [currentGroup, setCurrentGroup] = useState(1);
     const groupSize = 3;
     const totalPages = Math.ceil(contracts.length / contractsPerPage);
 
@@ -92,7 +94,7 @@ function ManagePartner() {
         <Header name_view='Nhân viên' />
         <div className={cx('manage_partner-middle')}>
             <div className={cx('manage_partner-middle__wrapper')}>
-                <Sidebar author='Nhân viên' page_path='/manage_partner' LIST_ACTION={actions} avt={avatar}/>
+                <Sidebar author='Nhân viên' page_path='/employee/manage_partner' LIST_ACTION={actions} avt={avatar}/>
                 <div className={cx('manage_partner-content')}>
                     <div className={cx('manage_partner-title')}>
                         <label 
@@ -137,7 +139,7 @@ function ManagePartner() {
                                     >
                                         {contract.ID_Partners} 
                                     </label>
-                                    <Link href={`/contract_detail`}>
+                                    <Link href={{ pathname: "/employee/contract_detail/:id", query: { id: contract.ID_CONTRACT } }}>
                                         <label 
                                             htmlFor="info-title__ID_contract" 
                                             className={cx("manage_partner-info__label3")}

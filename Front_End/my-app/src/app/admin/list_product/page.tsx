@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { baseURL } from '@/app/api/bareURL';
 import classNames from 'classnames/bind';
 import styles from "./page.module.css"
 import Header from '@/app/components/header/page';
@@ -17,15 +18,15 @@ import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons
 const actions = [
     {
         title: 'Danh sách tài khoản',
-        to: '/list_account',
+        to: '/admin/list_account',
     },
     {
         title: 'Thêm sản phẩm',
-        to: '/add_product',
+        to: '/admin/add_product',
     },
     {
         title: 'Danh sách sản phẩm',
-        to: '/list_product',
+        to: '/admin/list_product',
     },
 ]
   
@@ -53,10 +54,13 @@ const cx = classNames.bind(styles);
 function ListProduct() {
     const [products, setProducts] = useState<PRODUCT[]>([]);
     const [error, setError] = useState<string | null>(null);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const [currentGroup, setCurrentGroup] = useState(1);
 
     useEffect(() => {
         axios
-        .get<ApiResponse>('http://localhost:4132/v1/api/consumer/product?page=1&perPage=100')
+        .get<ApiResponse>(`${baseURL}/consumer/product?page=1&perPage=100`)
         .then((response) => setProducts(response.data.products))
         .catch((error) => setError(error.message));
     }, []);
@@ -66,7 +70,6 @@ function ListProduct() {
     }
 
     const productsPerPage = 5;
-    const [currentPage, setCurrentPage] = useState(1);
 
     const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -74,7 +77,6 @@ function ListProduct() {
     const startIndex = (currentPage - 1) * productsPerPage;
     const endIndex = Math.min(startIndex + productsPerPage, products.length);
     const currentProducts = products.slice(startIndex, endIndex);
-    const [currentGroup, setCurrentGroup] = useState(1);
     const groupSize = 3;
     const totalPages = Math.ceil(products.length / productsPerPage);
 
@@ -101,20 +103,20 @@ function ListProduct() {
         <Header name_view='Admin'/>
         <div className={cx('list_product-middle')}>
             <div className={cx('list_product-middle__wrapper')}>
-                <Sidebar author='Admin' page_path='/list_product' LIST_ACTION={actions} avt={avatar}/>
+                <Sidebar author='Admin' page_path='/admin/list_product' LIST_ACTION={actions} avt={avatar}/>
                 <div className={cx('list_product-content')}>
                     {currentProducts.map((product) => {
                         return (
                         <div key={product.ID_PRODUCTS} className={cx('list_product-product')} >
                             <Product  info={[product]} view='list_product_admin' />
                             <div className={cx('list_product-btn')} >
-                                <Link href={`/update_product`}> 
+                            <Link href={{ pathname: "/admin/update_product/:id", query: { id: product.ID_PRODUCTS } }}>
                                     <button className={cx("product-btn__update")} >
                                         <FontAwesomeIcon className={cx('update__icon')} icon={faCircleCheck} size="2x" />
                                         Cập nhật sản phẩm
                                     </button> 
                                 </Link>
-                                <Link href={`/delete_product`}>
+                                <Link href={{ pathname: "/admin/delete_product/:id", query: { id: product.ID_PRODUCTS } }}>
                                     <button className={cx("product-btn__remove")} >
                                         <FontAwesomeIcon className={cx('remove__icon')} icon={faCircleXmark} size="2x" />
                                         Xóa sản phẩm
