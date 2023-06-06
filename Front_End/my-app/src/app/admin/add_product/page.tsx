@@ -9,15 +9,15 @@ import avatar from "@/assets/images/omrp_logo_white.png"
 const actions = [
     {
         title: 'Danh sách tài khoản',
-        to: '/list_account',
+        to: '/admin/list_account',
     },
     {
         title: 'Thêm sản phẩm',
-        to: '/add_product',
+        to: '/admin/add_product',
     },
     {
         title: 'Danh sách sản phẩm',
-        to: '/list_product',
+        to: '/admin/list_product',
     },
 ]
 
@@ -28,7 +28,7 @@ function AddProduct() {
         <Header name_view='Admin'/>
         <div className={cx('add_product-middle')}>
             <div className={cx('add_product-middle__wrapper')}>
-                <Sidebar author='Admin' page_path='/add_product' LIST_ACTION={actions} avt={avatar}/>
+                <Sidebar author='Admin' page_path='/admin/add_product' LIST_ACTION={actions} avt={avatar}/>
                 <div className={cx('add_product-content')}>
                     <ProductForm />
                 </div>

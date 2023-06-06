@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { baseURL } from '@/app/api/bareURL';
 import classNames from 'classnames/bind';
 import styles from "./page.module.css"
 import Header from '@/app/components/header/page';
@@ -10,19 +11,20 @@ import Product from '@/app/components/product_in_list_column/page';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 import avatar from "@/assets/images/omrp_logo_white.png"
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const actions = [
     {
         title: 'Danh sách tài khoản',
-        to: '/list_account',
+        to: '/admin/list_account',
     },
     {
         title: 'Thêm sản phẩm',
-        to: '/add_product',
+        to: '/admin/add_product',
     },
     {
         title: 'Danh sách sản phẩm',
-        to: '/list_product',
+        to: '/admin/list_product',
     },
 ]
 
@@ -70,6 +72,7 @@ type Product = {
 
 const cx = classNames.bind(styles);
 function DeleteProduct() {
+    
     const [error, setError] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
     const [product2, setProduct2] = useState<Product>({
@@ -81,10 +84,15 @@ function DeleteProduct() {
         URL: "",
         TYPE_PROD: ""
     });
+    
+    const router = useRouter();
+    const searchParams = useSearchParams(); // get the search params object
+    const id = searchParams.get("id"); // get the value of id
+    const productId = Number(id); // convert it to a number
 
     useEffect(() => {
         axios
-          .get<ApiResponse>('http://localhost:4132/v1/api/consumer/product/35')
+          .get<ApiResponse>(`${baseURL}/consumer/product/${productId}`)
           .then((response) => {
             const productData = response.data.product;
             setProduct2({
@@ -109,7 +117,7 @@ function DeleteProduct() {
     const handleRemove = async () => {
         try {
             const response = await axios.delete(
-            `http://localhost:4132/v1/api/admin/product/${product2.ID_PRODUCTS}`
+            `https://project-ec-tuankhanh.onrender.com/v1/api/admin/product/${product2.ID_PRODUCTS}`
             );
             console.log(response.data);  
             setMessage('Xóa sản phẩm thành công!');
@@ -130,7 +138,7 @@ function DeleteProduct() {
         <Header name_view='Admin'/>
         <div className={cx('remove_product-middle')}>
             <div className={cx('remove_product-middle__wrapper')}>
-                <Sidebar author='Admin' page_path='/list_product' LIST_ACTION={actions} avt={avatar}/>
+                <Sidebar author='Admin' page_path='/admin/list_product' LIST_ACTION={actions} avt={avatar}/>
                 <div className={cx('remove_product-content')}>
                     <div className={cx('remove_product-product')}>
                         <Product  info={[product2]} view='delete_product_admin' />

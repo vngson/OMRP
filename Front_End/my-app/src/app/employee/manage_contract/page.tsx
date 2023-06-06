@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { baseURL } from '@/app/api/bareURL';
 import classNames from 'classnames/bind';
 import styles from "./page.module.css"
 import Header from '@/app/components/header/page';
@@ -15,15 +16,15 @@ import Link from 'next/link';
 const actions = [
     {
         title: 'Hổ trợ khách hàng',
-        to: '/customer_support',
+        to: '/employee/customer_support',
     },
     {
         title: 'Quản lý đối tác',
-        to: '/manage_partner',
+        to: '/employee/manage_partner',
     },
     {
         title: 'Quản lý hợp đồng',
-        to: '/manage_contract',
+        to: '/employee/manage_contract',
     },
 ]
 
@@ -50,7 +51,7 @@ function ManageContract() {
 
     useEffect(() => {
         axios
-        .get<ApiResponse>('http://localhost:4132/v1/api/employee/contract?page=1&perPage=100')
+        .get<ApiResponse>(`${baseURL}/employee/contract?page=1&perPage=100`)
         .then((response) => setContracts(response.data.contracts))
         .catch((error) => setError(error.message));
     }, []);
@@ -92,7 +93,7 @@ function ManageContract() {
         try {
       
           const response = await axios.put(
-            `http://localhost:4132/v1/api/employee/updateContract/${e}`
+            `https://project-ec-tuankhanh.onrender.com/v1/api/employee/updateContract/${e}`
           );
           console.log(response.data);
           setMessage('Duyệt thành công!');
@@ -111,10 +112,10 @@ function ManageContract() {
     const handleRefuse  = async (event: React.MouseEvent,e:string) => {
         try {
             const response = await axios.put(
-                `http://localhost:4132/v1/api/employee/updateContract/${e}`
+                `https://project-ec-tuankhanh.onrender.com/v1/api/employee/updateContract/${e}`
               );
             // const response = await axios.put(
-            //   `http://localhost:4132/v1/api/employee/deleteContract/${e}`
+            //   `https://project-ec-tuankhanh.onrender.com/v1/api/employee/deleteContract/${e}`
             // );
             console.log(response);
             setMessage('Đã từ chối hợp đồng!');
@@ -123,14 +124,10 @@ function ManageContract() {
               }, 2000);
           } catch (error) {
             console.error((error as Error).message);
-            setMessage('Đã từ chối hợp đồng!');
+            setMessage('Có lỗi xảy ra');
             setTimeout(() => {
                 location.reload();
               }, 2000);
-            // setMessage('Có lỗi xảy ra');
-            // setTimeout(() => {
-            //     location.reload();
-            //   }, 2000);
           }
         };
     
@@ -140,7 +137,7 @@ function ManageContract() {
         <Header name_view='Nhân viên' />
         <div className={cx('manage_contract-middle')}>
             <div className={cx('manage_contract-middle__wrapper')}>
-                <Sidebar author='Nhân viên' page_path='/manage_contract' LIST_ACTION={actions} avt={avatar}/>
+                <Sidebar author='Nhân viên' page_path='/employee/manage_contract' LIST_ACTION={actions} avt={avatar}/>
                 <div className={cx('manage_contract-content')}>
                     {message&&(
                         <div className={cx('message')}>
@@ -183,7 +180,7 @@ function ManageContract() {
                         >
                             {contract['Tên Doanh Nghiệp']} 
                         </label>
-                        <Link href={`/contract_detail`}>
+                        <Link href={{ pathname: "/employee/contract_detail/:id", query: { id: contract.ID_CONTRACT } }}>
                         <label 
                             htmlFor="info-title__ID_contract" 
                             className={cx("manage_contract-info__label3")}

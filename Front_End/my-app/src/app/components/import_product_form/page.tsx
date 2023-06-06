@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { baseURL } from '@/app/api/bareURL';
 import Image from 'next/image';
 import classNames from 'classnames/bind';import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -58,7 +59,7 @@ function ProductForm() {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get<ApiResponse>('http://localhost:4132/v1/api/consumer/category')
+      const response = await axios.get<ApiResponse>(`${baseURL}/consumer/category`)
       setCatelog(response.data.data);
     }
     fetchData();
@@ -78,11 +79,12 @@ function ProductForm() {
   const handleImportImage = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const files = Array.from(event.target.files);
-      const newImages = files.map((file) => ({
+      setNewImages((prevImages) => [...prevImages, ...files]);
+      const newImg = files.map((file) => ({
         file,
         imageUrl: URL.createObjectURL(file),
       }));
-      setImagees((prevImages) => [...prevImages, ...newImages]);
+      setImagees((prevImages) => [...prevImages, ...newImg]);
   
       setProduct((prevProduct) => ({
         ...prevProduct,
@@ -105,7 +107,6 @@ function ProductForm() {
   ) => {
     const { name, value } = event.target;
     setProduct((prevProduct) => ({ ...prevProduct, [name]: value }));
-    console.log(product)
   };
        
 
@@ -124,20 +125,15 @@ function ProductForm() {
       formData.append("price", product.price.toString());
   
       const response = await axios.post(
-        "http://localhost:4132/v1/api/admin/postProduct",
+        `${baseURL}/admin/postProduct`,
         formData,
       );
-      console.log(response);
       setMessage('Thêm sản phẩm thành công!');
       setTimeout(() => {
         location.reload();
       }, 2000);
     } catch (error) {
       console.error((error as Error).message);
-      // setMessage('Thêm sản phẩm thành công!');
-      // setTimeout(() => {
-      //   location.reload();
-      // }, 2000);
       setMessage('Có lỗi xảy ra');
       setTimeout(() => {
         location.reload();

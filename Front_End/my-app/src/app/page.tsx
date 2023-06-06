@@ -4,7 +4,6 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import classNames from 'classnames/bind';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { publicRoutes } from './routes/page';
 import styles from './page.module.css'
 // import LoginRegister from '@/components/login_register/login_register'
 import Header from '../components/header/header_cus'
