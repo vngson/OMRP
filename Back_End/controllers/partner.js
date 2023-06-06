@@ -73,6 +73,12 @@ exports.getProducts = async (req, res, next) => {
   const perPage = req.query.perPage || 4; // Lấy tham số query hoặc mặc định là 4
   const id_partners = req.params.partnerId;
   try {
+    const haveContract = await Partner.getContractsIsValid(id_partners);
+    if (!haveContract) {
+      const error = new Error("Could not find contracts !");
+      error.statusCode = 404;
+      throw error;
+    }
     const skip = (currentPage - 1) * perPage;
     const limit = Number(perPage);
     const count = await Consumer.countProduct();
