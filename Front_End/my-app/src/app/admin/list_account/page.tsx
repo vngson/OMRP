@@ -1,6 +1,7 @@
 'use client';
 import classNames from 'classnames/bind';
 import axios from 'axios';
+import { useSelector } from 'react-redux'
 import { baseURL } from '@/app/api/bareURL';
 import styles from "./page.module.css"
 import Header from '@/app/components/header/page';
@@ -62,10 +63,15 @@ type ApiResponse2 = {
 
 
 const cx = classNames.bind(styles);
-function ListAccount() {
+function ListAccount() {    
+    
     const [accounts, setAccounts] = useState<_AccountKH[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [currentGroup, setCurrentGroup] = useState(1);
+    const user=useSelector((state:any)=> state.auth.login.currentUser)
+    
+    const cusID = user.user.userId
+    const permiss = user.user.permission;
 
     useEffect(() => {
         async function fetchData() {
@@ -139,57 +145,64 @@ function ListAccount() {
         }
     };
 
-    return ( <div className={cx('list_account')}>
-        <div className={cx('list_account-wrapper')}>
-        <Header name_view='Admin'/>
-        <div className={cx('list_account-middle')}>
-            <div className={cx('list_account-middle__wrapper')}>
-                <Sidebar author='Admin' page_path='/admin/list_account' LIST_ACTION={actions} avt={avatar}/>
-                <div className={cx('list_account-content')}>
-                    {currentAccounts.map((_account) => {
-                            return (
-                                <div className={cx('list_account-acc')} >
-                                    <Account key={_account.ID_Login} account={[_account]} />
-                                    </div>
-                            )
-                    })}
-                    <div className={cx("pagination")}>
-                        <button onClick={handlePrevPage} className={cx("prev-btn")}>
-                            <FontAwesomeIcon className={cx('btn__icon')} icon={faChevronLeft} size="2x"/>    
-                        </button>
-                        {Array.from(
-                        { length: Math.min(groupSize, totalPages - (currentGroup - 1) * groupSize) },
-                        (_, index) => {
-                            const pageNumber = (currentGroup - 1) * groupSize + index + 1;
-                            return (
-                            <button
-                                key={index}
-                                onClick={() => handlePageChange(pageNumber)}
-                                className={cx(
-                                "page_number",
-                                pageNumber === currentPage ? "active" : ""
+    const pms : number = Number(permiss);
+
+    if(pms === 1){
+        return ( 
+            <div className={cx('list_account')}>
+                <div className={cx('list_account-wrapper')}>
+                <Header name_view='Admin'/>
+                <div className={cx('list_account-middle')}>
+                    <div className={cx('list_account-middle__wrapper')}>
+                        <Sidebar author='Admin' page_path='/admin/list_account' LIST_ACTION={actions} avt={avatar}/>
+                        <div className={cx('list_account-content')}>
+                            {currentAccounts.map((_account) => {
+                                    return (
+                                        <div className={cx('list_account-acc')} >
+                                            <Account key={_account.ID_Login} account={[_account]} />
+                                            </div>
+                                    )
+                            })}
+                            <div className={cx("pagination")}>
+                                <button onClick={handlePrevPage} className={cx("prev-btn")}>
+                                    <FontAwesomeIcon className={cx('btn__icon')} icon={faChevronLeft} size="2x"/>    
+                                </button>
+                                {Array.from(
+                                { length: Math.min(groupSize, totalPages - (currentGroup - 1) * groupSize) },
+                                (_, index) => {
+                                    const pageNumber = (currentGroup - 1) * groupSize + index + 1;
+                                    return (
+                                    <button
+                                        key={index}
+                                        onClick={() => handlePageChange(pageNumber)}
+                                        className={cx(
+                                        "page_number",
+                                        pageNumber === currentPage ? "active" : ""
+                                        )}
+                                    >
+                                        {pageNumber}
+                                    </button>
+                                    );
+                                }
                                 )}
-                            >
-                                {pageNumber}
-                            </button>
-                            );
-                        }
-                        )}
-                        <button onClick={handleNextPage} className={cx("next-btn")}>
-                            <FontAwesomeIcon className={cx('btn__icon')} icon={faChevronRight} size="2x"/>
-                        </button>
+                                <button onClick={handleNextPage} className={cx("next-btn")}>
+                                    <FontAwesomeIcon className={cx('btn__icon')} icon={faChevronRight} size="2x"/>
+                                </button>
+                            </div>
+                            <style jsx>{`
+                            .active {
+                                color: var(--primary-color-1);
+                            }
+                            `}</style>
+                        </div>               
                     </div>
-                    <style jsx>{`
-                    .active {
-                        color: var(--primary-color-1);
-                    }
-                    `}</style>
-                </div>               
-            </div>
-        </div>
-        <Footer />
-        </div>
-    </div> );
+                </div>
+                <Footer />
+                </div>
+            </div>)
+    }
+    else {
+        return (  <div > <label> You do not have permission to access this page </label></div>)}
 }
 
 export default ListAccount;

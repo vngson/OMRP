@@ -9,6 +9,7 @@ import Footer from '@/app/components/footer/page';
 import Sidebar from '@/app/components/sidebar/page';
 import avatar from "@/assets/images/omrp_logo_white.png"
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 const actions = [
     {
@@ -59,13 +60,19 @@ function ContractDetail() {
     fetchData();
     }, []);
     
-    if (!contract) {
+    const user=useSelector((state:any)=> state.auth.login.currentUser)
+
+    const cusID = user.user.userId
+    const permiss = user.user.permission;
+    const pms : number = Number(permiss);
+    
+    if (pms !== 4) {
+        return (  <div > <label> You do not have permission to access this page </label></div>)}
+    else if(!contract) {
       return <div>Loading...</div>;
     } 
-    else 
-    {
-
-    return ( <div className={cx('contract')}>
+    else {
+        return ( <div className={cx('contract')}>
         <div className={cx('contract-wrapper')}>
         <Header name_view='Nhân viên'/>
         <div className={cx('contract-middle')}>
@@ -201,7 +208,8 @@ function ContractDetail() {
         </div>
         <Footer />
         </div>
-    </div> );}
+    </div> )}
+    
 }
 
 export default ContractDetail;

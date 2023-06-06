@@ -11,6 +11,7 @@ import avatar from "@/assets/images/omrp_logo_white.png"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
 
 const actions = [
     {
@@ -88,8 +89,14 @@ function ManagePartner() {
           }
         }
       };
+    const user=useSelector((state:any)=> state.auth.login.currentUser)
 
-    return ( <div className={cx('manage_partner')}>
+    const cusID = user.user.userId
+    const permiss = user.user.permission;
+    const pms : number = Number(permiss);
+
+    if(pms === 4){
+        return ( <div className={cx('manage_partner')}>
         <div className={cx('manage_partner-wrapper')}>
         <Header name_view='Nhân viên' />
         <div className={cx('manage_partner-middle')}>
@@ -142,7 +149,7 @@ function ManagePartner() {
                                     <Link href={{ pathname: "/employee/contract_detail/:id", query: { id: contract.ID_CONTRACT } }}>
                                         <label 
                                             htmlFor="info-title__ID_contract" 
-                                            className={cx("manage_partner-info__label3")}
+                                            className={cx("manage_contract-info__label3","ID_contract")}
                                         >
                                             {contract.ID_CONTRACT} 
                                         </label>
@@ -185,7 +192,9 @@ function ManagePartner() {
         </div>
         <Footer />
         </div>
-    </div> );
+    </div> )}
+    else {
+        return (  <div > <label> You do not have permission to access this page </label></div>)}
 }
 
 export default ManagePartner;

@@ -10,6 +10,7 @@ import {
     faUser,
     faMagnifyingGlass,
     faEraser,
+    faListUl,
 } from '@fortawesome/free-solid-svg-icons';
 import logo from "@/assets/images/omrp_logo_transparent.png"
 import { useSelector } from 'react-redux';
@@ -76,8 +77,14 @@ export default function Header() {
             >
                 Đăng nhập
             </Link>)}
+            <div className={cx('header-icon__wrapper')}>
+            <FontAwesomeIcon className={cx('header-list_business')} size="2x" icon={faListUl} />
+            </div>
            <Link href="/account/cart"> 
-           <div className={cx('header-icon__wrapper')}><FontAwesomeIcon className={cx('header-cart')} size="2x" icon={faCartShopping} /></div></Link>
+           <div className={cx('header-icon__wrapper')}>
+            <FontAwesomeIcon className={cx('header-cart')} size="2x" icon={faCartShopping} />
+            </div>
+            </Link>
          {/* <Link href="/account/cart"></Link> */}
             <div onMouseEnter={()=>setHoverAcc(true)} onMouseLeave={()=>setHoverAcc(false)} className={cx('header-icon__wrapper')}><FontAwesomeIcon className={cx('header-profile')} size="2x" icon={faUser} /></div>
         </div>

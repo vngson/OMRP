@@ -47,35 +47,3 @@ export default function RootLayout({
     </html>
   )
 }
-
-// import Providers from '@/redux/Providers'
-// import './globals.css'
-// import store from '@/redux/store'
-// import Header from '@/components/header/header_cus'
-// import { usePathname } from 'next/navigation'
-
-// export const metadata = {
-//   title: 'OMRP - One milion reward point',
-//   description: 'One milion reward point',
-// }
-
-// export default function RootLayout({
-//   children,
-// }: {
-//   children: React.ReactNode
-// }) {
-//   // const pathname =usePathname()
-//   return (
-//     <html lang="en">
-//       <body>
-//         <Providers>
-//          {/* {pathname === '/login'?<></>: <Header/>} */}
-//          <Header/>
-//          {children}
-//          {/* {pathname === '/login'?<></>:<Footer/>} */}
-//          {/* <Footer/> */}
-//         </Providers>
-//         </body>
-//     </html>
-//   )
-// }

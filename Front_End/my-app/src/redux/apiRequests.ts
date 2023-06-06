@@ -51,7 +51,7 @@ export const loginUser = async (user: any, dispatch: (arg0: { payload: any; type
     else if (permission==="2"){
       router.push("/mybusiness/contract")
     } else if( permission==="1") router.push("/admin/list_account")
-    else if (permission==="4") router.push("/staff/manage_partner")
+    else if (permission==="4") router.push("/employee/manage_partner")
     else  {
       router.push("/404")
     }
