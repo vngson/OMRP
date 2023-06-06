@@ -57,3 +57,5 @@ Endpoint thêm sản phẩm có thể đối: POST /v1/api/partner/partnerId/pos
 Endpoint xóa sản phẩm có thể đối: DELETE /v1/api/partner/partnerId/deleteProduct/productId
 
 Endpoint Exchange Point : GET v1/api/consumer/exchangePoint/productId
+
+Endpoint Products Partner :GET /v1/api/partner/:partnerId/product?page=2&perPage=7 (điểm được tính lại theo công thức)

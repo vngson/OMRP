@@ -71,7 +71,19 @@ exports.getContracts = async function (partnerId) {
   } finally {
     client.release(); // Giải phóng kết nối
   }
+};
 
+exports.getAmountToPoint = async function (partnerId) {
+  const client = await getClient();
+  try {
+    const rs = await client.query(
+      'SELECT C."AMOUNTTOPOINTS" FROM public."Contract" as C JOIN public."Partners" as P ON C."CONTRACT_PARTNER" = P."ID_Partners" AND P."ID_Partners" = $1',
+      [partnerId]
+    );
+    return rs.rows[0].AMOUNTTOPOINTS;
+  } finally {
+    client.release(); // Giải phóng kết nối
+  }
 };
 
 exports.getContractsIsValid = async function (partnerId) {
@@ -128,4 +140,13 @@ exports.deleteProduct = async function (id_products, id_partners) {
   } finally {
     client.release(); // Giải phóng kết nối
   }
+};
+
+exports.getPoints = async function (idConsumer) {
+  const client = await getClient();
+  const rs = await client.query(
+    'SELECT P."ID_Partners", AP."POINTS" FROM public."ACCUMULATION_POINTS" AS AP, public."Customers" AS C, public."Partners" AS P WHERE AP."ID_CUSTOMERS" = C."ID_Customers" AND AP."ID_TYPEP" = P."ID_Partners" AND C."ID_Customers" = $1',
+    [idConsumer]
+  );
+  return rs.rows;
 };

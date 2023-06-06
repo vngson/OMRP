@@ -4,7 +4,7 @@ exports.getAccountConsumer = async function () {
   const client = await getClient();
   try {
     const rs = await client.query(
-      'SELECT AC."ID_Login",AC."Username",AC."ROLE" AS "Permission",AC."Status",CUS."NAME",CUS."Birthday",CUS."Address",CUS."Email",CUS."Phone",CUS."img" FROM public."Account" AS AC, public."Customers" AS CUS WHERE AC."Username" = CUS."Phone"'
+      'SELECT AC."ID_Login",AC."Username",AC."ROLE" AS "Permission",AC."Status",CUS."NAME",CUS."Birthday",CUS."Address",CUS."Email",CUS."Phone",CUS."IMG" FROM public."Account" AS AC, public."Customers" AS CUS WHERE AC."Username" = CUS."Phone"'
     );
     return rs.rows;
   } finally {
