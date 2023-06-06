@@ -32,7 +32,7 @@ export default function Header() {
            setPoints(res.data.data.Points)
         }
         fetch()
-    })
+    },[])
     const [sticky, setSticky] = useState(false);
 
     // on render, set listener

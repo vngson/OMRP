@@ -36,20 +36,29 @@ export const loginUser = async (user: any, dispatch: (arg0: { payload: any; type
   dispatch(loginStart());
   try {
 
-    // cookies().set('nameeee', 'lee');
-    // const name = cookies().get('nameeee');
-    // console.log("naem", name)
-    //const res = await axios.post("https://project-ec-tuankhanh.onrender.com/auth/login", user);
-
+  
     const res=await UserAPI.login(user);
-    console.log("token: ", res.data)
+
+    const userdata=jwt_decode(res.data.token)
     dispatch(loginSuccess(jwt_decode(res.data.token)));
 
+    let permission = userdata?.user?.permission
     // console.log("res.data", res.data);
-
+    
+    if(permission==="3")
     router.push("/")
-    return 1
-  } catch (err) {
+    else if (permission==="2"){
+      router.push("/mybusiness")
+    } else if( permission==="1") router.push("/admin/list_account")
+    else if (permission==="4") router.push("/staff/manage_partner")
+    else  {
+     
+    }
+    return "1"
+  } catch (err:any) {
+    return err
+    if (!err.response) return (err.message);
+        return (err.response.data.message);
     dispatch(loginFailed());
   }
 };

@@ -1,7 +1,15 @@
+
 .login {
     /*margin-top: 20px;
      margin-left: 800px; */
      display: flex;
+}
+
+.login_blur{
+    /*margin-top: 20px;
+     margin-left: 800px; */
+     display: flex;
+     opacity: 0.1;
 }
 
 .login-wrapper{
@@ -45,15 +53,16 @@
     font-size: 1.6rem;
 }
 .modal_container{
-    position: absolute;
-    top:100%;
+    /* position: absolute;
+    top:-50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    /* transform: translate(-50%, -50%); */
+    /* transform: translateX(100%); */ 
 }
 .modal{
     background-color: var(--primary-color-2);
-    position: relative;
-    top:-400px;
+    position: fixed;
+     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: fit-content;

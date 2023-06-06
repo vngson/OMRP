@@ -16,17 +16,16 @@ export default function Login_Register_Nav() {
     const [ loginPage, setLoginPage] = useState(true)
     const [username, setUsername]=useState("")
     const [pwd, setPwd] = useState("")
-    console.log("ssr: ",username, pwd)
     const dispatch=useDispatch()
     const router=useRouter();
-    const handleSubmitLogin = () => {
-        const newUser ={
-            phone: username,
-            password: pwd
-        }
-        console.log("newuser sent: ",newUser)
-        // loginUser(newUser, dispatch, router)
-    }
+    // const handleSubmitLogin = () => {
+    //     const newUser ={
+    //         phone: username,
+    //         password: pwd
+    //     }
+    //     console.log("newuser sent: ",newUser)
+    //     // loginUser(newUser, dispatch, router)
+    // }
 
     const handleLogin = () => {
         loginPage ? (  loginPage) :( setLoginPage(true));

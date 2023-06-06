@@ -19,7 +19,11 @@ export default function SearchComp() {
           // console.log("search", e.target.value)
           // console.log("res", res.data.products)
         }
-        setSearchInput(e.target.value);
+
+        setTimeout(() => {
+          setSearchInput(e.target.value)
+        }, 500);
+   
   
         fetchSearchprod(e.target.value);
       }
