@@ -5,6 +5,7 @@ import Footer from '@/app/components/footer/page';
 import Sidebar from '@/app/components/sidebar/page';
 import ProductForm from '@/app/components/import_product_form/page';
 import avatar from "@/assets/images/omrp_logo_white.png"
+import { useSelector } from 'react-redux';
 
 const actions = [
     {
@@ -23,7 +24,14 @@ const actions = [
 
 const cx = classNames.bind(styles);
 function AddProduct() {
-    return ( <div className={cx('add_product')}>
+    const user=useSelector((state:any)=> state.auth.login.currentUser)
+    
+    const cusID = user.user.userId
+    const permiss = user.user.permission;
+    const pms : number = Number(permiss);
+
+    if(pms === 1){
+        return ( <div className={cx('add_product')}>
         <div className={cx('add_product-wrapper')}>
         <Header name_view='Admin'/>
         <div className={cx('add_product-middle')}>
@@ -36,7 +44,9 @@ function AddProduct() {
         </div>
         <Footer />
         </div>
-    </div> );
+    </div> )}
+    else {
+        return (  <div > <label> You do not have permission to access this page </label></div>)}
 }
 
 export default AddProduct;

@@ -36,7 +36,7 @@ export default function RootLayout({
       <TopProgressBar />
       <QueryClientProvider client={queryClient}>
 
-        {pathname === '/login' || pathname.includes("/admin")?<></>: <Header/>}
+        {pathname === '/login' || pathname.includes("/admin") || pathname.includes("/employee")?<></>: <Header/>}
         {/* <Header/> */}
         {children}
         </QueryClientProvider>

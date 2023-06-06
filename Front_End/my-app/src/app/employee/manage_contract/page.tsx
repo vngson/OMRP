@@ -12,6 +12,7 @@ import { faCircleCheck, faCircleXmark } from '@fortawesome/free-regular-svg-icon
 import avatar from "@/assets/images/omrp_logo_white.png"
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
 
 const actions = [
     {
@@ -132,7 +133,14 @@ function ManageContract() {
         };
     
 
-    return ( <div className={cx('manage_contract')}>
+    const user=useSelector((state:any)=> state.auth.login.currentUser)
+
+    const cusID = user.user.userId
+    const permiss = user.user.permission;
+    const pms : number = Number(permiss);
+
+    if(pms === 4){
+        return ( <div className={cx('manage_contract')}>
         <div className={cx('manage_contract-wrapper')}>
         <Header name_view='Nhân viên' />
         <div className={cx('manage_contract-middle')}>
@@ -183,7 +191,7 @@ function ManageContract() {
                         <Link href={{ pathname: "/employee/contract_detail/:id", query: { id: contract.ID_CONTRACT } }}>
                         <label 
                             htmlFor="info-title__ID_contract" 
-                            className={cx("manage_contract-info__label3")}
+                            className={cx("manage_contract-info__label3","ID_contract")}
                         >
                             {contract.ID_CONTRACT} 
                         </label>
@@ -239,7 +247,9 @@ function ManageContract() {
         </div>
         <Footer />
         </div>
-    </div> );
+    </div> )}
+    else {
+        return (  <div > <label> You do not have permission to access this page </label></div>)}
 };
 
 export default ManageContract;

@@ -7,6 +7,7 @@ import Footer from '@/app/components/footer/page';
 import Sidebar from '@/app/components/sidebar/page';
 import UpdateProductForm from '@/app/components/update_product_form/page';
 import avatar from "@/assets/images/omrp_logo_white.png"
+import { useSelector } from 'react-redux';
 
 const actions = [
     {
@@ -29,7 +30,12 @@ function UpdateProduct() {
     const searchParams = useSearchParams(); // get the search params object
     const id = searchParams.get("id"); // get the value of id
     const productId = Number(id); // convert it to a number
-    if (productId!== null) {
+    const user=useSelector((state:any)=> state.auth.login.currentUser)
+    
+    const cusID = user.user.userId
+    const permiss = user.user.permission;
+    const pms : number = Number(permiss);
+    if (productId!== null && pms === 1) {
         return ( <div className={cx('update_product')}>
             <div className={cx('update_product-wrapper')}>
             <Header name_view='Admin'/>
@@ -44,10 +50,12 @@ function UpdateProduct() {
             <Footer />
             </div>
         </div> );
-}
-else{
-    <div> <h1>Can not find product</h1> </div>
-}
+    }
+    else if(productId === null){
+        <div> <h1>Can not find product</h1> </div>
+    }
+    else if(pms !== 1){
+        return (  <div > <label> You do not have permission to access this page </label></div>)}
 }
 
 export default UpdateProduct;

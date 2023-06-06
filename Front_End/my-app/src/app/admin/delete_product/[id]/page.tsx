@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 import avatar from "@/assets/images/omrp_logo_white.png"
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 const actions = [
     {
@@ -133,7 +134,14 @@ function DeleteProduct() {
         }
         };
 
-    return ( <div className={cx('remove_product')}>
+    const user=useSelector((state:any)=> state.auth.login.currentUser)
+
+    const cusID = user.user.userId
+    const permiss = user.user.permission;
+    const pms : number = Number(permiss);
+
+    if(pms === 1){
+        return ( <div className={cx('remove_product')}>
         <div className={cx('remove_product-wrapper')}>
         <Header name_view='Admin'/>
         <div className={cx('remove_product-middle')}>
@@ -164,7 +172,9 @@ function DeleteProduct() {
         </div>
         <Footer />
         </div>
-    </div> );
+    </div> )}
+    else {
+        return (  <div > <label> You do not have permission to access this page </label></div>)}
 }
 
 export default DeleteProduct;

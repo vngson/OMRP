@@ -71,6 +71,10 @@
     margin-bottom: 20px;
 }
 
+.ID_contract{
+    cursor: pointer;
+}
+
 .manage_partner-nav__label1, .manage_partner-info__label1{
     display: flex;
     width: 180px;

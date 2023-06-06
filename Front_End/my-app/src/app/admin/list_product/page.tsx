@@ -13,6 +13,7 @@ import { faCircleCheck, faCircleXmark } from '@fortawesome/free-regular-svg-icon
 import Link from 'next/link';
 import avatar from "@/assets/images/omrp_logo_white.png"
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
 
 
 const actions = [
@@ -98,7 +99,13 @@ function ListProduct() {
         }
       };
 
-    return ( <div className={cx('list_product')}>
+    const user=useSelector((state:any)=> state.auth.login.currentUser)
+    
+    const cusID = user.user.userId
+    const permiss = user.user.permission;
+    const pms : number = Number(permiss);
+    if(pms === 1){
+        return ( <div className={cx('list_product')}>
         <div className={cx('list_product-wrapper')}>
         <Header name_view='Admin'/>
         <div className={cx('list_product-middle')}>
@@ -164,7 +171,9 @@ function ListProduct() {
         </div>
         <Footer />
         </div>
-    </div> );
+    </div> )}
+    else {
+        return (  <div > <label> You do not have permission to access this page </label></div>)}
 }
 
 export default ListProduct;

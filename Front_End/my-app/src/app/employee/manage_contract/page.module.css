@@ -73,6 +73,10 @@
     padding-left: 40px;
 }
 
+.ID_contract{
+    cursor: pointer;
+}
+
 .manage_contract-nav__label1, .manage_contract-info__label1{
     display: flex;
     width: 180px;

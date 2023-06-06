@@ -86,7 +86,7 @@
 
 }
 
-.header-cart{
+.header-cart, .header-list_business{
     height: var(--font-size-icon-big);
     color: var(--primary-color-1);
     /* transform: scale(2,2); */
