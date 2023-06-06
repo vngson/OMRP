@@ -1,0 +1,23 @@
+[
+  {
+    "id": "2",
+    "name": "Bách hóa xanh",
+    "email": "ChoBaoqvd75@gmail.com",
+    "address": "003 Phố Chợ, phường Tân Thới Nhất, quận 12, thành phố Hồ Chí Minh",
+    "phone": "0433963120",
+    "customer": [
+      {
+        "username": "0975087855",
+        "point": "1100"
+      },
+      {
+        "username": "0975087861",
+        "point": "2100"
+      },
+      {
+        "username": "0975087868",
+        "point": "3100"
+      }
+    ]
+  }
+]

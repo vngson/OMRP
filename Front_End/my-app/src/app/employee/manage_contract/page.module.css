@@ -1,0 +1,198 @@
+.manage_contract{
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.manage_contract-wrapper{
+    position: relative;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.manage_contract-middle{
+    flex: 1;
+    margin-top: 140px;
+    margin-bottom: 240px;
+    width: var(--grid-size);
+}
+
+.manage_contract-middle__wrapper{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.manage_contract-content{
+    display: flex;
+    margin-left: 40px;
+    width: 700px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.manage_contract-title{
+    display: flex;
+    width: 600px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    background: var(--white);
+    border: 1px solid var(--primary-color-1);
+    border-radius: 25px;
+}
+
+.manage_contract-nav{
+    display: flex;
+    width: 100%;
+    height: 40px;
+    align-items: center;
+    justify-content: flex-start;
+    background: var(--white);
+    border: 1px solid var(--primary-color-1);
+    border-radius: 5px;
+    margin-bottom: 40px;
+    padding-left: 40px;
+}
+
+.manage_contract-info{
+    display: flex;
+    height: 60px;
+    width: 100%;
+    align-items: center;
+    background: var(--white);
+    border: 1px solid var(--primary-color-1);
+    border-radius: 15px;
+    margin-bottom: 20px;
+    justify-content: flex-start;
+    padding-left: 40px;
+}
+
+.manage_contract-nav__label1, .manage_contract-info__label1{
+    display: flex;
+    width: 180px;
+    height: 30px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.manage_contract-nav__label2, .manage_contract-info__label2, .manage_contract-title__label2{
+    display: flex;
+    width: 180px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+}
+
+.manage_contract-info__label3{
+    display: flex;
+    width: 180px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    color: var(--green);
+    font-weight: 500;
+}
+
+.manage_contract-info__label4{
+    display: flex;
+    width: 180px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    color: var(--green);
+}
+
+.contract-btn{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 20px;
+    user-select: none;
+}
+
+.contract-btn__refuse{
+    min-width: 120px;
+    min-height: 30px;
+    /* margin-top: 20px;
+    margin-bottom: 20px; */
+    background-color: var(--color-btn-2);
+    border-radius: 25px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+}
+
+.refuse__icon{
+    padding-right: 10px;
+    color: var(--white);
+    background-color: transparent;
+    height: var(--font-size-icon-small);
+}
+
+.contract-btn__confirm{
+    min-width: 100px;
+    min-height: 30px;
+    /* margin-top: 20px;
+    margin-bottom: 20px; */
+    background-color: var(--color-btn-1);
+    border-radius: 25px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    margin-left: 20px;
+}
+
+.confirm__icon{
+    padding-right: 10px;
+    color: var(--white);
+    background-color: transparent;
+    height: var(--font-size-icon-small);
+}
+
+.contract-btn__confirm + .contract-btn__refuse {
+    margin-left: 20px;
+}
+
+.pagination{
+    display: flex;
+    background-color: transparent;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.page_number{
+    padding: 10px;
+    font-size: 2rem;
+    background-color: transparent ;
+    user-select: none;
+}
+
+.prev-btn,.next-btn{
+    background-color: transparent ;
+    user-select: none;
+}
+
+.message{
+    position: absolute;
+    display: flex;
+    height: 100px;
+    width: 300px;
+    background-color: var(--primary-color-2);
+    border-radius: 25px;
+    border: 1px solid var(--primary-color-2);
+    padding: 20px 0;
+    z-index: 0;
+    margin-top: 20px;
+    align-items: center;
+    justify-content: center;
+}

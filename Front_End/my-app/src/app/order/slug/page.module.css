@@ -1,0 +1,136 @@
+.container{
+    width: var(--max-width);
+  
+    margin: 0 auto;
+    margin-top: 50px;
+    padding: 0 200px;
+   
+
+}
+.inputs{
+    display: grid;
+    grid-template-columns: 20% auto;
+    grid-column-gap: 0px;
+    grid-row-gap: 20px
+}   
+.inputs input{
+    width: 400px;
+}
+.container button{
+    /* margin-left: 20px; */
+    border-radius: 30px;
+    padding: 5px 60px 15px 60px;
+    /* align-items: center; */
+    position: relative;
+    height: fit-content;
+    color: white;
+    background-color: #EF5959;
+
+}
+.products{
+    background-color: white;
+    border-radius: 20px;
+    margin-top: 20px;
+    padding: 20px;
+}
+.checkout_icon{
+    position: relative;
+    right: 5px;
+    bottom: 50%;
+    transform: translateY(25%);
+}
+.checkout{
+    background-color: var(--primary-color-1) !important;
+    margin-top: 20px;
+    margin-left: 60%;
+    width: fit-content;
+}
+
+.productlist{
+    margin-top: 10px;
+   width: 100%;
+}
+.product{
+  display: grid;
+    grid-template-columns: 20% 20% 20% 40%;
+    text-align: center;
+    align-items: center;
+    grid-row-gap: 0px;
+
+}
+
+.line{
+
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 20px;
+    height: 1px;
+    background-color: var(--background-color);
+}
+.line1{
+
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 20px;
+    height: 1px;
+    background-color: var(--background-color);
+}
+.total{
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 60% 40%;
+    color:#EF5959;
+}
+
+.modal{
+    background-color: var(--primary-color-2);
+    position: absolute;
+    top:-200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: fit-content;
+    padding: 50px;
+    align-items: center;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    animation-name: slide-in-up;
+    animation-duration: 2s;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-direction:normal;
+    animation-timing-function:easy-in-out;
+    
+}
+.modal h5{
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 50px;
+}
+.modal-header{
+  
+
+}
+.button_{
+    margin-left: 40px;
+    background-color: var(--primary-color-1);
+    padding: 10px;
+    border-radius: 20px;
+    color: white;
+}
+
+@keyframes slide-in-up {
+    from {
+        /* height: 20px; */
+      /* transform: translateY(-50%); */
+      transform: translateX(20%);
+
+    }
+  
+    to {
+    /* height: 200px; */
+      /* transform: translateY(-15%); */
+    }
+  }

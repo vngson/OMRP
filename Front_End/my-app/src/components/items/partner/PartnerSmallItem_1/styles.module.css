@@ -1,0 +1,17 @@
+.partner{
+    color: var(--primary-color-1);
+    background-color: var(--background-color);
+    border-radius: 40px;
+    padding: 5px 30px 5px 30px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    bottom: 50%;
+    transform: translateY(25%);
+    width: fit-content;
+    box-shadow: 1px 1px 10px 1px var(--primary-color-1);
+}
+.partner_img{
+    position: relative;
+    right: 10px;
+}

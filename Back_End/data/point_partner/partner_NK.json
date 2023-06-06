@@ -1,0 +1,23 @@
+[
+  {
+    "id": "3",
+    "name": "Nguyễn Kim",
+    "email": "MyNhijte38@gmail.com",
+    "address": "144 Vườn Lài, phường 5, quận 5, thành phố Hồ Chí Minh",
+    "phone": "0431750581",
+    "customer": [
+      {
+        "username": "0975087858",
+        "point": "1300"
+      },
+      {
+        "username": "0975087859",
+        "point": "2300"
+      },
+      {
+        "username": "0975087870",
+        "point": "3300"
+      }
+    ]
+  }
+]

@@ -10,5 +10,9 @@ module.exports.getClient = async () => {
     ssl: true,
   });
   await client.connect();
+  // Thêm phương thức release để giải phóng kết nối
+  client.release = () => {
+    client.end();
+  };
   return client;
 };

@@ -1,0 +1,138 @@
+.header{
+    top:0;
+    width: 100%;
+    height: 70px;
+    background-color: var(--primary-color-1);
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+}
+.header_sticky{
+    top:0%;
+    width: 100%;
+    height: 70px;
+    background-color: var(--primary-color-1);
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+    position:fixed;
+
+}
+.header-wrapper{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    width: var(--grid-size);
+}   
+
+.header-logo{
+    width: 96px;
+    height: 60px;
+    cursor: pointer;
+    position: relative;
+    left: -70%;
+}
+
+.header-search{
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 700px;
+}
+
+.header-search__icon{
+    position: absolute;
+    height: var(--font-size-icon-big);
+    color: var(--gray);
+    margin-left: 10px;
+    cursor: pointer;
+    padding-right: 20px;
+    height: 20px;
+    width: 20px;
+}
+
+.header-search__input{
+    flex:1;
+    height: 40px;
+    background: var(--background-color);
+    border-radius: 25px;
+    border: none;
+    padding-left: 60px;
+}
+
+.header-search__input::placeholder{
+    font-size: 1.8rem;
+}
+
+.header-label{
+    font-size: 1.6rem;
+    width: 150px;
+    margin-left: -80%px;
+    color: #F8EDDD;
+}
+
+.header-icon__wrapper{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: #E9E9E9;
+    border-radius: 15px;
+    cursor: pointer;
+    padding:0px;
+    margin-left: 20px;
+
+}
+
+.header-cart{
+    height: var(--font-size-icon-big);
+    color: var(--primary-color-1);
+    /* transform: scale(2,2); */
+}
+
+.header-profile{
+    height: var(--font-size-icon-big);
+    color: var(--primary-color-1);
+    /* transform: scale(2,2); */
+}
+
+
+ .customer_infor{
+    position: absolute;
+    background: linear-gradient(180deg, rgba(115, 194, 241, 0) -10%, #73C2F1 100%);
+    height: fit-content;
+    width: fit-content;
+    padding: 30px 40px 40px 40px;
+    border-radius: 0;
+    z-index: 300;
+    left: 50%;
+    transform: translateX(270px);
+    top: 60px;
+    border-radius: 10px;
+    border: solid 1px var(--background-color);
+    text-align: center;
+
+ }
+ .customer_infor p {
+    margin-top: 10px;
+    color: gray;
+    font-size: 16px;
+    font-weight: 200;
+
+ }
+ .row{
+    display: flex;
+    margin-right: 20px;
+    margin-bottom: 10px;
+ }
+ .points{
+    margin-top: 20px;
+   margin-left: 30px;
+ }
+ .point{
+    margin-left: 20px;
+    color: black !important;
+    font-weight:600;
+ }

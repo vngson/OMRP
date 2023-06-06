@@ -1,6 +1,9 @@
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
+const cron = require("node-cron");
+const moment = require("moment-timezone");
+const axios = require("axios");
 require("dotenv").config();
 // upload,download file
 const multer = require("multer");
@@ -8,12 +11,16 @@ const multer = require("multer");
 // Router
 const adminRoute = require("./router/admin");
 const authRoute = require("./router/auth");
+const consumerRoute = require("./router/consumer");
+const employeeRoute = require("./router/employee");
+const partnerRoute = require("./router/partner");
 
 const app = express();
 const port = process.env.PORT || 5001;
 
 // upload, download file
 const { v4: uuidv4 } = require("uuid");
+const { nextTick } = require("process");
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "images");
@@ -40,7 +47,7 @@ const fileFilter = (req, file, cb) => {
 app.use(bodyParser.json()); // application/json
 app.use(express.urlencoded({ extended: true }));
 app.use(
-  multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
+  multer({ storage: fileStorage, fileFilter: fileFilter }).array("images", 10)
 );
 app.use("/images", express.static(path.join(__dirname, "images"))); // Để lấy tớI mục images
 
@@ -55,12 +62,52 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/admin", adminRoute);
-app.use("/auth", authRoute);
+app.use("/v1/api/admin", adminRoute);
+app.use("/v1/api/auth", authRoute);
+app.use("/v1/api/consumer", consumerRoute);
+app.use("/v1/api/employee", employeeRoute);
+
+app.use("/v1/api/partner", partnerRoute);
+
+// Cấu hình múi giờ Việt Nam
+moment.tz.setDefault("Asia/Ho_Chi_Minh");
+
+// Lên lịch xuất file điểm từ csdl hệ thống gửi cho đối tác vào 23:55 mỗi ngày theo giờ Việt Nam
+cron.schedule("50 23 * * *", async () => {
+  try {
+    const response = await axios.get(
+      "https://project-ec-tuankhanh.onrender.com/v1/api/admin/exportFile"
+    );
+
+    // const response = await axios.get(
+    //   "http://localhost:4132/v1/api/admin/exportFile"
+    // );
+    // Xử lý kết quả từ server
+    console.log(response.data);
+  } catch (error) {
+    console.error("Error calling API to exportFile :", error.message);
+  }
+});
+
+// Lên lịch đồng bộ điểm từ file json đối tác gửi tới vào 00:00 mỗi ngày theo giờ Việt Nam
+cron.schedule("0 0 * * *", async () => {
+  try {
+    const response = await axios.get(
+      "https://project-ec-tuankhanh.onrender.com/v1/api/admin/synchronizingPoints"
+    );
+
+    // const response = await axios.get(
+    //   "http://localhost:4132/v1/api/admin/synchronizingPoints"
+    // );
+    // Xử lý kết quả từ server
+    console.log(response.data);
+  } catch (error) {
+    console.error("Error calling API to synchronizingPoints : ", error.message);
+  }
+});
 
 // Xử lý lỗi
 app.use((error, req, res, next) => {
-  console.log(error);
   const status = error.statusCode || 500;
   const message = error.message;
   const data = error.data;

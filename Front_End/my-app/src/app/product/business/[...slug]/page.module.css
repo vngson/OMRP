@@ -1,0 +1,38 @@
+.container{
+    margin: 30px;
+    width: var(--max-width);
+    margin: 0 auto;
+
+}
+.product_list__grid{
+    display: flex;
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    grid-column-gap: 30px;
+    grid-row-gap:20px;
+    text-align: center;
+
+}
+.title{
+
+    background-color: white;
+    border: solid 1px var(--primary-color-1);
+    width: fit-content;
+    padding: 10px 50px;
+    border-radius: 20px;
+    font-size: 20px;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+.pagination{
+    margin-top: 20px;
+    font-weight: 800;
+}
+.pagination_num{
+    display: inline-block;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 18px;
+}

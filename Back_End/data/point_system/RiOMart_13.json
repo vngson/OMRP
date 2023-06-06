@@ -1,0 +1,13 @@
+{
+  "id": "13   ",
+  "name": "RiO Mart",
+  "email": "BochChouesh51@gmail.com",
+  "address": "555 Trần Đình Trọng, phường Bến Nghé, quận 1, thành phố Hồ Chí Minh",
+  "phone": "0655851247",
+  "customer": [
+    {
+      "username": "0975087855",
+      "point": 120
+    }
+  ]
+}
