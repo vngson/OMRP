@@ -2,8 +2,8 @@
 "use client"
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
-import classNames from 'classnames/bind';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// import classNames from 'classnames/bind';
+// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import styles from './page.module.css'
 // import LoginRegister from '@/components/login_register/login_register'
 import Header from '../components/header/header_cus'
@@ -12,7 +12,7 @@ import { arrow_img, arrow_left_product, arrow_right_product, banner_home_custome
 import ProductItem from '@/components/items/ProductItem/ProductItem'
 import { useState, useEffect } from 'react'
 import productAPI from './api/productAPI'
-import { useActionData } from 'react-router-dom'
+// import { useActionData } from 'react-router-dom'
 import { categoryApi , userApi} from './api/apiReponseType'
 import { useSelector } from 'react-redux'
 import { Metadata } from 'next'
