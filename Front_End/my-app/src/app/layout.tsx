@@ -7,6 +7,8 @@ import Footer from '@/components/footer/page'
 import "nprogress/nprogress.css";
 import dynamic from 'next/dynamic'
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
+import { usePathname } from 'next/navigation'
+import path from 'path'
 
 const queryClient = new QueryClient()
 export const metadata = {
@@ -25,6 +27,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
 
+  const pathname=usePathname()
 
   return (
     <html lang="en">
@@ -33,8 +36,8 @@ export default function RootLayout({
       <TopProgressBar />
       <QueryClientProvider client={queryClient}>
 
-        {/* {pathname === '/login'?<></>: <Header/>} */}
-        <Header/>
+        {pathname === '/login' || pathname.includes("/admin")?<></>: <Header/>}
+        {/* <Header/> */}
         {children}
         </QueryClientProvider>
         {/* {pathname === '/login'?<></>:<Footer/>} */}

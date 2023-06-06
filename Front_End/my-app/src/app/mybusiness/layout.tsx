@@ -35,7 +35,7 @@ export default function AccountLayout({children}:any) {
       scrollTop >= 100 ? setSticky(true) : setSticky(false);
       // setSticky(true)
     };
-    const ele=["Thông tin tài khoản", "Lịch sử trao đổi", "Danh sách doanh nghiệp", "Giỏ hàng"];
+    const ele=    ["Hồ sơ doanh nghiệp","Chọn sản phẩm","Danh sách sản phẩm","Hợp đồng"]
     const ele_url=["/account/infor","/account/history-exchange", "/business", "/account/cart"]
 
     const handleLogoutBtn= () =>{
@@ -43,12 +43,12 @@ export default function AccountLayout({children}:any) {
         router.push("/")
     }
 
-    if(permission!=="3"){
+    if(permission!=="2"){
       router.push("/")
       
-      if (permission==="2")
+      if (permission==="3")
       {
-        router.push("/business")
+        router.push("/")
         return (<></>)
       } 
       return (<></>)

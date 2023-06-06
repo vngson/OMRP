@@ -40,19 +40,20 @@ export const loginUser = async (user: any, dispatch: (arg0: { payload: any; type
     const res=await UserAPI.login(user);
 
     const userdata=jwt_decode(res.data.token)
+    logOutSuccess()
     dispatch(loginSuccess(jwt_decode(res.data.token)));
 
-    let permission = userdata?.user?.permission
+    let permission = userdata.user.permission
     // console.log("res.data", res.data);
     
     if(permission==="3")
     router.push("/")
     else if (permission==="2"){
-      router.push("/mybusiness")
+      router.push("/mybusiness/cart")
     } else if( permission==="1") router.push("/admin/list_account")
     else if (permission==="4") router.push("/staff/manage_partner")
     else  {
-     
+      router.push("/404")
     }
     return "1"
   } catch (err:any) {
