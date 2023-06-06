@@ -1,5 +1,29 @@
 const Consumer = require("../models/consumer");
 
+exports.getInfoConsumer = async (req, res, next) => {
+  const consumerId = req.params.consumerId;
+  try {
+    const consumer = await Consumer.getInfoConsumer(consumerId);
+    if (!consumer) {
+      const error = new Error("Could not find consumer ! ");
+      error.statusCode = 404;
+      throw error;
+    }
+    const pointsConsumer = await Consumer.getPointsConsumerById(consumerId);
+    consumer.Points = pointsConsumer;
+
+    res.status(200).json({
+      message: "Fetched info consumer successfully ! ",
+      data: consumer,
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
 exports.getCategory = async (req, res, next) => {
   try {
     const categoryData = await Consumer.getCategoryProduct();
@@ -26,7 +50,6 @@ exports.getProducts = async (req, res, next) => {
   const perPage = req.query.perPage || 4; // Lấy tham số query hoặc mặc định là 4
   const type = req.query.type || null; // Lấy tham số query hoặc mặc định không có
   const keyword = req.query.keyword || null;
-
   try {
     const skip = (currentPage - 1) * perPage;
     const limit = Number(perPage);
@@ -338,7 +361,6 @@ exports.postCart = async (req, res, next) => {
   const productId = req.body.idProduct;
   const productName = req.body.nameProduct;
   const pointType = req.body.pType;
-  const price = req.body.price;
   const quantityInput = req.body.quantity;
 
   const cart = {
@@ -346,7 +368,6 @@ exports.postCart = async (req, res, next) => {
     productId: productId,
     productName: productName,
     pointType: pointType,
-    price: price,
   };
 
   try {
@@ -356,9 +377,6 @@ exports.postCart = async (req, res, next) => {
       haveProduct.length === 0
         ? quantityInput
         : Number(haveProduct[0].QUANTITY) + Number(quantityInput);
-    const totalPrice = Number(price) * Number(quantity);
-
-    cart.totalPrice = totalPrice;
     cart.quantity = quantity;
 
     const addToCart =
@@ -382,6 +400,7 @@ exports.getCart = async (req, res, next) => {
 
   try {
     const partnersArr = await Consumer.getPartnersCart(consumerId);
+
     if (partnersArr.length === 0) {
       const error = new Error("Could not find partners consumer in cart ! ");
       error.statusCode = 404;
@@ -394,15 +413,30 @@ exports.getCart = async (req, res, next) => {
       throw error;
     }
 
-    partnersArr.forEach((partner) => {
-      partner.products = productCart.filter((product) => {
-        return partner.ID_DoanhNghiep === product.POINT_TYPE;
-      });
-    });
+    let totalCart = 0;
+    await Promise.all(
+      partnersArr.map(async (partner) => {
+        partner.products = productCart.filter((product) => {
+          return partner.ID_DoanhNghiep === product.POINT_TYPE;
+        });
 
-    const totalCart = productCart.reduce((result, obj) => {
-      return result + obj.TOTAL_PRICE;
-    }, 0);
+        await Promise.all(
+          partner.products.map(async (product) => {
+            const price = await Consumer.getPointProductCart(
+              product.ID_PRODUCTS,
+              partner.ID_DoanhNghiep
+            );
+            const quantity = await Consumer.getQuantityProduct(
+              product.ID_PRODUCTS
+            );
+            product.PRICE = price.PRICE;
+            product.TOTAL_PRICE = product.PRICE * product.QUANTITY;
+            product.QUANTITYSTORE = quantity.QUANTITY;
+            totalCart += Number(product.TOTAL_PRICE);
+          })
+        );
+      })
+    );
 
     const totalItems = productCart.length;
 
@@ -411,6 +445,41 @@ exports.getCart = async (req, res, next) => {
       data: partnersArr,
       totalPriceCart: totalCart,
       totalItems: totalItems,
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
+exports.updateCart = async (req, res, next) => {
+  const consumerId = req.params.consumerId;
+
+  const products = req.body.cartProducts;
+
+  try {
+    await Promise.all(
+      products.map(async (data) => {
+        const updateCart =
+          Number(data.quantity) === 0
+            ? await Consumer.deletePartnerProductCart(
+                consumerId,
+                data.idPartner,
+                data.idProducts
+              )
+            : await Consumer.updateQuantityCart(
+                consumerId,
+                data.idProducts,
+                data.idPartner,
+                data.quantity
+              );
+      })
+    );
+
+    res.status(200).json({
+      message: "Update Cart Successfully !",
     });
   } catch (error) {
     if (!error.statusCode) {
@@ -484,6 +553,16 @@ exports.orderProducts = async (req, res, next) => {
         const order = orderFromCart
           ? await Consumer.orderByCart(obj, data)
           : await Consumer.order(obj, data);
+        // update quantity store
+        const quantityStore = await Consumer.getQuantityProduct(
+          data.Id_Product
+        );
+
+        const quantity = Number(quantityStore.QUANTITY) - Number(data.Quantity);
+        const updateQuantity = await Consumer.updateQuantity(
+          data.Id_Product,
+          quantity
+        );
       })
     );
 

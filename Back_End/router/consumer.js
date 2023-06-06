@@ -34,12 +34,16 @@ router.get("/getCart/:consumerId", consumerController.getCart);
 
 router.get("/getHistory/:consumerId", consumerController.getHistoryConsumer);
 
+router.get("/infoConsumer/:consumerId", consumerController.getInfoConsumer);
+
 //POST;
 router.post("/order/:consumerId", consumerController.orderProducts);
 
 // PUT;
 router.put("/updateInfo/:consumerId", consumerController.updateInfoConsumer);
 router.put("/addToCart/:consumerId", consumerController.postCart);
+
+router.put("/updateCart/:consumerId", consumerController.updateCart);
 
 // DELETE
 router.delete("/deleteCart/:consumerId", consumerController.deleteCart);
