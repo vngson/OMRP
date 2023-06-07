@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from "axios";
 import { baseURL } from '@/app/api/bareURL';
 import classNames from 'classnames/bind';
 import styles from "./page.module.css"
@@ -59,6 +59,8 @@ function ListProduct() {
 
     const [currentGroup, setCurrentGroup] = useState(1);
 
+    const user=useSelector((state:any)=> state.auth.login.currentUser)
+
     useEffect(() => {
         axios
         .get<ApiResponse>(`${baseURL}/consumer/product?page=1&perPage=100`)
@@ -98,8 +100,6 @@ function ListProduct() {
           }
         }
       };
-
-    const user=useSelector((state:any)=> state.auth.login.currentUser)
     
     const cusID = user?.user?.userId
     const permiss = user?.user?.permission;

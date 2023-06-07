@@ -86,6 +86,7 @@ function UpdateProductForm({ idProduct }: UpdateProductFormProps) {
   const [images, setImages] = useState<ImgURL[]>([]);
   const [catelog, setCatelog] =useState<category[]>([]);
   const [isFirstRender, setIsFirstRender] = useState(true)
+  const [message, setMessage] = useState<string | null>(null);
   
   async function fetchData1() {
       const response = await axios.get<ApiResponse1>(`${baseURL}/consumer/category`)
@@ -146,14 +147,33 @@ function UpdateProductForm({ idProduct }: UpdateProductFormProps) {
                 formData,
               );
       console.log(response.data);
+      setMessage('Cập nhật sản phẩm thành công!');
+      setTimeout(() => {
+        location.reload();
+      }, 2000);
+
     } catch (error) {
       console.error((error as Error).message);
+      setMessage('Có lỗi xảy ra');
+      setTimeout(() => {
+        location.reload();
+      }, 2000);
     }
   };
 
   return (
       <div className={cx('product_update_form')}>
         <div className={cx('product_update_form-wrapper')}>
+        {message&&(
+            <div className={cx('message')}>
+                <label 
+                    htmlFor="info-title__message" 
+                    className={cx("message__label")}
+                >
+                    {message} 
+                </label>
+            </div>
+        )}
           <div className={cx('product_update_form-image')}>
             <label
               className={cx('product_update_form-image__label')}

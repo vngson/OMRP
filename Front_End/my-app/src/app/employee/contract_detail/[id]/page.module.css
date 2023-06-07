@@ -27,7 +27,16 @@
     height: 100%;
 }
 
-z
+.contract-container{
+    display: flex;
+    margin-left: 40px;
+    width: 600px;
+    align-items: center;
+    background-color: var(--white);
+    border-radius: 25px;
+    flex-direction: column;
+
+}
 
 .contract-title{
     display: flex;
@@ -83,4 +92,3 @@ z
     color: var(--green);
     margin-bottom: 20px;
 }
-

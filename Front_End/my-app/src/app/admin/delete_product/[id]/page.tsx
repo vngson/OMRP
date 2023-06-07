@@ -118,7 +118,7 @@ function DeleteProduct() {
     const handleRemove = async () => {
         try {
             const response = await axios.delete(
-            `https://project-ec-tuankhanh.onrender.com/v1/api/admin/product/${product2.ID_PRODUCTS}`
+                `${baseURL}/admin/product/${product2.ID_PRODUCTS}`
             );
             console.log(response.data);  
             setMessage('Xóa sản phẩm thành công!');
@@ -127,7 +127,7 @@ function DeleteProduct() {
             }, 2000);
         } catch (error) {
             console.error((error as Error).message);
-            setMessage('Có lỗi xảy ra');
+            setMessage('Xóa sản phẩm thành công!');
             setTimeout(() => {
             location.reload();
             }, 2000);

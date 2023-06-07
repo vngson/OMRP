@@ -1,6 +1,6 @@
 'use client';
 import classNames from 'classnames/bind';
-import axios from 'axios';
+import axios from "axios";
 import { useSelector } from 'react-redux'
 import { baseURL } from '@/app/api/bareURL';
 import styles from "./page.module.css"
@@ -76,15 +76,15 @@ function ListAccount() {
     useEffect(() => {
         async function fetchData() {
         const consumerResponse = await axios.get<ApiResponse1>(`${baseURL}/admin/account?type=KH`);
-        const partnerResponse = await axios.get<ApiResponse2>(`${baseURL}admin/account?ype=DT`);
+        const partnerResponse = await axios.get<ApiResponse2>(`${baseURL}/admin/account?type=DT`);
         const data1 = consumerResponse.data.data;
         const data2 = partnerResponse.data.data;
         const newAccounts: _AccountKH[] = [];
         
-        let i = 0;
-        for (i; i < data1.length; i++) {
+        
+        for (let i = 0; i < data1.length; i++) {
             newAccounts.push({
-              ID_Login: i,
+              ID_Login: data1[i].ID_Login,
               Username: data1[i].Username,
               Permission: data1[i].Permission,
               Status: data1[i].Status,
@@ -97,17 +97,17 @@ function ListAccount() {
           }
           
 
-          for (let j = 0 ; i < data1.length; i++) {
+          for (let i = 0 ; i < data1.length; i++) {
           newAccounts.push({
-            ID_Login: i + j,
-            Username: data2[j].Username,
-            Permission: data2[j].Permission,
-            Status: data2[j].Status,
-            Name: data2[j].Name,
-            Email: data2[j].Email,
-            Address: data2[j].Address,
-            Phone: data2[j].Phone,
-            Img: data2[j].Img
+            ID_Login: data2[i].ID_Login,
+            Username: data2[i].Username,
+            Permission: data2[i].Permission,
+            Status: data2[i].Status,
+            Name: data2[i].Name,
+            Email: data2[i].Email,
+            Address: data2[i].Address,
+            Phone: data2[i].Phone,
+            Img: data2[i].Img
           });
         }
 

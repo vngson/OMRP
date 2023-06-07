@@ -52,7 +52,7 @@ function ManageContract() {
 
     useEffect(() => {
         axios
-        .get<ApiResponse>(`${baseURL}/employee/contract?page=1&perPage=100`)
+        .get<ApiResponse>(`${baseURL}/employee/contractPendingApproval?page=1&perPage=100`)
         .then((response) => setContracts(response.data.contracts))
         .catch((error) => setError(error.message));
     }, []);
@@ -94,7 +94,7 @@ function ManageContract() {
         try {
       
           const response = await axios.put(
-            `https://project-ec-tuankhanh.onrender.com/v1/api/employee/updateContract/${e}`
+            `${baseURL}/employee/updateContract/${e}`
           );
           console.log(response.data);
           setMessage('Duyệt thành công!');
@@ -112,12 +112,9 @@ function ManageContract() {
 
     const handleRefuse  = async (event: React.MouseEvent,e:string) => {
         try {
-            const response = await axios.put(
-                `https://project-ec-tuankhanh.onrender.com/v1/api/employee/updateContract/${e}`
+            const response = await axios.delete(
+                `${baseURL}/employee/deleteContract/${e}`
               );
-            // const response = await axios.put(
-            //   `https://project-ec-tuankhanh.onrender.com/v1/api/employee/deleteContract/${e}`
-            // );
             console.log(response);
             setMessage('Đã từ chối hợp đồng!');
             setTimeout(() => {
