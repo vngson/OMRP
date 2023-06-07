@@ -156,7 +156,7 @@ exports.getListPartnerProductRemain = async function (id) {
 
   try {
     const rs = await client.query(
-      'select * from public."Products" where "ID_PRODUCTS" not in (SELECT P."ID_PRODUCTS" FROM public."EXCHANGE_POINT" AS EP, public."Products" AS P, public."Type_Products" AS TP, public."IMAGE_PRODUCT" AS IP WHERE EP."ID_PRODUCTS" = P."ID_PRODUCTS" AND EP."ID_PARTNERS" = $1 AND TP."ID_PRODUCTS" = P."ID_PRODUCTS" AND IP."ID_PRODUCTS" = P."ID_PRODUCTS" AND IP."STT" = $2)',
+      'SELECT P."ID_PRODUCTS",P."NAME",P."INFOR_PRODUCTS",P."QUANTITY",P."PRICE",IP."URL" as "IMG",TP."TYPE_PROD" FROM public."Products" as P JOIN public."IMAGE_PRODUCT" as IP ON P."ID_PRODUCTS" = IP."ID_PRODUCTS" AND IP."STT" = $2 JOIN public."Type_Products" AS TP ON P."ID_PRODUCTS" = TP."ID_PRODUCTS" where P."ID_PRODUCTS" not in (SELECT P."ID_PRODUCTS" FROM public."EXCHANGE_POINT" AS EP join public."Products" AS P on EP."ID_PRODUCTS" = P."ID_PRODUCTS" join public."Type_Products" AS TP on TP."ID_PRODUCTS" = P."ID_PRODUCTS" join public."IMAGE_PRODUCT" AS IP on IP."ID_PRODUCTS" = P."ID_PRODUCTS" WHERE EP."ID_PARTNERS" = $1)',
       [id, 1]
     );
     return rs.rows;
