@@ -71,3 +71,12 @@
     cursor: pointer;
 
 }
+.layoutbtn{
+
+
+    background-color: var(--primary-color-1);
+    padding: 5px 10px;
+    color: white;
+    border-radius: 20px;
+    margin-top: 30px;
+}

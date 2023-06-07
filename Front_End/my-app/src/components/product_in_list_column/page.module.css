@@ -1,0 +1,125 @@
+.product{
+    width: 700px;
+    display: flex;
+    /* height: 270px; */
+    margin-bottom: 20px;
+}
+
+.product-wrapper{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    position: relative;
+}
+
+.product-info{
+    display: flex;
+    width: 100%;
+    margin: 20px 0; 
+    align-items: center;
+}
+
+.product-info__intro{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.product-info__image{
+    width: 150px;
+    height: 150px;
+    border: 1px solid var(--primary-color-1);
+    border-radius: 10px;
+    margin: 0 40px 0 20px;
+}
+
+.product-info__title, .product-info__content{
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+}
+
+.product-info__label{
+    max-width: 250px;
+    height: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 10px;
+    font-size: 2rem;
+}
+
+.product-line{
+    width: 100%;
+    height: 1px;
+    background:var(--primary-color-1)
+}
+
+/* .product-btn{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 20px;
+    user-select: none;
+}
+
+.product-btn__remove{
+    min-width: 180px;
+    min-height: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: var(--color-btn-2);
+    border-radius: 25px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+}
+
+.remove__icon{
+    padding-right: 10px;
+    color: var(--white);
+    background-color: transparent;
+    height: var(--font-size-icon-small);
+}
+
+.product-btn__update{
+    min-width: 200px;
+    min-height: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: var(--color-btn-1);
+    border-radius: 25px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+}
+
+.product-btn__choose{
+    min-width: 200px;
+    min-height: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: var(--primary-color-1);
+    border-radius: 25px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+}
+
+.choose__icon,.update__icon{
+    padding-right: 10px;
+    color: var(--white);
+    background-color: transparent;
+    height: var(--font-size-icon-small);
+}
+
+.product-btn__update + .product-btn__remove {
+    margin-left: 20px;
+} */

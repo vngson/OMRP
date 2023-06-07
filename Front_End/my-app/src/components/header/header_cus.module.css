@@ -3,8 +3,8 @@
     width: 100%;
     height: 70px;
     background-color: var(--primary-color-1);
-    display: flex;
-    justify-content: center;
+    /* display: flex; */
+    /* justify-content: center; */
     z-index: 1;
 }
 .header_sticky{
@@ -18,20 +18,27 @@
     position:fixed;
 
 }
+.header-right{
+    display: flex;
+    right: 5%;
+    align-items: center;
+    position: absolute;
+}
 .header-wrapper{
-    position: relative;
+    /* position: relative; */
     display: flex;
     align-items: center;
-    justify-content: end;
-    width: var(--grid-size);
+    /* justify-content: end; */
+    /* width: var(--grid-size); */
+    width: 100%;
 }   
 
 .header-logo{
     width: 96px;
     height: 60px;
     cursor: pointer;
-    position: relative;
-    left: -70%;
+    margin-left: 20px;
+
 }
 
 .header-search{

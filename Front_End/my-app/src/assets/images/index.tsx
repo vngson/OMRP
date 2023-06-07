@@ -15,6 +15,9 @@ import partner_img_1_square from "./partner_img_1_square.png"
 import user_avt_1 from "./user-avatar.jpg"
 import searchicon from "./searchicon.svg"
 import notexist from "./notexist.gif"
+import tick from "./tick.svg"
+import x from "./x.svg"
+import send from "./send.svg"
 export {
     banner_home_customer,
     product_img_1,
@@ -32,5 +35,8 @@ export {
     partner_img_1_square,
     user_avt_1,
     searchicon,
-    notexist
+    notexist,
+    tick,
+    x,
+    send
 }

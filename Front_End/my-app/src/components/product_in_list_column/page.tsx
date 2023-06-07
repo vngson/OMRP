@@ -52,6 +52,12 @@ function Product({view, info}: MyComponentProps) {
                             Giới thiệu : 
                         </label>
                         <label 
+                            htmlFor="info-title__description" 
+                            className={cx("product-info__label")}
+                        >
+                            Điểm : 
+                        </label>
+                        <label 
                             htmlFor="info-title__price" 
                             className={cx("product-info__label")}
                         >
@@ -77,6 +83,12 @@ function Product({view, info}: MyComponentProps) {
                             className={cx("product-info__label")}
                         >
                             {info[0].INFOR_PRODUCTS}
+                        </label>
+                        <label 
+                            htmlFor="info-content__username" 
+                            className={cx("product-info__label")}
+                        >
+                            {info[0].PRICE}
                         </label>
                         <label 
                             htmlFor="info-content__username" 

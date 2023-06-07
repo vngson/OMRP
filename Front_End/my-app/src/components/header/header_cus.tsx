@@ -50,58 +50,58 @@ export default function Header() {
       /* Method that will fix header after a specific scrollable */
       const scrollTop = window.scrollY;
       scrollTop >= 100 ? setSticky(true) : setSticky(false);
-      // setSticky(true)
+      setSticky(true)
     };
     const [hoverAcc, setHoverAcc]=useState(false)
     return (
-        <div className={`${sticky? styles.header_sticky: styles.header}`}>        <div className={cx('header-wrapper')} >
+        <div className={`${sticky? styles.header_sticky: styles.header}`}>       
+         <div className={cx('header-wrapper')} >
             <Link href="/" className={cx('header-logo')}><Image src={logo} width={80} height={60} alt='logo' /></Link>
-            
-            {/* <div className={cx('header-search')}>
-                <FontAwesomeIcon className={cx('header-search__icon')} icon={faMagnifyingGlass} />
-                <input 
-                type="text" 
-                className={cx("header-search__input" )}
-                id={cx("header-search-input")}
-                placeholder="Tìm kiếm"  
-                />
-            </div> */}
+       
             <SearchComp/>
-            {user!==null? ( <label
-                htmlFor="header__name-view" 
-                className={cx("header-label")}
-            >
-                Chào, {user?.userInfo?.NAME|| user?.userInfo?.Name} 
-            </label>):( <Link href={"/login"}
-                className={cx("header-label")}
-            >
-                Đăng nhập
-            </Link>)}
+           
+            <div className={cx('header-right')}>
+                {user!==null? ( <label
+                    htmlFor="header__name-view" 
+                    className={cx("header-label")}
+                >
+                    Chào, {user?.userInfo?.NAME|| user?.userInfo?.Name} 
+                </label>):( <Link href={"/login"}
+                    className={cx("header-label")}
+                >
+                    Đăng nhập
+                </Link>)}
+                <Link href="/business"> 
+
+                <div className={cx('header-icon__wrapper')}>
+                <FontAwesomeIcon className={cx('header-list_business')} size="2x" icon={faListUl} />
+                </div>
+                </Link>
+            <Link href="/account/cart"> 
             <div className={cx('header-icon__wrapper')}>
-            <FontAwesomeIcon className={cx('header-list_business')} size="2x" icon={faListUl} />
-            </div>
-           <Link href="/account/cart"> 
-           <div className={cx('header-icon__wrapper')}>
-            <FontAwesomeIcon className={cx('header-cart')} size="2x" icon={faCartShopping} />
-            </div>
-            </Link>
-         {/* <Link href="/account/cart"></Link> */}
-            <div onMouseEnter={()=>setHoverAcc(true)} onMouseLeave={()=>setHoverAcc(false)} className={cx('header-icon__wrapper')}><FontAwesomeIcon className={cx('header-profile')} size="2x" icon={faUser} /></div>
+                <FontAwesomeIcon className={cx('header-cart')} size="2x" icon={faCartShopping} />
+                </div>
+                </Link>
+            <Link href="/account/history-exchange">
+                <div onMouseEnter={()=>setHoverAcc(true)} onMouseLeave={()=>setHoverAcc(false)} className={cx('header-icon__wrapper')}><FontAwesomeIcon className={cx('header-profile')} size="2x" icon={faUser} /></div>
+                </Link>
         </div>
-        {hoverAcc?(
-            <div className={styles.customer_infor}>
-            <h1>{user?.userInfo?.NAME}</h1>
-            <p className={styles.email}>{user?.userInfo?.Email}</p>
-            <div className={styles.points}>
-                {poinst.map ((part:any)=>
-                <div className={styles.row}>
-                    <PartnerSmallItem logo={part.IMG} name={part.Name}/>
-                    <p className={styles.point}>{part.POINTS} point </p>
-                 </div>
-                )}
+        
+            {hoverAcc?(
+                <div className={styles.customer_infor}>
+                <h1>{user?.userInfo?.NAME}</h1>
+                <p className={styles.email}>{user?.userInfo?.Email}</p>
+                <div className={styles.points}>
+                    {poinst.map ((part:any)=>
+                    <div className={styles.row}>
+                        <PartnerSmallItem logo={part.IMG} name={part.Name}/>
+                        <p className={styles.point}>{part.POINTS} point </p>
+                    </div>
+                    )}
+                </div>
             </div>
-        </div>
-        ):(<></>)}
+            ):(<></>)}
+                </div>
         
     </div>
     )

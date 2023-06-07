@@ -34,7 +34,7 @@ export default function SearchComp() {
       <div className={`${styles.searchbar}`} onMouseEnter={()=>setIsHoverBar(true)} onMouseLeave={()=> {setIsHoverBar(false)}} >
         <div className={styles.searchbar_header}>
           <Image src ={searchicon} className={styles.searchIcon} width={15} height={15} alt=''></Image>
-          <input className={styles.input} id="search_input" onKeyUp={(e)=>HandleSearch(e)} placeholder="Bình giữ nhiệt . . ."></input>
+          <input className={styles.input} id="search_input" onKeyUp={(e)=>HandleSearch(e)} placeholder="Tìm kiếm . . ."></input>
         </div>
         {isHoverBar||isHoverList?(
           <ul className={styles.search_list_isHover}  onMouseOver={()=>setIsHoverList(true)} onMouseLeave={()=> {setIsHoverList(false)}}>

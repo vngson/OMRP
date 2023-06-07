@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-undef */
 'use client';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -10,7 +11,10 @@ import Sidebar from '@/app/components/sidebar/page';
 import avatar from "@/assets/images/omrp_logo_white.png"
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { partner_img_1 } from '@/assets/images';
+import { partner_img_1, send, tick } from '@/assets/images';
+import Image from 'next/image';
+import PartnerAPI from '@/app/api/partnerAPI';
+import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap';
 
 type ContractData = {
     ID_CONTRACT: string;
@@ -33,53 +37,65 @@ type ContractData = {
 export default function ContractMyBusinessPage(props:any){
     const user=useSelector((state:any)=> state.auth.login.currentUser)
     const userid=user?.userInfo?.ID_Partners;
-    // const [userpoints,setuserpoints]=useState<any>([])
+ 
     const dispatch=useDispatch()
     const router=useRouter();
-    const [contract, setContract] = useState<any>();
-
+    const [contract, setContract] = useState<any>(null);
+    const [tax, settax]=useState("")
+    const [deputy, setdeputy]= useState("")
+    const [effectiveTime, setexpireddate]= useState();
+    const [amountToPoints, setamountToPoints]= useState("")
+      
+    const cusID = user?.userInfo?.ID_Partners;
+    const permiss = user?.user?.permission;
+    const pms : number = Number(permiss);
+    const [modalOpen, setModalOpen]= useState(false)
     useEffect(() => {
         async function fetchData() {
             const response = await axios.get<ApiResponse>(
                 `${baseURL_user}/partner/${userid}/contract`
             );
-            console.log("contract",response.data.contracts?.[0])
-            // let newcontract = {
-            //     ID_CONTRACT: "id",
-            //     masothue: "mã só thuê",
-            //     ngaylap: "ngày lập", 
-            //     ngayhethan: "ngày hết hđ",
-            //     donvidoi: "đơn vị đỏi",
-            //     giaodich: "$ giao di",
-            //     tendoanhnghiep: 'backs',
-            //     sdt: "ád",
-            //     Email: "mail",
-            //     Image: partner_img_1,
-            // }
+            console.log("contract",response.data)
+
             setContract(response.data.contracts[0]);
         }
         fetchData();
         }, []);
         
-        if (!contract) {
-          return <div>Loading...</div>;
-        } 
-        else 
+        // if (!contract) {
+        //   return <div>Loading...</div>;
+        // } 
+        // else 
         
  
    
   
- 
-   
+        console.log("cons", contract)
+        const [noti, setNoti] =useState("")
+        const handleSendbtn= async ()=>{
+            const newContract = {
+                tax: tax,
+                deputy: deputy,
+                effectiveTime: effectiveTime,
+                amountToPoints: amountToPoints,
+                commission: "30"
+            }
 
-    // if(cart.length===0){
-    //     return(<div className={styles.notexist}><p className="">Không có sản phẩm nào trong giỏ hàng!</p> 
-    //     <Image alt =" "src={notexist} className={styles.gif} width={100} height={100}/></div>)
-    // }else
+            const res = await PartnerAPI.createContract(userid, newContract);
+            console.log("noti", res)
+            setNoti(res.data.message)
+            setModalOpen(true)
+        }
+  
+     if(pms === 2){
+      
+
+
     return(
         <>
          <div className={cx('contract-container')}>
-                    <div className={cx('contract-title')}>
+            {true?(<>
+                <div className={cx('contract-title')}>
                         <label 
                                 htmlFor="contract-title" 
                                 className={cx("contract-title__label")}
@@ -98,7 +114,7 @@ export default function ContractMyBusinessPage(props:any){
                                 htmlFor="info-title__contract_ID" 
                                 className={cx("contract__label2")}
                             >
-                                {contract.TAX} 
+                                {contract?.TAX} 
                         </label>
                     </div>
                     <div className={cx('contract-status')}>
@@ -112,7 +128,7 @@ export default function ContractMyBusinessPage(props:any){
                                 htmlFor="info-title__contract_ID" 
                                 className={cx("contract__label2")}
                             >
-                                {contract.STATUS} 
+                                {contract?.STATUS} 
                         </label>
                     </div>
                     <div className={cx('contract-content')}>
@@ -172,68 +188,7 @@ export default function ContractMyBusinessPage(props:any){
                                 Phí hoa hồng 
                             </label>   
                         </div>
-                        {contract===null?(
-                             <div className={cx('contract-info')}>
-                             <input 
-                                     className={cx("contract__input")}
-                                     id="name" placeholder=''onChange={(e)=>setname(e.target.value)}
-                                 >
-                                     {user?.userInfo?.Name}  
-                                 </input>
-                             <input 
-                                     className={cx("contract__input")}
-                                     id="" placeholder=''onChange={(e)=>set(e.target.value)}
-                                 >
-                                     {contract.TAX}  
-                                 </input>
-                                 <input 
-                                     className={cx("contract__label")}
-                                     id="" placeholder=''onChange={(e)=>set(e.target.value)}
-                                 >
-                                     {contract.DEPUTY}  
-                                 </input>
-                                 <input 
-                                     className={cx("contract__input")}
-                                     id="" placeholder=''onChange={(e)=>set(e.target.value)}
-                                 >
-                               {user?.userInfo?.Phone} 
-                                 </input> 
-                                
-                                 <input 
-                                     className={cx("contract__input")}
-                                     id="" placeholder=''onChange={(e)=>set(e.target.value)}
-                                 >
-                               {user?.userInfo?.Email} 
-                                 </input> 
-                                 <input 
-                                     className={cx("contract__input")}
-                                     id="" placeholder=''onChange={(e)=>set(e.target.value)}
-                                 >
-                                    {contract.DATE_CONTRACT.slice(0,10)} 
-                                 </input> 
-                                 <input 
-                                     className={cx("contract__input")}
-                                     id="" placeholder=''onChange={(e)=>set(e.target.value)}
-                                 >
-                                    {contract.EFFECTIVE_TIME.slice(0,10)} 
-                                 </input> 
-                                 <input 
-                                     className={cx("contract__input")}
-                                     id="" placeholder=''onChange={(e)=>set(e.target.value)}
-                                 >
-                                     {/* {new Date(contract["Ngày hết HĐ"]).toLocaleDateString()} */}
-                                     {contract.AMOUNTTOPOINTS}  
-                                 </input> 
-                                 <input 
-                                     className={cx("contract__input")}
-                                     id="" placeholder=''onChange={(e)=>set(e.target.value)}
-                                 >
-                                     {contract.COMMISSION}  
-                                     </input> 
-                                  
-                             </div>
-                        ):(
-                             <div className={cx('contract-info')}>
+                        <div className={cx('contract-info')}>
                              <label 
                                      htmlFor="info-title__contract_name" 
                                      className={cx("contract__label")}
@@ -244,13 +199,13 @@ export default function ContractMyBusinessPage(props:any){
                                      htmlFor="info-title__contract_name" 
                                      className={cx("contract__label")}
                                  >
-                                     {contract.TAX}  
+                                     {contract?.TAX}  
                                  </label>
                                  <label 
                                      htmlFor="info-title__contract_name" 
                                      className={cx("contract__label")}
                                  >
-                                     {contract.DEPUTY}  
+                                     {contract?.DEPUTY}  
                                  </label>
                                  <label 
                                      htmlFor="info-title__Tax_code" 
@@ -269,33 +224,153 @@ export default function ContractMyBusinessPage(props:any){
                                      htmlFor="info-title__date_contract" 
                                      className={cx("contract__label")}
                                  >
-                                    {contract.DATE_CONTRACT.slice(0,10)} 
+                                    {contract?.DATE_contract?.slice(0,10)|| contract?.DATE_CONTRACT?.slice(0,10)} 
                                  </label> 
                                  <label 
                                      htmlFor="info-title__date_contract" 
                                      className={cx("contract__label")}
                                  >
-                                    {contract.EFFECTIVE_TIME.slice(0,10)} 
+                                    {contract?.EFFECTIVE_TIME?.slice(0,10)} 
                                  </label> 
                                  <label 
                                      htmlFor="info-title__contract_term" 
                                      className={cx("contract__label")}
                                  >
                                      {/* {new Date(contract["Ngày hết HĐ"]).toLocaleDateString()} */}
-                                     {contract.AMOUNTTOPOINTS}  
+                                     {contract?.AMOUNTTOPOINTS}  
                                  </label> 
                                  <label 
                                      htmlFor="info-title__conversion_rate" 
                                      className={cx("contract__label")}
                                  >
-                                     {contract.COMMISSION}  
+                                     {contract?.COMMISSION}  
                                      </label> 
                                  
                              </div>
-                        )}
-                       
                     </div>
+            </>):(<>
+                <div className={cx('contract-title')}>
+                        <label 
+                                htmlFor="contract-title" 
+                                className={cx("contract-title__label")}
+                            >
+                                HỢP ĐỒNG 
+                        </label>
+                    </div>
+                   
+                   
+                    <div className={cx('contract-content')}>
+                        <div className={cx('contract-topic')}>
+                           
+                            <label 
+                                htmlFor="info-title__Tax_code" 
+                                className={cx("contract__label1")}
+                            >
+                                Mã số thuế 
+                            </label> 
+                            <label 
+                                htmlFor="info-title__Phone_number" 
+                                className={cx("contract__label1")}
+                            >
+                                Người đại diện 
+                            </label> 
+                           
+                           
+                            <label 
+                                htmlFor="info-title__contract_term" 
+                                className={cx("contract__label1")}
+                            >
+                                Ngày hết hạn hợp đồng 
+                            </label> 
+                            <label 
+                                htmlFor="info-title__conversion_rate" 
+                                className={cx("contract__label1")}
+                            >
+                                Tỉ lệ quy đổi điểm 
+                            </label> 
+                            <label 
+                                htmlFor="info-title__commission" 
+                                className={cx("contract__label1")}
+                            >
+                                Phí hoa hồng 
+                            </label>   
+                        </div>
+                        <div className={cx('contract-info')}>
+                             
+                        <input 
+                                     className={cx("contract__input")}
+                                     id="tax" placeholder=''onChange={(e)=>settax(e.target.value)}
+                                 >
+                             
+                                 </input>
+                                 <input 
+                                     className={cx("contract__input")}
+                                     id="deputy" placeholder=''onChange={(e)=>setdeputy(e.target.value)}
+                                 >
+                                  
+                                 </input>
+                                
+                                
+                               
+                                 <input 
+                                     className={cx("contract__input")}
+                                     id="expireddate" placeholder=''onChange={(e)=>setexpireddate(e.target.value)}
+                                 >
+                                 
+                                 </input> 
+                                 <input 
+                                     className={cx("contract__input")}
+                                     id="amountToPoints" placeholder=''onChange={(e)=>setamountToPoints(e.target.value)}
+                                 >
+                                  
+                                 </input> 
+                                 <label 
+                                     className={cx("contract__label3")}
+                        
+                                 >
+                                    30
+                                     </label> 
+                                <div className={styles.footer}>
+                                <button onClick={()=>handleSendbtn()}>
+                                <Image src={send} alt="" height={15} width={15}/>
+
+                                    <p> Gửi</p>
+                                     </button>
+                                     </div>
+                             </div>
+                             <div className={cx("modal_container")} >
+        <Modal className={cx("modal")}  toggle={() => setModalOpen(!modalOpen)} isOpen={modalOpen} >
+        <div className={cx(" modal-header")}>
+          <h5 className={cx(" modal-title")} id="exampleModalLabel">
+            {noti}
+          </h5>
+  
+        </div>
+        <ModalBody>
+            <Image src={tick} alt="" width={100} height={100}/>
+        </ModalBody>
+        <ModalFooter>
+          <Button
+            color="secondary"
+            type="button"
+            onClick={() => setModalOpen(!modalOpen)}
+            className={cx("button_")}
+          >
+            Close
+          </Button>
+          {/* <Button color="primary" type="button"
+            className={cx("button_")}>
+        
+            Save changes
+          </Button> */}
+        </ModalFooter>
+      </Modal></div>
+                    </div></>)}
+                    
+        
                 </div>
         </>
     )
+        }
+        else (router.push("/404"))
 }

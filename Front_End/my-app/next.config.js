@@ -40,6 +40,11 @@ const nextConfig = {
         hostname: '24hstore.vn',
  
       },
+      {
+        protocol: 'https',
+        hostname: 'upload.wikimedia.org',
+ 
+      },
     ],
   },
 }

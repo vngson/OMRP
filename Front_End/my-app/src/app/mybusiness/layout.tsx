@@ -36,7 +36,7 @@ export default function AccountLayout({children}:any) {
       // setSticky(true)
     };
     const ele=    ["Hồ sơ doanh nghiệp","Chọn sản phẩm","Danh sách sản phẩm","Hợp đồng"]
-    const ele_url=["/mybusiness/infor","/mybusiness/chooseproduct", "/mybusiness/product", "/mybusiness/contract"]
+    const ele_url=["/mybusiness/contract","/mybusiness/chooseproduct", "/mybusiness/product", "/mybusiness/contract"]
 
     const handleLogoutBtn= () =>{
         logOut(dispatch);
@@ -59,8 +59,8 @@ export default function AccountLayout({children}:any) {
         <div className={styles.container}>
             <div className={`${sticky? styles.sidebar_sticky: styles.sidebar}`}>
 
-                <Image className={styles.img} src={user_avt_1} alt=""/>
-                <div className={styles.user_name}>{user?.userInfo?.NAME}</div>
+                <Image className={styles.img} src={user?.userInfo.url||user_avt_1} width ={100} height={100} alt=""/>
+                <div className={styles.user_name}>{user?.userInfo?.NAME||user?.userInfo?.Name}</div>
                 {ele.map((e:any,index)=>( ele_url[index]===pathname?(
                        <div className={styles.element_focus} >{e}</div>
                 ):(
@@ -69,7 +69,7 @@ export default function AccountLayout({children}:any) {
                 
                 ))}         
 
-                <button onClick={()=>handleLogoutBtn()}>Đăng xuất</button>       
+                <button className={styles.layoutbtn} onClick={()=>handleLogoutBtn()}>Đăng xuất</button>       
             </div>
             <div></div>
             {children}
