@@ -40,6 +40,10 @@ export default function Sidebar({author, page_path, LIST_ACTION, avt}: MyCompone
         else
             return 'sidebar-acction__btn'
     }
+    const dispatch = useDispatch()
+    const handleLogoutbtn=()=>{
+        logOut(dispatch)
+    }
     return  (<div className={cx('sidebar')}>
         <div className={cx('sidebar-wrapper')}>
             <div className={cx('sidebar-account__info')}>
@@ -64,7 +68,7 @@ export default function Sidebar({author, page_path, LIST_ACTION, avt}: MyCompone
             })}
             </div>
             {/* <Link href={'/login'} >onClick={handleLogoutBtn} */}
-                <button className={cx('sidebar__logout-btn')} >Đăng xuất</button>
+                <button className={cx('sidebar__logout-btn') } onClick={()=>handleLogoutbtn()} >Đăng xuất</button>
             {/* </Link>           */}
         </div>
     </div>) ;

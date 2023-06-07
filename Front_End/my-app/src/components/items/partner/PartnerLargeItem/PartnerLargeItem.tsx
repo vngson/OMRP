@@ -8,7 +8,7 @@ export default function PartnerLargeItem({img, name, point,id}:any) {
         <div className={styles.product_list_product}><Link href={`/product/business/${name}/${id}`}>
               <Image src={img} width={140} height={140} className= {styles.product_list_product_img} alt=""></Image>
               <p className={styles.product_list_product_title}>{name}</p>
-              <p className={styles.price}>{point} điểm</p>
+              {/* <p className={styles.price}>{point} điểm</p> */}
               </Link>
             </div>
     )
