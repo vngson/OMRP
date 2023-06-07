@@ -25,5 +25,4 @@ router.put("/updateContract/:idContract", employeeController.updateContract);
 
 //DELETE
 router.delete("/deleteContract/:idContract", employeeController.deleteContract);
-
 module.exports = router;

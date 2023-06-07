@@ -20,6 +20,8 @@ router.get(
   consumerController.getProductsExchangePoint
 );
 
+router.get("/exchangePoint/:productId", consumerController.getExchangePointByProductId);
+
 router.get(
   "/exchangePoint/:productId",
   consumerController.getExchangePointByProductId

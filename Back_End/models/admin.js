@@ -125,7 +125,6 @@ exports.insertNewProduct = async function (infoProduct) {
 
 exports.updateProductNoFile = async function (infoProduct) {
   const client = await getClient();
-
   try {
     const rs1 = await client.query(
       'UPDATE public."Products" SET "NAME" = $1, "QUANTITY" = $2 , "PRICE" = $3 WHERE "ID_PRODUCTS" = $4',
@@ -148,7 +147,6 @@ exports.updateProductNoFile = async function (infoProduct) {
 
 exports.updateProduct = async function (infoProduct) {
   const client = await getClient();
-
   try {
     const rs1 = await client.query(
       'UPDATE public."Products" SET "NAME" = $1, "QUANTITY" = $2 , "PRICE" = $3 WHERE "ID_PRODUCTS" = $4',
@@ -182,6 +180,22 @@ exports.updateProduct = async function (infoProduct) {
 
 exports.deleteProduct = async function (id) {
   const client = await getClient();
+  try {
+    const rs2 = await client.query(
+      'DELETE FROM public."Type_Products" WHERE "ID_PRODUCTS" = $1',
+      [id]
+    );
+    const rs3 = await client.query(
+      'DELETE FROM public."IMAGE_PRODUCT" WHERE "ID_PRODUCTS" = $1',
+      [id]
+    );
+    const rs1 = await client.query(
+      'DELETE FROM public."Products" WHERE "ID_PRODUCTS" = $1',
+      [id]
+    );
+  } finally {
+    client.release(); // Giải phóng kết nối
+  }
 
   try {
     const rs2 = await client.query(

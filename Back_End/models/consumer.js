@@ -88,6 +88,39 @@ exports.countProductTypeSearched = async function (type, keyword) {
   }
 };
 
+exports.getProductsSearched = async function (skip, limit, keyword) {
+  const client = await getClient();
+  const rs = await client.query(
+    'SELECT P."ID_PRODUCTS",P."NAME",P."INFOR_PRODUCTS",P."QUANTITY",P."PRICE",IP."URL",TP."TYPE_PROD" FROM public."Products" as P JOIN public."IMAGE_PRODUCT" as IP ON P."ID_PRODUCTS" = IP."ID_PRODUCTS" AND IP."STT" = $1 JOIN public."Type_Products" AS TP ON P."ID_PRODUCTS" = TP."ID_PRODUCTS" WHERE P."NAME" ILIKE $2 OFFSET $3 LIMIT $4 ',
+    [1, `%${keyword}%`, skip, limit]
+  );
+  return rs.rows;
+};
+
+exports.getProductTypeSearched = async function (skip, limit, type, keyword) {
+  const client = await getClient();
+  const rs = await client.query(
+    'SELECT P."ID_PRODUCTS",P."NAME",P."INFOR_PRODUCTS",P."QUANTITY",P."PRICE",IP."URL",TP."TYPE_PROD" FROM public."Products" as P JOIN public."IMAGE_PRODUCT" as IP ON P."ID_PRODUCTS" = IP."ID_PRODUCTS" AND IP."STT" = $1 JOIN public."Type_Products" AS TP ON P."ID_PRODUCTS" = TP."ID_PRODUCTS" WHERE P."NAME" ILIKE $3 AND "TYPE_PROD" = $2 OFFSET $4 LIMIT $5 ',
+    [1, type, `%${keyword}%`, skip, limit]
+  );
+  return rs.rows;
+};
+
+exports.countProductSearched = async function (keyword) {
+  const client = await getClient();
+  const rs = await client.query(' SELECT COUNT(*) FROM public."Products" WHERE "NAME" ILIKE $1', [`%${keyword}%`]);
+  return rs.rows[0];
+};
+
+exports.countProductTypeSearched = async function (type, keyword) {
+  const client = await getClient();
+  const rs = await client.query(
+    'SELECT COUNT(*) FROM public."Type_Products" as TP JOIN public."Products" as P ON P."ID_PRODUCTS" = TP."ID_PRODUCTS" WHERE "TYPE_PROD" = $1 AND P."NAME" ILIKE $2',
+    [type, `%${keyword}%`]
+  );
+  return rs.rows[0];
+};
+
 exports.countProduct = async function () {
   const client = await getClient();
   try {
@@ -616,3 +649,9 @@ exports.getExchangePointByProductId = async function (idProduct) {
     client.release(); // Giải phóng kết nối
   }
 };
+
+exports.getExchangePointByProductId = async function (idProduct) {
+  const client = await getClient();
+  const rs = await client.query('SELECT "ID_PRODUCTS", "PRICE" FROM public."EXCHANGE_POINT" WHERE "ID_PRODUCTS" = $1', [idProduct])
+  return rs.rows;
+}

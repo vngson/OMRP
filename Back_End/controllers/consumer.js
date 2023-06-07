@@ -76,7 +76,6 @@ exports.getProducts = async (req, res, next) => {
         products = await Consumer.getProducts(skip, limit);
       }
     }
-
     if (products.length === 0) {
       const error = new Error("Could not find products ! ");
       error.statusCode = 404;

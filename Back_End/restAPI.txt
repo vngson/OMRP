@@ -12,16 +12,17 @@ Endpoint Account : GET /v1/api/admin/account?type (type=DT,KH,NV)
 
 Endpoint Update locked/unlocked : PUT /v1/api/admin/account/idAccount
 
-Endpoint Products : GET /v1/api/consumer/product?page=2&perPage=7&type=Văn phòng phẩm (Mặc định là page = 1, perPage = 4, không có type nếu không có query)
-
+Endpoint Products : GET /v1/api/consumer/product?page=2&perPage=7&type=Văn phòng phẩm&keyword=Danh thiếp (Mặc định là page = 1, perPage = 4, không có type, keyword nếu không có query)
+                                                                                                            (keyword là từ khóa tìm kiếm theo tên)
 Endpoint Product : GET /v1/api/consumer/product/id (id product)
 
                    POST /v1/api/admin/postProduct (Tạo mới product);
 
                    PUT /v1/api/admin/postProduct/id (id product, khi update phải có form dữ liệu từ các dữ liệu trước);
 
-                   DELETE /v1/api/admin/product/id (id product);
+                   PUT http://localhost:4132/v1/api/admin/updateProduct/id (id product, khi update phải có form dữ liệu từ các dữ liệu trước);
 
+                   DELETE /v1/api/admin/product/id (id product);
 
 Endpoint Contracts : GET/v1/api/employee/contract?page=2&perPage=5 (Mặc định là page = 1, perPage = 4 nếu không có query)
 
@@ -71,4 +72,6 @@ Endpoint xóa sản phẩm có thể đối: DELETE /v1/api/partner/partnerId/de
 
 Endpoint Exchange Point : GET v1/api/consumer/exchangePoint/productId
 
-Endpoint Products Partner :GET /v1/api/partner/:partnerId/product?page=2&perPage=7 (điểm được tính lại theo công thức)
+Endpoint Products Partner đã add :GET /v1/api/partner/:partnerId/product (điểm được tính lại theo công thức)
+
+Endpoint Products Partner chưa add :GET /v1/api/partner/:partnerId/productRemain

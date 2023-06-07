@@ -1,7 +1,6 @@
 const { getClient } = require("../config/postgres");
 exports.getInfoEmployee = async function (phone) {
   const client = await getClient();
-
   try {
     const rs = await client.query(
       'select * from public."Employees" where "PHONE" = $1',
@@ -140,7 +139,6 @@ exports.updateContract = async function (id) {
 
 exports.deleteContract = async function (id) {
   const client = await getClient();
-
   try {
     const rs1 = await client.query(
       'DELETE FROM public."Contract" where "ID_CONTRACT" = $1',

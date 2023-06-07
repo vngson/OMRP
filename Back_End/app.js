@@ -12,6 +12,7 @@ const multer = require("multer");
 const adminRoute = require("./router/admin");
 const authRoute = require("./router/auth");
 const consumerRoute = require("./router/consumer");
+const partnerRoute = require("./router/partner");
 const employeeRoute = require("./router/employee");
 const partnerRoute = require("./router/partner");
 
