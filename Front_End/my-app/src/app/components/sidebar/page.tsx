@@ -67,9 +67,9 @@ export default function Sidebar({author, page_path, LIST_ACTION, avt}: MyCompone
                   );
             })}
             </div>
-            {/* <Link href={'/login'} >onClick={handleLogoutBtn} */}
+            <Link href="/login" >
                 <button className={cx('sidebar__logout-btn') } onClick={()=>handleLogoutbtn()} >Đăng xuất</button>
-            {/* </Link>           */}
+            </Link>          
         </div>
     </div>) ;
 }

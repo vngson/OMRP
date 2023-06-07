@@ -32,8 +32,8 @@ function UpdateProduct() {
     const productId = Number(id); // convert it to a number
     const user=useSelector((state:any)=> state.auth.login.currentUser)
     
-    const cusID = user.user.userId
-    const permiss = user.user.permission;
+    const cusID = user?.user?.userId
+    const permiss = user?.user?.permission;
     const pms : number = Number(permiss);
     if (productId!== null && pms === 1) {
         return ( <div className={cx('update_product')}>

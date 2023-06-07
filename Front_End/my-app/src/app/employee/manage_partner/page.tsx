@@ -101,8 +101,8 @@ function ManagePartner() {
 
     const user=useSelector((state:any)=> state.auth.login.currentUser)
 
-    const cusID = user.user.userId
-    const permiss = user.user.permission;
+    const cusID = user?.user?.userId
+    const permiss = user?.user?.permission;
     const pms : number = Number(permiss);
 
     if(pms === 4){

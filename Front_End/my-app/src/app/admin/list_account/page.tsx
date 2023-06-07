@@ -70,13 +70,13 @@ function ListAccount() {
     const [currentGroup, setCurrentGroup] = useState(1);
     const user=useSelector((state:any)=> state.auth.login.currentUser)
     
-    const cusID = user.user.userId
-    const permiss = user.user.permission;
+    const cusID = user?.user?.userId
+    const permiss = user?.user?.permission;
 
     useEffect(() => {
         async function fetchData() {
         const consumerResponse = await axios.get<ApiResponse1>(`${baseURL}/admin/account?type=KH`);
-        const partnerResponse = await axios.get<ApiResponse2>(`${baseURL}/admin/account?type=DT`);
+        const partnerResponse = await axios.get<ApiResponse2>(`${baseURL}admin/account?ype=DT`);
         const data1 = consumerResponse.data.data;
         const data2 = partnerResponse.data.data;
         const newAccounts: _AccountKH[] = [];

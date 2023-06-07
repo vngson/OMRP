@@ -10,7 +10,7 @@ type PRODUCT = {
     PRICE: number,
     URL: string,
     TYPE_PROD: string,
-    IMG: string
+    IMG?: string
 }
 
 type MyComponentProps = {
