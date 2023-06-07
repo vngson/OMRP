@@ -74,32 +74,32 @@ function ListAccount() {
         const data1 = consumerResponse.data.data;
         const data2 = partnerResponse.data.data;
         const newAccounts: _AccountKH[] = [];
-
-        for (const item of data1) {
+        let i = 0;
+        for (i; i < data1.length; i++) {
           newAccounts.push({
-            ID_Login: data1[0].ID_Login,
-            Username: data1[0].Username,
-            Permission: data1[0].Permission,
-            Status: data1[0].Status,
-            Name: data1[0].Name,
-            Email: data1[0].Email,
-            Address: data1[0].Address,
-            Phone: data1[0].Phone,
-            Img: data1[0].Img
+            ID_Login: i,
+            Username: data1[i].Username,
+            Permission: data1[i].Permission,
+            Status: data1[i].Status,
+            Name: data1[i].Name,
+            Email: data1[i].Email,
+            Address: data1[i].Address,
+            Phone: data1[i].Phone,
+            Img: data1[i].Img
           });
         }
 
-        for (const item of data2) {
+        for (let j = 0; j < data2.length; j++) {
           newAccounts.push({
-            ID_Login: data2[0].ID_Login,
-            Username: data2[0].Username,
-            Permission: data2[0].Permission,
-            Status: data2[0].Status,
-            Name: data2[0].Name,
-            Email: data2[0].Email,
-            Address: data2[0].Address,
-            Phone: data2[0].Phone,
-            Img: data2[0].Img
+            ID_Login: i + j ,
+            Username: data2[j].Username,
+            Permission: data2[j].Permission,
+            Status: data2[j].Status,
+            Name: data2[j].Name,
+            Email: data2[j].Email,
+            Address: data2[j].Address,
+            Phone: data2[j].Phone,
+            Img: data2[j].Img
           });
         }
 
@@ -146,10 +146,10 @@ function ListAccount() {
             <div className={cx('list_account-middle__wrapper')}>
                 <Sidebar author='Admin' page_path='/admin/list_account' LIST_ACTION={actions} avt={avatar}/>
                 <div className={cx('list_account-content')}>
-                    {currentAccounts.map((_account) => {
+                    {currentAccounts.map((_account,index) => {
                             return (
                                 <div className={cx('list_account-acc')} >
-                                    <Account key={_account.ID_Login} account={[_account]} />
+                                    <Account key={index} account={[_account]} />
                                     </div>
                             )
                     })}
