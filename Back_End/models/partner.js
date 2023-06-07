@@ -147,3 +147,17 @@ exports.getPoints = async function (idConsumer) {
   );
   return rs.rows;
 };
+
+exports.getListPartnerProductRemain = async function (id) {
+  const client = await getClient();
+
+  try {
+    const rs = await client.query(
+      'SELECT P."ID_PRODUCTS",P."NAME",P."INFOR_PRODUCTS",P."QUANTITY",P."PRICE",IP."URL" as "IMG",TP."TYPE_PROD" FROM public."Products" as P JOIN public."IMAGE_PRODUCT" as IP ON P."ID_PRODUCTS" = IP."ID_PRODUCTS" AND IP."STT" = $2 JOIN public."Type_Products" AS TP ON P."ID_PRODUCTS" = TP."ID_PRODUCTS" where P."ID_PRODUCTS" not in (SELECT P."ID_PRODUCTS" FROM public."EXCHANGE_POINT" AS EP join public."Products" AS P on EP."ID_PRODUCTS" = P."ID_PRODUCTS" join public."Type_Products" AS TP on TP."ID_PRODUCTS" = P."ID_PRODUCTS" join public."IMAGE_PRODUCT" AS IP on IP."ID_PRODUCTS" = P."ID_PRODUCTS" WHERE EP."ID_PARTNERS" = $1)',
+      [id, 1]
+    );
+    return rs.rows;
+  } finally {
+    client.release(); // Giải phóng kết nối
+  }
+};

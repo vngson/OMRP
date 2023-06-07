@@ -71,4 +71,6 @@ Endpoint xóa sản phẩm có thể đối: DELETE /v1/api/partner/partnerId/de
 
 Endpoint Exchange Point : GET v1/api/consumer/exchangePoint/productId
 
-Endpoint Products Partner :GET /v1/api/partner/:partnerId/product?page=2&perPage=7 (điểm được tính lại theo công thức)
+Endpoint Products Partner đã add :GET /v1/api/partner/:partnerId/product (điểm được tính lại theo công thức)
+
+Endpoint Products Partner chưa add :GET /v1/api/partner/:partnerId/productRemain
