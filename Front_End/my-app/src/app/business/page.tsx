@@ -15,7 +15,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function BusinessListPage() {
     const user=useSelector((state:any)=> state.auth.login.currentUser)
-  const cusID=user.user.userId
+  const cusID=user?.user?.userId
   const a= [1,2,3,4,5,6,]
   const b= [1,2,3,4,5,6,1,2,3,4,5,6,]
 

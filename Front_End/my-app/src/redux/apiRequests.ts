@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import UserAPI from "@/app/api/userAPI";
 
-import {useRouter} from "next/router"
+import {useRouter} from "next/navigation"
 import navigate from "next/navigation"
 import {
   loginFailed,
@@ -49,7 +49,7 @@ export const loginUser = async (user: any, dispatch: (arg0: { payload: any; type
     if(permission==="3")
     router.push("/")
     else if (permission==="2"){
-      router.push("/mybusiness/cart")
+      router.push("/mybusiness/contract")
     } else if( permission==="1") router.push("/admin/list_account")
     else if (permission==="4") router.push("/employee/manage_partner")
     else  {

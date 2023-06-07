@@ -34,12 +34,12 @@ export default function RootLayout({
       <body>
       <Provider store={store}>
       <TopProgressBar />
-      <QueryClientProvider client={queryClient}>
+      {/* <QueryClientProvider client={queryClient}> */}
 
         {pathname === '/login' || pathname.includes("/admin") || pathname.includes("/employee")?<></>: <Header/>}
         {/* <Header/> */}
         {children}
-        </QueryClientProvider>
+        {/* </QueryClientProvider> */}
         {/* {pathname === '/login'?<></>:<Footer/>} */}
         {/* <Footer/> */}
       </Provider>

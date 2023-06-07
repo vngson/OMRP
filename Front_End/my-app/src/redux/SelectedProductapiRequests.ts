@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import UserAPI from "@/app/api/userAPI";
 
-import {useRouter} from "next/router"
+import {useRouter} from "next/navigation"
 import navigate from "next/navigation"
 
 import {

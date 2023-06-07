@@ -26,7 +26,7 @@ export default function ProductPage({ params, searchParams }: Props){
     // console.log("parm", ID_PRODUCT)
     const user=useSelector((state:any)=> state.auth.login.currentUser)
    const cusID=user?.user?.userId
-   const userpoint=user?.userInfo.Points
+   const userpoint=user?.userInfo?.Points
 // const [userpoint, setUserpoint]=useState<any>([])
    
     const [infor_value,setInfor_value]= useState<any[]>()
