@@ -181,10 +181,6 @@ exports.getPartnerProduct = async (req, res, next) => {
     next(error);
   }
 };
-<<<<<<< HEAD
-=======
-
->>>>>>> BE_Thai
 exports.updateContract = async (req, res, next) => {
   const contractId = req.params.idContract;
 

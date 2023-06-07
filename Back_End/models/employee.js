@@ -1,10 +1,6 @@
 const { getClient } = require("../config/postgres");
 exports.getInfoEmployee = async function (phone) {
   const client = await getClient();
-<<<<<<< HEAD
-
-=======
->>>>>>> BE_Thai
   try {
     const rs = await client.query(
       'select * from public."Employees" where "PHONE" = $1',
@@ -14,10 +10,6 @@ exports.getInfoEmployee = async function (phone) {
   } finally {
     client.release(); // Giải phóng kết nối
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> BE_Thai
 };
 
 exports.getCountContract = async function () {
@@ -28,52 +20,32 @@ exports.getCountContract = async function () {
   } finally {
     client.release(); // Giải phóng kết nối
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> BE_Thai
 };
 
 exports.getCountContractPendingApproval = async function () {
   const client = await getClient();
   try {
     const rs = await client.query(
-<<<<<<< HEAD
       'SELECT COUNT(*)  FROM public."Contract" WHERE "STATUS" = $1',
       ["Chưa duyệt"]
-=======
-      'SELECT COUNT(*)  FROM public."Contract" WHERE "STATUS" = $1', ["Chưa duyệt"]
->>>>>>> BE_Thai
     );
     return rs.rows[0];
   } finally {
     client.release(); // Giải phóng kết nối
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> BE_Thai
 };
 
 exports.getListContract = async function (skip, limit) {
   const client = await getClient();
   try {
     const rs = await client.query(
-<<<<<<< HEAD
       'SELECT CT."ID_CONTRACT",P."ID_Partners",P."Name" AS"Tên Doanh Nghiệp" FROM public."Contract" as CT , public."Partners" as P WHERE CT."CONTRACT_PARTNER" = P."ID_Partners" AND CT."STATUS" = $3   OFFSET $1 LIMIT $2 ',
-=======
-      'SELECT CT."ID_CONTRACT",P."Name" AS "Tên Doanh Nghiệp" FROM public."Contract" as CT , public."Partners" as P WHERE CT."CONTRACT_PARTNER" = P."ID_Partners" AND CT."STATUS" = $3   OFFSET $1 LIMIT $2 ',
->>>>>>> BE_Thai
       [skip, limit, "Đã duyệt"]
     );
     return rs.rows;
   } finally {
     client.release(); // Giải phóng kết nối
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> BE_Thai
 };
 
 exports.getListContractPendingApproval = async function (skip, limit) {
@@ -87,10 +59,6 @@ exports.getListContractPendingApproval = async function (skip, limit) {
   } finally {
     client.release(); // Giải phóng kết nối
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> BE_Thai
 };
 
 exports.getContract = async function (id) {
@@ -104,10 +72,6 @@ exports.getContract = async function (id) {
   } finally {
     client.release(); // Giải phóng kết nối
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> BE_Thai
 };
 
 exports.getListPartner = async function (skip, limit) {
@@ -121,10 +85,6 @@ exports.getListPartner = async function (skip, limit) {
   } finally {
     client.release(); // Giải phóng kết nối
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> BE_Thai
 };
 
 exports.getCountPartner = async function () {
@@ -135,10 +95,6 @@ exports.getCountPartner = async function () {
   } finally {
     client.release(); // Giải phóng kết nối
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> BE_Thai
 };
 
 exports.getPartner = async function (id) {
@@ -152,24 +108,13 @@ exports.getPartner = async function (id) {
   } finally {
     client.release(); // Giải phóng kết nối
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> BE_Thai
 };
 
 exports.getListPartnerProduct = async function (id) {
   const client = await getClient();
-<<<<<<< HEAD
   try {
     const rs = await client.query(
       'SELECT P.*,TP."TYPE_PROD",IP."URL" AS "IMG" FROM public."EXCHANGE_POINT" AS EP, public."Products" AS P, public."Type_Products" AS TP, public."IMAGE_PRODUCT" AS IP WHERE EP."ID_PRODUCTS" = P."ID_PRODUCTS" AND EP."ID_PARTNERS" = $1 AND TP."ID_PRODUCTS" = P."ID_PRODUCTS" AND IP."ID_PRODUCTS" = P."ID_PRODUCTS" AND IP."STT" = $2 ',
-=======
-
-  try {
-    const rs = await client.query(
-      'SELECT P.*,TP."TYPE_PROD",IP."URL" AS "IMG" FROM public."EXCHANGE_POINT" AS EP, public."Products" AS P, public."Type_Products" AS TP, public."IMAGE_PRODUCT" AS IP WHERE EP."ID_PRODUCTS" = P."ID_PRODUCTS" AND EP."ID_PARTNERS" = $1 AND TP."ID_PRODUCTS" = P."ID_PRODUCTS" AND IP."ID_PRODUCTS" = P."ID_PRODUCTS" AND IP."STT" = $2',
->>>>>>> BE_Thai
       [id, 1]
     );
     return rs.rows;
@@ -180,33 +125,20 @@ exports.getListPartnerProduct = async function (id) {
 
 exports.updateContract = async function (id) {
   const client = await getClient();
-<<<<<<< HEAD
 
   try {
     const rs1 = await client.query(
       'UPDATE public."Contract" SET "STATUS" = $1 WHERE "ID_CONTRACT" = $2',
       ["Đã duyệt", id]
     );
-=======
-  try {
-    const rs1 = await client.query('UPDATE public."Contract" SET "STATUS" = $1 WHERE "ID_CONTRACT" = $2', ["Đã duyệt", id]);
->>>>>>> BE_Thai
     return rs1.rows;
   } finally {
     client.release(); // Giải phóng kết nối
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> BE_Thai
 };
 
 exports.deleteContract = async function (id) {
   const client = await getClient();
-<<<<<<< HEAD
-
-=======
->>>>>>> BE_Thai
   try {
     const rs1 = await client.query(
       'DELETE FROM public."Contract" where "ID_CONTRACT" = $1',
@@ -216,8 +148,4 @@ exports.deleteContract = async function (id) {
   } finally {
     client.release(); // Giải phóng kết nối
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> BE_Thai
 };

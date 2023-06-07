@@ -4,40 +4,24 @@ exports.getAccountConsumer = async function () {
   const client = await getClient();
   try {
     const rs = await client.query(
-<<<<<<< HEAD
       'SELECT AC."ID_Login",AC."Username",AC."ROLE" AS "Permission",AC."Status",CUS."NAME" AS "Name",CUS."Address",CUS."Email",CUS."Phone",CUS."IMG" AS "Img" FROM public."Account" AS AC, public."Customers" AS CUS WHERE AC."Username" = CUS."Phone"'
-=======
-      'SELECT AC."ID_Login",AC."Username",AC."ROLE" AS "Permission",AC."Status",CUS."NAME",CUS."Birthday",CUS."Address",CUS."Email",CUS."Phone",CUS."IMG" FROM public."Account" AS AC, public."Customers" AS CUS WHERE AC."Username" = CUS."Phone"'
->>>>>>> BE_Thai
     );
     return rs.rows;
   } finally {
     client.release(); // Giải phóng kết nối
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> BE_Thai
 };
 
 exports.getAccountPartner = async function () {
   const client = await getClient();
   try {
     const rs = await client.query(
-<<<<<<< HEAD
       'SELECT AC."ID_Login",AC."Username",AC."ROLE" AS "Permission",AC."Status",PA."Name",PA."Email",PA."Address",PA."Phone",PA."url" as "Img" FROM public."Account" AS AC, public."Partners" AS PA WHERE AC."Username" = PA."Phone"'
-=======
-      'SELECT AC."ID_Login",AC."Username",AC."ROLE" AS "Permission",AC."Status",PA."Name",PA."Email",PA."Address",PA."Phone",PA."url" FROM public."Account" AS AC, public."Partners" AS PA WHERE AC."Username" = PA."Phone"'
->>>>>>> BE_Thai
     );
     return rs.rows;
   } finally {
     client.release(); // Giải phóng kết nối
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> BE_Thai
 };
 
 exports.getAccountEmployee = async function () {
@@ -50,10 +34,6 @@ exports.getAccountEmployee = async function () {
   } finally {
     client.release(); // Giải phóng kết nối
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> BE_Thai
 };
 
 exports.updateAccountStatus = async function (id, status) {
@@ -63,27 +43,17 @@ exports.updateAccountStatus = async function (id, status) {
       'UPDATE public."Account" SET "Status" = $1 WHERE "ID_Login" = $2 ',
       [status, id]
     );
-<<<<<<< HEAD
 
     return rs;
   } finally {
     client.release(); // Giải phóng kết nối
   }
-=======
-
-    return rs;
-  } finally {
-    client.release(); // Giải phóng kết nối
-  }
-
->>>>>>> BE_Thai
 };
 
 exports.getAccount = async function (id) {
   const client = await getClient();
   try {
     const rs = await client.query(
-<<<<<<< HEAD
       'SELECT * FROM  public."Account"  WHERE "ID_Login" = $1 ',
       [id]
     );
@@ -92,21 +62,10 @@ exports.getAccount = async function (id) {
   } finally {
     client.release(); // Giải phóng kết nối
   }
-=======
-      'SELECT "ID_Login" FROM public."Account" WHERE "ID_Login" = $1 ',
-      [id]
-    );
-    return rs;
-  } finally {
-    client.release(); // Giải phóng kết nối
-  }
-
->>>>>>> BE_Thai
 };
 
 exports.getLastIDProduct = async function () {
   const client = await getClient();
-<<<<<<< HEAD
   try {
     const rs = await client.query(
       'select * from public."Products" ORDER BY "ID_PRODUCTS" DESC'
@@ -115,24 +74,10 @@ exports.getLastIDProduct = async function () {
   } finally {
     client.release(); // Giải phóng kết nối
   }
-=======
-
-  try {
-    const rs = await client.query('select * from public."Products"');
-    return rs.rows.length + 1;
-  } finally {
-    client.release(); // Giải phóng kết nối
-  }
-
->>>>>>> BE_Thai
 };
 
 exports.getURLTypeProduct = async function (type) {
   const client = await getClient();
-<<<<<<< HEAD
-=======
-
->>>>>>> BE_Thai
   try {
     const rs = await client.query(
       'select "Img" from public."Type_Products" where "TYPE_PROD" = $1',
@@ -149,11 +94,7 @@ exports.insertNewProduct = async function (infoProduct) {
   try {
     const rs1 = await client.query(
       `insert into public.\"Products\"(\"ID_PRODUCTS\",\"NAME\", \"INFOR_PRODUCTS\", \"ADD_DATE\", \"QUANTITY\", \"PRICE\")
-<<<<<<< HEAD
     VALUES ($1, $2, $3, $4,$5,$6) returning *`,
-=======
-  VALUES ($1, $2, $3, $4,$5,$6) returning *`,
->>>>>>> BE_Thai
       [
         infoProduct.id,
         infoProduct.nameProduct,
@@ -166,11 +107,7 @@ exports.insertNewProduct = async function (infoProduct) {
 
     const rs2 = await client.query(
       `insert into public.\"Type_Products\"(\"ID_PRODUCTS\",\"TYPE_PROD\", \"Img\")
-<<<<<<< HEAD
     VALUES ($1, $2, $3) returning *`,
-=======
-  VALUES ($1, $2, $3) returning *`,
->>>>>>> BE_Thai
       [infoProduct.id, infoProduct.typeProduct, infoProduct.typeUrl]
     );
 
@@ -184,10 +121,6 @@ exports.insertNewProduct = async function (infoProduct) {
   } finally {
     client.release(); // Giải phóng kết nối
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> BE_Thai
 };
 
 exports.updateProductNoFile = async function (infoProduct) {
@@ -203,18 +136,6 @@ exports.updateProductNoFile = async function (infoProduct) {
       ]
     );
 
-<<<<<<< HEAD
-  try {
-    const rs1 = await client.query(
-      'UPDATE public."Products" SET "NAME" = $1, "QUANTITY" = $2 , "PRICE" = $3 WHERE "ID_PRODUCTS" = $4',
-      [
-        infoProduct.nameProduct,
-        infoProduct.quantity,
-        infoProduct.price,
-        infoProduct.id,
-      ]
-    );
-
     const rs2 = await client.query(
       'UPDATE public."Type_Products" SET "TYPE_PROD" = $1, "Img" = $2 WHERE "ID_PRODUCTS" = $3',
       [infoProduct.typeProduct, infoProduct.typeUrl, infoProduct.id]
@@ -222,24 +143,10 @@ exports.updateProductNoFile = async function (infoProduct) {
   } finally {
     client.release(); // Giải phóng kết nối
   }
-=======
-    const rs2 = await client.query(
-      'UPDATE public."Type_Products" SET "TYPE_PROD" = $1, "Img" = $2 WHERE "ID_PRODUCTS" = $3',
-      [infoProduct.typeProduct, infoProduct.typeUrl, infoProduct.id]
-    );
-  } finally {
-    client.release(); // Giải phóng kết nối
-  }
-
->>>>>>> BE_Thai
 };
 
 exports.updateProduct = async function (infoProduct) {
   const client = await getClient();
-<<<<<<< HEAD
-
-=======
->>>>>>> BE_Thai
   try {
     const rs1 = await client.query(
       'UPDATE public."Products" SET "NAME" = $1, "QUANTITY" = $2 , "PRICE" = $3 WHERE "ID_PRODUCTS" = $4',
@@ -250,18 +157,10 @@ exports.updateProduct = async function (infoProduct) {
         infoProduct.id,
       ]
     );
-<<<<<<< HEAD
-=======
-
->>>>>>> BE_Thai
     const rs2 = await client.query(
       'UPDATE public."Type_Products" SET "TYPE_PROD" = $1, "Img" = $2 WHERE "ID_PRODUCTS" = $3',
       [infoProduct.typeProduct, infoProduct.typeUrl, infoProduct.id]
     );
-<<<<<<< HEAD
-=======
-
->>>>>>> BE_Thai
     const rs3 = await client.query(
       'DELETE FROM public."IMAGE_PRODUCT" WHERE "ID_PRODUCTS" = $1',
       [infoProduct.id]
@@ -270,21 +169,13 @@ exports.updateProduct = async function (infoProduct) {
     infoProduct.imageUrls.map(async (data, index) => {
       const rs4 = await client.query(
         `insert into public.\"IMAGE_PRODUCT\"(\"ID_PRODUCTS\",\"STT\", \"URL\")
-<<<<<<< HEAD
       VALUES ($1, $2, $3) returning *`,
-=======
-    VALUES ($1, $2, $3) returning *`,
->>>>>>> BE_Thai
         [infoProduct.id, index + 1, data]
       );
     });
   } finally {
     client.release(); // Giải phóng kết nối
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> BE_Thai
 };
 
 exports.deleteProduct = async function (id) {
@@ -306,7 +197,6 @@ exports.deleteProduct = async function (id) {
     client.release(); // Giải phóng kết nối
   }
 
-<<<<<<< HEAD
   try {
     const rs2 = await client.query(
       'DELETE FROM public."Type_Products" WHERE "ID_PRODUCTS" = $1',
@@ -362,6 +252,4 @@ exports.getPoints = async function () {
   } finally {
     client.release(); // Giải phóng kết nối
   }
-=======
->>>>>>> BE_Thai
 };

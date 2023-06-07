@@ -67,7 +67,6 @@ app.use("/v1/api/admin", adminRoute);
 app.use("/v1/api/auth", authRoute);
 app.use("/v1/api/consumer", consumerRoute);
 app.use("/v1/api/employee", employeeRoute);
-<<<<<<< HEAD
 
 app.use("/v1/api/partner", partnerRoute);
 
@@ -108,9 +107,6 @@ cron.schedule("0 0 * * *", async () => {
   }
 });
 
-=======
-app.use("/v1/api/partner", partnerRoute)
->>>>>>> BE_Thai
 // Xử lý lỗi
 app.use((error, req, res, next) => {
   const status = error.statusCode || 500;

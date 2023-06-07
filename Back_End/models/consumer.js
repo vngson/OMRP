@@ -123,17 +123,12 @@ exports.countProductTypeSearched = async function (type, keyword) {
 
 exports.countProduct = async function () {
   const client = await getClient();
-<<<<<<< HEAD
   try {
     const rs = await client.query(' SELECT COUNT(*)  FROM public."Products"');
     return rs.rows[0];
   } finally {
     client.release(); // Giải phóng kết nối
   }
-=======
-  const rs = await client.query(' SELECT COUNT(*) FROM public."Products"');
-  return rs.rows[0];
->>>>>>> BE_Thai
 };
 
 exports.getProductsType = async function (skip, limit, type) {

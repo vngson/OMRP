@@ -49,16 +49,11 @@ exports.getProducts = async (req, res, next) => {
   const currentPage = req.query.page || 1; // Lấy tham số query hoặc mặc định là 1
   const perPage = req.query.perPage || 4; // Lấy tham số query hoặc mặc định là 4
   const type = req.query.type || null; // Lấy tham số query hoặc mặc định không có
-<<<<<<< HEAD
   const keyword = req.query.keyword || null;
-=======
-  const keyword = req.query.keyword || null; 
->>>>>>> BE_Thai
   try {
     const skip = (currentPage - 1) * perPage;
     const limit = Number(perPage);
     let count, products;
-<<<<<<< HEAD
     if (type) {
       if (keyword) {
         count = await Consumer.countProductTypeSearched(type, keyword);
@@ -77,33 +72,10 @@ exports.getProducts = async (req, res, next) => {
         count = await Consumer.countProductSearched(keyword);
         products = await Consumer.getProductsSearched(skip, limit, keyword);
       } else {
-=======
-    
-    if (type) {
-      if(keyword) {
-        count = await Consumer.countProductTypeSearched(type, keyword);
-        products = await Consumer.getProductTypeSearched(skip, limit, type, keyword)
-      }
-      else {
-        count = await Consumer.countProductType(type);
-        products = await Consumer.getProductsType(skip, limit, type);
-      }
-    }
-    else {
-      if(keyword) {
-        count = await Consumer.countProductSearched(keyword);
-        products = await Consumer.getProductsSearched(skip, limit, keyword);
-      }
-      else {
->>>>>>> BE_Thai
         count = await Consumer.countProduct();
         products = await Consumer.getProducts(skip, limit);
       }
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> BE_Thai
     if (products.length === 0) {
       const error = new Error("Could not find products ! ");
       error.statusCode = 404;
@@ -173,18 +145,10 @@ exports.getExchangePointByProductId = async (req, res, next) => {
       throw error;
     }
 
-<<<<<<< HEAD
     res.status(200).json({
       message: "Product fetched !",
       product: product,
     });
-=======
-    res.status(200).json({ 
-      message: "Product fetched !",
-      product: product 
-    });
-
->>>>>>> BE_Thai
   } catch (error) {
     if (!error.statusCode) {
       error.statusCode = 500;
