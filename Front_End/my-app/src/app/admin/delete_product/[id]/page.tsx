@@ -127,7 +127,7 @@ function DeleteProduct() {
             }, 2000);
         } catch (error) {
             console.error((error as Error).message);
-            setMessage('Xóa sản phẩm thành công!');
+            setMessage('Có lỗi xảy ra');
             setTimeout(() => {
             location.reload();
             }, 2000);
