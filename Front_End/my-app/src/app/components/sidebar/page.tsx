@@ -1,8 +1,12 @@
+'use client'
 import classNames from 'classnames/bind';
 import Image from 'next/image';
 import styles from "./page.module.css"
 import React from "react";
 import Link from 'next/link';
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "@/redux/apiRequests";
+import { useRouter } from 'next/navigation';
 
 const cx = classNames.bind(styles);
 
@@ -23,6 +27,13 @@ type MyComponentProps = {
 
 
 export default function Sidebar({author, page_path, LIST_ACTION, avt}: MyComponentProps) {
+    // const dispatch=useDispatch()
+  
+    // const router = useRouter()
+    // const handleLogoutBtn= () =>{
+    //     logOut(dispatch);
+    //     router.push("/login")
+    // }
     const handleClassname = (path:string) => {
         if(page_path===path)
             return 'sidebar-acction__btn-active'
@@ -52,7 +63,9 @@ export default function Sidebar({author, page_path, LIST_ACTION, avt}: MyCompone
                   );
             })}
             </div>
-            <button className={cx('sidebar__logout-btn')}>Đăng xuất</button>          
+            {/* <Link href={'/login'} >onClick={handleLogoutBtn} */}
+                <button className={cx('sidebar__logout-btn')} >Đăng xuất</button>
+            {/* </Link>           */}
         </div>
     </div>) ;
 }

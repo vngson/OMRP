@@ -73,6 +73,13 @@
 
 .ID_contract{
     cursor: pointer;
+    display: flex;
+    width: 180px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    color: var(--green);
+    font-weight: 500;
 }
 
 .manage_partner-nav__label1, .manage_partner-info__label1{

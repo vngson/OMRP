@@ -89,6 +89,16 @@ function ManagePartner() {
           }
         }
       };
+      // Get the label element by class name
+    // var label = document.getElementsByClassName("ID_contract")[0];
+
+    // // Add a click event listener to the label
+    // label.addEventListener("click", function(event) {
+    // // Prevent the default action of the label
+    // event.preventDefault();
+    // });
+
+
     const user=useSelector((state:any)=> state.auth.login.currentUser)
 
     const cusID = user.user.userId
@@ -105,7 +115,6 @@ function ManagePartner() {
                 <div className={cx('manage_partner-content')}>
                     <div className={cx('manage_partner-title')}>
                         <label 
-                                htmlFor="manage_partner-title" 
                                 className={cx("manage_partner-title__label2")}
                             >
                                 Danh sách đối tác 
@@ -113,19 +122,16 @@ function ManagePartner() {
                     </div>
                     <div className={cx('manage_partner-nav')}>
                         <label 
-                            htmlFor="info-title__partner_name" 
                             className={cx("manage_partner-nav__label1")}
                         >
                             Doanh nghiệp 
                         </label>
                         <label 
-                            htmlFor="info-title__ID_partner" 
                             className={cx("manage_partner-nav__label2")}
                         >
                             Mã doanh nghiệp 
                         </label>
                         <label 
-                            htmlFor="info-title__ID_contract" 
                             className={cx("manage_partner-nav__label2")}
                         >
                             Mã hợp đồng 
@@ -135,20 +141,17 @@ function ManagePartner() {
                         return (
                                 <div key={contract.ID_CONTRACT} className={cx('manage_partner-info')}>
                                     <label 
-                                        htmlFor="info-title__partnername" 
                                         className={cx("manage_partner-info__label1")}
                                     >
                                         {contract['Tên Doanh Nghiệp']} 
                                     </label>
                                     <label 
-                                        htmlFor="info-title__ID_partner" 
                                         className={cx("manage_partner-info__label3")}
                                     >
                                         {contract.ID_Partners} 
                                     </label>
                                     <Link href={{ pathname: "/employee/contract_detail/:id", query: { id: contract.ID_CONTRACT } }}>
                                         <label 
-                                            htmlFor="info-title__ID_contract" 
                                             className={cx("manage_contract-info__label3","ID_contract")}
                                         >
                                             {contract.ID_CONTRACT} 

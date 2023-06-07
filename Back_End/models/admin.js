@@ -38,7 +38,6 @@ exports.getAccountEmployee = async function () {
 
 exports.updateAccountStatus = async function (id, status) {
   const client = await getClient();
-
   try {
     const rs = await client.query(
       'UPDATE public."Account" SET "Status" = $1 WHERE "ID_Login" = $2 ',
@@ -55,11 +54,11 @@ exports.getAccount = async function (id) {
   const client = await getClient();
   try {
     const rs = await client.query(
-      'SELECT "ID_Login" FROM  public."Account"  WHERE "ID_Login" = $1 ',
+      'SELECT * FROM  public."Account"  WHERE "ID_Login" = $1 ',
       [id]
     );
 
-    return rs;
+    return rs.rows[0];
   } finally {
     client.release(); // Giải phóng kết nối
   }
