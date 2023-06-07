@@ -1,3 +1,4 @@
+'use client'
 import classNames from 'classnames/bind';
 import styles from "./page.module.css"
 import Header from '@/app/components/header/page';
