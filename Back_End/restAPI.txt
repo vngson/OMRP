@@ -12,26 +12,35 @@ Endpoint Account : GET /v1/api/admin/account?type (type=DT,KH,NV)
 
 Endpoint Update locked/unlocked : PUT /v1/api/admin/account/idAccount
 
-Endpoint Products : GET /v1/api/consumer/product?page=2&perPage=7&type=Văn phòng phẩm (Mặc định là page = 1, perPage = 4, không có type nếu không có query)
-
+Endpoint Products : GET /v1/api/consumer/product?page=2&perPage=7&type=Văn phòng phẩm&keyword=Danh thiếp (Mặc định là page = 1, perPage = 4, không có type, keyword nếu không có query)
+                                                                                                            (keyword là từ khóa tìm kiếm theo tên)
 Endpoint Product : GET /v1/api/consumer/product/id (id product)
 
                    POST /v1/api/admin/postProduct (Tạo mới product);
 
                    PUT /v1/api/admin/postProduct/id (id product, khi update phải có form dữ liệu từ các dữ liệu trước);
 
-                   DELETE /v1/api/admin/product/id (id product);
+                   PUT http://localhost:4132/v1/api/admin/updateProduct/id (id product, khi update phải có form dữ liệu từ các dữ liệu trước);
 
+                   DELETE /v1/api/admin/product/id (id product);
 
 Endpoint Contracts : GET/v1/api/employee/contract?page=2&perPage=5 (Mặc định là page = 1, perPage = 4 nếu không có query)
 
+<<<<<<< HEAD
                     GET/v1/api/employee/contractPendingApproval?page=2&perPage=5 (Mặc định là page = 1, perPage = 4 nếu không có query)
+=======
+                     GET/v1/api/employee/contractPendingApproval?page=2&perPage=5 (Mặc định là page = 1, perPage = 4 nếu không có query)
+>>>>>>> BE_Thai
 
 Endpoint Contract : GET /v1/api/employee/contract/idContract
 
                     PUT /v1/api/employee/updateContract/idContract (duyệt hợp đồng)
 
+<<<<<<< HEAD
                     DELETE /v1/api/employee/deleteContract/idContract (từ chối hợp đồng)
+=======
+                    PUT /v1/api/employee/deleteContract/idContract (từ chối hợp đồng)
+>>>>>>> BE_Thai
 
 Endpoint Partners : GET /v1/api/employee/partner?page=1&perPage=5 (Mặc định là page = 1, perPage = 4 nếu không có query)
 
@@ -51,6 +60,7 @@ Endpoint Add to cart : PUT /v1/api/consumer/addToCart/idConsumer
 
 Endpoint Get Cart : GET /v1/api/consumer/getCart/idConsumer
 
+<<<<<<< HEAD
 Endpoint Update Cart : PUT /v1/api/consumer/updateCart/idConsumer
 
 Endpoint Delete Cart : DELETE /v1/api/consumer/deleteCart/idConsumer?partnerId=8&productId=21 (Mặc định nếu không có query thì sẽ xóa hết toàn bộ, có partnerId sẽ xóa hết sản phẩm của 
@@ -61,6 +71,8 @@ nếu thanh toán từ giỏ hàng từ phải thêm query vào để server xó
 
 Endpoint Get History : GET /v1/api/consumer/getHistory/1?page=1&perPage=1 (Nếu không có query thì mặc định là page = 1 và perPage = 3)
 
+=======
+>>>>>>> BE_Thai
 Endpoint xem hợp đồng: GET /v1/api/partner/partnerId/contract
 
 Endpoint đăng kí hợp đồng: POST /v1/api/partner/partnerId/registerContract
@@ -71,4 +83,10 @@ Endpoint xóa sản phẩm có thể đối: DELETE /v1/api/partner/partnerId/de
 
 Endpoint Exchange Point : GET v1/api/consumer/exchangePoint/productId
 
+<<<<<<< HEAD
 Endpoint Products Partner :GET /v1/api/partner/:partnerId/product?page=2&perPage=7 (điểm được tính lại theo công thức)
+=======
+Endpoint Products Partner đã add :GET /v1/api/partner/:partnerId/product (điểm được tính lại theo công thức)
+
+Endpoint Products Partner chưa add :GET /v1/api/partner/:partnerId/productRemain
+>>>>>>> BE_Thai

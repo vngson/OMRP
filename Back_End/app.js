@@ -12,6 +12,7 @@ const multer = require("multer");
 const adminRoute = require("./router/admin");
 const authRoute = require("./router/auth");
 const consumerRoute = require("./router/consumer");
+const partnerRoute = require("./router/partner");
 const employeeRoute = require("./router/employee");
 const partnerRoute = require("./router/partner");
 
@@ -66,6 +67,7 @@ app.use("/v1/api/admin", adminRoute);
 app.use("/v1/api/auth", authRoute);
 app.use("/v1/api/consumer", consumerRoute);
 app.use("/v1/api/employee", employeeRoute);
+<<<<<<< HEAD
 
 app.use("/v1/api/partner", partnerRoute);
 
@@ -106,6 +108,9 @@ cron.schedule("0 0 * * *", async () => {
   }
 });
 
+=======
+app.use("/v1/api/partner", partnerRoute)
+>>>>>>> BE_Thai
 // Xử lý lỗi
 app.use((error, req, res, next) => {
   const status = error.statusCode || 500;

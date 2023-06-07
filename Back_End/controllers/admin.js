@@ -86,7 +86,8 @@ exports.postProduct = async (req, res, next) => {
 
   // Đến cuối sẽ thay link onrender vào đây , tạm thời để trên local để làm. Mảng ảnh sản phẩm
   const imageUrls = req.files.map(
-    (file) => `http://localhost:4132/images/${file.filename}`
+    (file) =>
+      `https://project-ec-tuankhanh.onrender.com/images/${file.filename}`
   );
   const nameProduct = req.body.name;
   const typeProduct = req.body.type;
@@ -165,7 +166,8 @@ exports.updateProduct = async (req, res, next) => {
   } else {
     // Đến cuối sẽ thay link onrender vào đây , tạm thời để trên local để làm. Mảng ảnh sản phẩm
     const imageUrls = req.files.map(
-      (file) => `http://localhost:4132/images/${file.filename}`
+      (file) =>
+        `https://project-ec-tuankhanh.onrender.com/images/${file.filename}`
     );
     updateProduct.imageUrls = imageUrls;
     try {

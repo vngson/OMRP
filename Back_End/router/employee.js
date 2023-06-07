@@ -9,10 +9,14 @@ const isAuth = require("../middleware/is-auth");
 
 // GET;
 router.get("/contract", employeeController.getListContract);
+<<<<<<< HEAD
 router.get(
   "/contractPendingApproval",
   employeeController.getListContractPendingApproval
 );
+=======
+router.get("/contractPendingApproval", employeeController.getListContractPendingApproval);
+>>>>>>> BE_Thai
 router.get("/contract/:idContract", employeeController.getContract);
 
 router.get("/partner", employeeController.getListPartner);
@@ -25,5 +29,8 @@ router.put("/updateContract/:idContract", employeeController.updateContract);
 
 //DELETE
 router.delete("/deleteContract/:idContract", employeeController.deleteContract);
+<<<<<<< HEAD
 
+=======
+>>>>>>> BE_Thai
 module.exports = router;
