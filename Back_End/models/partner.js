@@ -150,3 +150,17 @@ exports.getPoints = async function (idConsumer) {
   );
   return rs.rows;
 };
+
+exports.getListPartnerProductRemain = async function (id) {
+  const client = await getClient();
+
+  try {
+    const rs = await client.query(
+      'select * from public."Products" where "ID_PRODUCTS" not in (SELECT P."ID_PRODUCTS" FROM public."EXCHANGE_POINT" AS EP, public."Products" AS P, public."Type_Products" AS TP, public."IMAGE_PRODUCT" AS IP WHERE EP."ID_PRODUCTS" = P."ID_PRODUCTS" AND EP."ID_PARTNERS" = $1 AND TP."ID_PRODUCTS" = P."ID_PRODUCTS" AND IP."ID_PRODUCTS" = P."ID_PRODUCTS" AND IP."STT" = $2)',
+      [id, 1]
+    );
+    return rs.rows;
+  } finally {
+    client.release(); // Giải phóng kết nối
+  }
+};

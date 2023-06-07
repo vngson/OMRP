@@ -10,6 +10,7 @@ const isPermission = require("../middleware/is-permission");
 //GET
 router.get("/:partnerId/contract", partnerController.getContracts);
 router.get("/:partnerId/product", partnerController.getProducts);
+router.get("/:partnerId/productRemain", partnerController.getProductsRemain);
 // POST
 router.post("/:partnerId/registerContract", partnerController.registerContract);
 router.post("/:partnerId/postProduct/:productId", partnerController.postProduct)

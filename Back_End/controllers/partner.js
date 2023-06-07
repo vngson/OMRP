@@ -68,9 +68,6 @@ exports.getContracts = async (req, res, next) => {
 };
 
 exports.getProducts = async (req, res, next) => {
-  // Phân trang product
-  const currentPage = req.query.page || 1; // Lấy tham số query hoặc mặc định là 1
-  const perPage = req.query.perPage || 4; // Lấy tham số query hoặc mặc định là 4
   const id_partners = req.params.partnerId;
   try {
     const haveContract = await Partner.getContractsIsValid(id_partners);
@@ -79,11 +76,7 @@ exports.getProducts = async (req, res, next) => {
       error.statusCode = 404;
       throw error;
     }
-    const skip = (currentPage - 1) * perPage;
-    const limit = Number(perPage);
-    const count = await Consumer.countProduct();
-    const products = await Consumer.getProducts(skip, limit);
-
+    const products = await Employee.getListPartnerProduct(id_partners);
     if (products.length === 0) {
       const error = new Error("Could not find products ! ");
       error.statusCode = 404;
@@ -99,9 +92,40 @@ exports.getProducts = async (req, res, next) => {
     res.status(200).json({
       message: "Fetched products successfully ! ",
       products: partnerProducts,
-      totalItems: count.count,
-      perPage: perPage,
-      currentPage: currentPage,
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
+exports.getProductsRemain = async (req, res, next) => {
+  const id_partners = req.params.partnerId;
+  try {
+    const haveContract = await Partner.getContractsIsValid(id_partners);
+    if (!haveContract) {
+      const error = new Error("Could not find contracts !");
+      error.statusCode = 404;
+      throw error;
+    }
+    const products = await Partner.getListPartnerProductRemain(id_partners);
+    if (products.length === 0) {
+      const error = new Error("Could not find products ! ");
+      error.statusCode = 404;
+      throw error;
+    }
+    const amountToPoints = await Partner.getAmountToPoint(id_partners)
+    const partnerProducts = products.map((product) => {
+      return {
+        ...product,
+        PRICE: Math.round(product.PRICE / amountToPoints)
+      }
+    })
+    res.status(200).json({
+      message: "Fetched products successfully ! ",
+      products: partnerProducts,
     });
   } catch (error) {
     if (!error.statusCode) {
