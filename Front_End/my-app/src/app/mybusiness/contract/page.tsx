@@ -94,7 +94,7 @@ export default function ContractMyBusinessPage(props:any){
     return(
         <>
          <div className={cx('contract-container')}>
-            {true?(<>
+            {contract!==null?(<>
                 <div className={cx('contract-title')}>
                         <label 
                                 htmlFor="contract-title" 
