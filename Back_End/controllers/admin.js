@@ -194,8 +194,8 @@ exports.deleteProduct = async (req, res, next) => {
   const productId = req.params.productId;
 
   try {
-    const haveProduct = await Consumer.getProduct(productId);
-    if (haveProduct.length === 0) {
+    const haveProduct = await Admin.getProduct(productId);
+    if (!haveProduct) {
       const error = new Error("Could not find product");
       error.statusCode = 404;
       throw error;

@@ -75,3 +75,4 @@ Endpoint Exchange Point : GET v1/api/consumer/exchangePoint/productId
 Endpoint Products Partner đã add :GET /v1/api/partner/:partnerId/product (điểm được tính lại theo công thức)
 
 Endpoint Products Partner chưa add :GET /v1/api/partner/:partnerId/productRemain
+Endpoint Products Partner chưa add :GET /v1/api/partner/:partnerId/productRemain

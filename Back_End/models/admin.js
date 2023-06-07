@@ -76,6 +76,19 @@ exports.getLastIDProduct = async function () {
   }
 };
 
+exports.getProduct = async function (id) {
+  const client = await getClient();
+  try {
+    const rs = await client.query(
+      'select * from public."Products" WHERE "ID_PRODUCTS" = $1',
+      [id]
+    );
+    return rs.rows[0];
+  } finally {
+    client.release(); // Giải phóng kết nối
+  }
+};
+
 exports.getURLTypeProduct = async function (type) {
   const client = await getClient();
   try {
